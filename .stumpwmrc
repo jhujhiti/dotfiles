@@ -1,0 +1,64 @@
+;; -*- lisp -*-
+(in-package :stumpwm)
+(define-key *root-map* (kbd "C-c") "exec urxvt")
+(define-key *root-map* (kbd "c") "exec urxvt")
+(define-key *root-map* (kbd "x") "restore web-browsing")
+(run-shell-command "qiv -z ~/Pictures/The_Legend_of_Zelda_by_CalicoStonewolf.jpg")
+(set-prefix-key (kbd "C-i"))
+
+(define-key *root-map* (kbd "C-k") "move-focus up")
+(define-key *root-map* (kbd "k") "move-focus up")
+(define-key *root-map* (kbd "C-j") "move-focus down")
+(define-key *root-map* (kbd "j") "move-focus down")
+(define-key *root-map* (kbd "C-h") "move-focus left")
+(define-key *root-map* (kbd "h") "move-focus left")
+(define-key *root-map* (kbd "C-l") "move-focus right")
+(define-key *root-map* (kbd "l") "move-focus right")
+
+(load "/usr/share/common-lisp/source/slime/swank-loader.lisp")
+(swank-loader:init)
+(defcommand swank () ()
+            (setf stumpwm:*top-level-error-action* :break)
+            (swank:create-server :port 4005
+                                 :style swank:*communication-style*
+                                 :dont-close t)
+            (echo-string (current-screen) "Starting swank"))
+(define-key *root-map* (kbd "C-s") "swank")
+
+(setf *new-frame-action* :empty)
+
+(defvar *my-float-group-root-map*
+  (let ((m (make-sparse-keymap)))
+    (define-key m (kbd "2") "gnew-float")
+    (define-key m (kbd "k") "delete")
+    (define-key m (kbd "h") '*help-map*)
+    m))
+(define-key *root-map* (kbd "C-f") '*my-float-group-root-map*)
+
+(defun group-urgent-p (group)
+  (some 'window-urgent-p (group-windows group)))
+
+(defun urgent-groups (screen)
+  (remove-if-not #'(lambda (group)
+                     (some 'window-urgent-p (group-windows group)))
+                 (copy-list (screen-groups screen))))
+
+(defun fmt-urgent-groups (ml)
+  (format nil "^1*~{~D ~}~{~a~^ ~}^** " (mapcar 'group-number (urgent-groups (mode-line-screen ml)))
+          (mapcar 'group-name (urgent-groups (mode-line-screen ml)))))
+
+(defun fmt-window-urgent (window)
+  (cond ((eq t (window-urgent-p window)) "!!")
+        (t "")))
+
+(setf *window-formatters*
+      (append *window-formatters*
+              '((#\q fmt-window-urgent))))
+(setf *window-format* "%q%m%n%s%50t%q")
+(setf *screen-mode-line-formatters*
+      (append *screen-mode-line-formatters*
+              '((#\Q fmt-urgent-groups))))
+(setf *screen-mode-line-format* "%Q[^B%n^b] %W")
+(toggle-mode-line (current-screen) (current-head))
+
+;; vim: ft=lisp

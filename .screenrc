@@ -1,0 +1,12 @@
+nethack on
+encoding UTF-8
+defutf8 on
+vbell on
+termcapinfo xterm* 'Co#256:AB=\E[48;5;%dm:AF=\E[38;5;%dm:hs:ts=\E]2;:fs=\007:ds=\E]2;screen\007'
+termcapinfo rxvt* 'Co#256:AB=\E[48;5;%dm:AF=\E[38;5;%dm:hs:ts=\E]2;:fs=\007:ds=\E]2;screen\007'
+#hardstatus alwayslastline "string %h"
+hardstatus off
+caption always "%{=}%-w%{=r}%n* %t%{=}%+w %=%l %c %D, %d %M"
+attrcolor b ".I"
+defbce on
+altscreen on

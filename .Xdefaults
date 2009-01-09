@@ -1,0 +1,24 @@
+urxvt.font: xft:Dejavu Sans Mono:pixelsize=11
+urxvt.scrollBar: false
+urxvt.background: #1e1e27
+urxvt.foreground: #cdb78c
+urxvt.color0: #363531
+urxvt.color1: #c80707
+urxvt.color2: #409049
+urxvt.color3: #b8c130
+urxvt.color4: #4f57c3
+urxvt.color5: #a11fa6
+urxvt.color6: #31aeaf
+urxvt.color7: #99a1a1
+urxvt.color8: #606464
+urxvt.color9: #d25454
+urxvt.color10: #60c46c
+urxvt.color11: #ece542
+urxvt.color12: #7b98db
+urxvt.color13: #bf6ec3
+urxvt.color14: #7dd9e7
+urxvt.color15: #e6e6e6
+urxvt.urlLauncher: firefox -new-tab
+urxvt.keysym.M-u: perl:mark-yank-urls:activate_mark_mode
+urxvt.perl-lib: /nethome/jhujhiti/dotfiles/.urxvt/
+urxvt.perl-ext: selection,mark-yank-urls
