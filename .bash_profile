@@ -274,7 +274,7 @@ screen_title() {
 # if we have a termcap for rxvt-unicode, use it on certain boxes
 # (i'll be using urxvt in that case anyway, and this will make vim colors
 # work in screen)
-if [ "$(hostname)" = "kali" ]; then
+if [ "$(hostname)" = "kali" -a "$TERM" != "linux" ]; then
     safe_which toe 1>/dev/null && toe -a | grep 'rxvt-unicode' 1>/dev/null && export TERM=rxvt-unicode
 fi
 
