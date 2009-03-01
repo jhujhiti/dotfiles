@@ -43,6 +43,9 @@ nmap <F2> :s/(\%([^ \t)]\)\@=/( /ge<CR>:s/\%([^ \t(]\)\@<=)/ )/ge<CR>:s/)\%([^ \
 vmap <F2> <ESC>:'<,'>s/(\%([^ \t)]\)\@=/( /ge<CR>:'<,'>s/\%([^ \t(]\)\@<=)/ )/ge<CR>:'<,'>s/)\%([^ \t;]\)\@=/) /ge<CR>
 imap <F2> <ESC>:s/(\%([^ \t)]\)\@=/( /ge<CR>:s/\%([^ \t(]\)\@<=)/ )/ge<CR>:s/)\%([^ \t;]\)\@=/) /ge<CR>i
 
+let clj_highlight_builtins = 1
+let clj_paren_rainbow = 1
+
 autocmd BufRead,BufNewFile *.php5 setfiletype php
 autocmd FileType text setlocal textwidth=78
 autocmd FileType c,cpp,h,hpp :set cindent

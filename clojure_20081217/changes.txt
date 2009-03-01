@@ -1,0 +1,330 @@
+made default build run clean
+------------------------------------------------------------------------
+EPL in header
+------------------------------------------------------------------------
+refactored Comparator into superclass of functions only
+------------------------------------------------------------------------
+Moved to Eclipse Public License  - see epl-v10.html or
+http://opensource.org/licenses/eclipse-1.0.php
+------------------------------------------------------------------------
+proxy perf tweaks
+Note breaking change if you are using the proxy interface other than the proxy macro itself - proxy maps are now maps of (preferably interned) strings to fns, not symbols to fns, and if you construct a proxy manually you must establish initial map with init-proxy
+------------------------------------------------------------------------
+force instance member interpretation of (.method ClassName), e.g. (.getMethods String) works
+------------------------------------------------------------------------
+removed sharing in registerConstant
+------------------------------------------------------------------------
+fixed tagToClass for chars
+------------------------------------------------------------------------
+check for static field in classname/fieldname
+------------------------------------------------------------------------
+emit string constants directly
+------------------------------------------------------------------------
+release coll on nth of seq, stream work in progress
+------------------------------------------------------------------------
+release coll on nth of seq
+------------------------------------------------------------------------
+added if-not, memoize, and io!
+io! blocks will throw exceptions when run in transactions
+made await and await-for use io!
+------------------------------------------------------------------------
+releaxed namespace requirement for derives in private hierarchy, patch from J. McConnell
+------------------------------------------------------------------------
+added :exposes-methods to gen-class, patch from Matt Revelle
+------------------------------------------------------------------------
+support :when and :while together in for, patch from Chouser
+------------------------------------------------------------------------
+added unchecked-remainder
+------------------------------------------------------------------------
+added doc string for *agent*
+------------------------------------------------------------------------
+made RT.DEFAULT_COMPARATOR use Util.compare
+------------------------------------------------------------------------
+made APersistenVector.compareTo use Util.compare on elements
+------------------------------------------------------------------------
+swap! returns new value
+------------------------------------------------------------------------
+renamed clojure-print.clj, clojure-proxy.clj to clojure_...
+------------------------------------------------------------------------
+expose inherited protected fields that originate from farther
+up the hierarchy than the super class, patch from Matt Revelle
+------------------------------------------------------------------------
+fixed doc for main/repl
+------------------------------------------------------------------------
+use prn as default print in main
+------------------------------------------------------------------------
+short print-dup for LazilyPersistenVectors
+made re-pattern identity for patterns, now find-doc works with patterns too
+------------------------------------------------------------------------
+moved array tag names out of maybeClass
+------------------------------------------------------------------------
+fixed typo in deref doc
+------------------------------------------------------------------------
+Enhanced bigdec/bigint, no op on same type, coerce floats and ints, support single-args ctors, e.g. from String
+enhanced docs for deref/get- and set-validator for var/atom
+------------------------------------------------------------------------
+added new reference type - Atom, with constructor function atom, swap!, and compare-and-set!
+Atoms implement IRef, and thus deref/@ and validators
+Atoms provide independent, synchronous change of individual locations
+------------------------------------------------------------------------
+made RT.loadClassForName check that forName exception is its own, or let it flow out
+------------------------------------------------------------------------
+AOT compilation of proxies, no interface change
+------------------------------------------------------------------------
+made nested load of already loading resource a no-op instead of a throw
+------------------------------------------------------------------------
+added gen-interface
+------------------------------------------------------------------------
+enhancements to AOT/gen-class
+AOT now only produces __init.class by default, load uses that class only
+must have at least (:gen-class) ns clause to create named class for ns
+gen-class can now be called stand-alone
+new options allow for control of mapping to implementing namespace,
+name of class, loading of implementing namespace, and method name prefix
+(doc ns) and (doc gen-class) and http://clojure.org/compilation for details
+------------------------------------------------------------------------
+create child dirs of *compile-path* but not *compile-path* itself
+------------------------------------------------------------------------
+added clojure.main, patch from Stephen C. Gilardi
+------------------------------------------------------------------------
+tweaked docs
+added while
+------------------------------------------------------------------------
+added intern
+------------------------------------------------------------------------
+made prefer-method and remove-method functions
+------------------------------------------------------------------------
+fixed doc string on trampoline, added support for passing args
+------------------------------------------------------------------------
+Added Fn marker interfaced, used on all true fns
+Breaking change - fn? now tests for Fn, not IFn
+Added ifn? which will test for anything callable (IFn)
+Added trampoline, implements trampoline protocol for TCO
+------------------------------------------------------------------------
+made some helpers classes public
+------------------------------------------------------------------------
+fixed resolving keywords, smap when no source
+------------------------------------------------------------------------
+enhanced bridge method handling
+------------------------------------------------------------------------
+made cond refer to itself explicitly
+------------------------------------------------------------------------
+moved getCompiledClass to emit
+------------------------------------------------------------------------
+do -/_ translation in compare to namespace name, patch from Chouser
+------------------------------------------------------------------------
+got rid of scan and touch
+------------------------------------------------------------------------
+fixed lpv toArray, patch from Chouser
+------------------------------------------------------------------------
+use source name in smap
+------------------------------------------------------------------------
+prepRet on Array.get calls to fixup non-canonic Booleans
+------------------------------------------------------------------------
+enhanced doto now supports functions as well as methods
+!! Note - breaking change - you must now use .method instead of just method:
+(def frame (doto (new JFrame) (add panel) pack show))
+becomes:
+(def frame (doto (new JFrame) (.add panel) .pack .show))
+------------------------------------------------------------------------
+Added AOT-based genclass
+!!!Note - breaking change to gen-class!!!
+Do not move to this version if you use gen-and-xxx-class until you are ready to port to new system.
+Adds :gen-class clause to ns, which can be used to configure the class generated for the namespace
+------------------------------------------------------------------------
+made pushNS public
+------------------------------------------------------------------------
+AOT init refinements
+------------------------------------------------------------------------
+fixed containsAll
+------------------------------------------------------------------------
+made #! a to-end-of-line comment, like ;
+------------------------------------------------------------------------
+added load to AOT generated main
+------------------------------------------------------------------------
+added static main() support for AOT. Just defn main in your ns, will be applied to command line string args
+------------------------------------------------------------------------
+fixed Namespace toString
+------------------------------------------------------------------------
+started work on AOT main() support
+------------------------------------------------------------------------
+added precompilation of base library .cljs into clojure.jar, patch from Stuart Sierra
+------------------------------------------------------------------------
+fixed print-dup on empty list
+------------------------------------------------------------------------
+fix for unicode escapes, patch from Toralf Wittner
+------------------------------------------------------------------------
+Moved PersistentHashMap and PersistentVector to BSD to support use by other languages
+------------------------------------------------------------------------
+made (keyword :akeyword) and (symbol 'asymbol) == identity
+------------------------------------------------------------------------
+made integer? return true for Bytes and Shorts
+------------------------------------------------------------------------
+fixed Namespace toString
+------------------------------------------------------------------------
+AOT compiler support
+breaking change to load - no longer takes extension
+load will load from classfile if newer than source
+to compile, source dir and compile dir must be in classpath
+(compile 'my.cool.ns)
+will compile my/cool/ns.clj and anything it loads directly or indirectly
+------------------------------------------------------------------------
+AOT compiler!
+  build and start Clojure with: -cp ./classes:./src/clj:clojure.jar
+  try:
+ (do
+  (compile 'clojure.core)
+  (compile 'clojure.set)
+  (compile 'clojure.xml)
+  (compile 'clojure.zip))
+  restart Clojure - faster?
+  rebuild Clojure w/o clean, should get faster start from jar alone
+deleted set/xml etc dirs
+Moved clojure ns to clojure.core, moved set/xml etc up out of dirs
+New binding syntax (breaking change) for:
+  doseq
+  dotimes
+  with-open
+  when-first
+  if-let
+  when-let 
+plus:
+new print-dup functionality for replica generation of compilation constants
+new *print-dup* flag, prints duplicators
+back to simplified readably printing for repl
+readable fns, as long as they are not closures
+------------------------------------------------------------------------
+made AFn's Comparator.compare work with predicates too, true values sorting first
+------------------------------------------------------------------------
+made variadic str not retain seq
+------------------------------------------------------------------------
+fixed invokeMatchingMethod error report when null target
+------------------------------------------------------------------------
+validate commutes too
+------------------------------------------------------------------------
+fixed message on missing main, patch from Chouser
+------------------------------------------------------------------------
+fixed ArraySeq.count
+------------------------------------------------------------------------
+added 1.5 target to build.xml
+------------------------------------------------------------------------
+added unreadable #<> form, made default for print-method, check for unreadable forms in in-code constants and throw during compilation
+------------------------------------------------------------------------
+don't count identical param types as problem tie in getMatchingParams, use any
+------------------------------------------------------------------------
+support primitive and array classes in print-method, patch from cemerick
+------------------------------------------------------------------------
+made take less eager
+------------------------------------------------------------------------
+added *print-length* and *print-level*, patch from Stephen C. Gilardi
+------------------------------------------------------------------------
+fixed set =
+------------------------------------------------------------------------
+added read-string
+------------------------------------------------------------------------
+added optional type arg to into-array, patch from Stephen C. Gilardi
+------------------------------------------------------------------------
+added remove
+------------------------------------------------------------------------
+improved nil handling in merge, merge-with
+fixed metadata reading on vars
+------------------------------------------------------------------------
+fixed doc string for rem
+------------------------------------------------------------------------
+simplified regex literal format - no longer need to escape \
+patch from Chouser
+------------------------------------------------------------------------
+fixed (read r nil ...)
+added args to update-in
+removed interim use of gen dir
+------------------------------------------------------------------------
+interim checkin - not for general use, but feel free to try
+will generate classfiles in a gen directory under user.dir
+------------------------------------------------------------------------
+added print-method for Namespaces
+------------------------------------------------------------------------
+allow private vars in reader literals
+------------------------------------------------------------------------
+first step towards AOT compilation - constants now read from strings in classfiles instead of hand-off from classloader
+------------------------------------------------------------------------
+fixed entrySet
+------------------------------------------------------------------------
+added print-method for Boolean
+------------------------------------------------------------------------
+enhanced prefers to prefer whole trees to others
+fixed supers, which didn't trace interfaces
+------------------------------------------------------------------------
+enhanced print/read - default print-method prints 
+changed #'x back to (var x) always
+#=(var x) print/read support
+------------------------------------------------------------------------
+flow metadata on name through defmulti
+------------------------------------------------------------------------
+refined ## to #=, now takes either
+#=classname
+#=(classname. ctor-args*)
+#=(classname/staticMethod args*)
+#=(varname args*)
+and calls with _unevaluated_ args
+------------------------------------------------------------------------
+fixed syntax quote of vars
+------------------------------------------------------------------------
+added print support for java.util.Map/List
+------------------------------------------------------------------------
+fixed isa? of vectors to use supplied hierarchy
+------------------------------------------------------------------------
+fixed map destructuring with :as only
+------------------------------------------------------------------------
+added redirectable *err*, patch from Stephen C. Gilardi
+------------------------------------------------------------------------
+made ISeq extend Sequential
+------------------------------------------------------------------------
+made maps implement java.util.Map
+unified equality and hashCode semantics for sets/maps/lists with java.util
+enabled sort on all colls and strings
+enabled to-array on Maps
+------------------------------------------------------------------------
+added class names to  "no match" Reflector messages
+------------------------------------------------------------------------
+added inlining for integer bitops
+------------------------------------------------------------------------
+improved error on malformed let
+------------------------------------------------------------------------
+for patch, fixes empty child seq
+------------------------------------------------------------------------
+canonify True in Reflector prepRet
+------------------------------------------------------------------------
+fixed print of ISeqs
+------------------------------------------------------------------------
+added exceptions thrown by watchers to agent's errors, for now
+------------------------------------------------------------------------
+first cut at agent watches - add-watch/remove-watch
+------------------------------------------------------------------------
+fixed print-method on empty vector
+------------------------------------------------------------------------
+added f arity 2 and 3 overloads for map
+prefer-method print-method IPersistentList over ISeq
+------------------------------------------------------------------------
+added print-method for java.util.regex.Pattern
+------------------------------------------------------------------------
+added print-method multimethod and switched printing to use it
+built on contribution from Erik Soehnel
+------------------------------------------------------------------------
+removed reflective calls in ArraySeq when Object array
+------------------------------------------------------------------------
+made vectors enforce integer keys
+------------------------------------------------------------------------
+made many things public for ClojureScript, patch from Chouser
+------------------------------------------------------------------------
+doc support for special vars, patch from Stephen C. Gilardi
+------------------------------------------------------------------------
+enhanced handling of reader errors during load
+------------------------------------------------------------------------
+added *1/2/3 *e and tweaked error messages
+------------------------------------------------------------------------
+improved error location info
+------------------------------------------------------------------------
+Fixed doc for descendants
+------------------------------------------------------------------------
+fixed resolveIns to resolve alias
+------------------------------------------------------------------------
