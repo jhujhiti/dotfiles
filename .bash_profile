@@ -257,6 +257,9 @@ fi
 if [ "$TERM" == "rxvt" -a "$UNAME_S" == "SunOS" ]; then
     export TERM="dtterm"
 fi
+if [ "$TERM" == "rxvt-unicode" -a "$UNAME_S" == "SunOS" ]; then
+    export TERM="dtterm"
+fi
 
 
 if [ -n "$NOISY" ]; then
