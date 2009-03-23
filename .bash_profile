@@ -6,6 +6,7 @@ alias e='emacs'
 alias v='vim'
 
 export CVS_RSH="ssh"
+export PAGER="less"
 
 ########## library functions ##########
 
