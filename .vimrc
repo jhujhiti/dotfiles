@@ -7,6 +7,7 @@ filetype on
 filetype plugin indent on
 set modeline
 set visualbell
+set scrolloff=4
 
 set encoding=utf-8
 set fileencoding=utf-8
