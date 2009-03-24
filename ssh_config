@@ -1,13 +1,4 @@
-Host sw2
-    Ciphers 3des-cbc
-
-Host silenceisdefeat.org
-    IdentityFile ~/.ssh/id_rsa_grokix
-
 Host *
     ForwardAgent yes
     RSAAuthentication yes
-    IdentityFile ~/.ssh/id_rsa
     Protocol 2
-    Ciphers aes256-cbc,blowfish-cbc,aes192-cbc,aes128-cbc
-
