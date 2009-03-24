@@ -286,63 +286,10 @@ if [ "$(hostname)" = "kali" -a "$TERM" != "linux" ]; then
     safe_which toe 1>/dev/null && toe -a | grep 'rxvt-unicode' 1>/dev/null && export TERM=rxvt-unicode
 fi
 
-# maybe we're running inside screen?
-if [ "$(pidcmd $PPID)" == "screen" ]; then
-    debug "running inside screen"
-    # now what? we can't trust TERM. guess!
-    # (but only if we have a shitty term already)
-    if [ "$TERM" == "vt100" ]; then
-        export TERM=rxvt-unicode
-    fi
-fi
-
-# check for rxvt-unicode on solaris. if we have it, use it if it looks like
-# we want a nice terminal.
-# otherwise, use dtterm
 if [ "$UNAME_S" == "SunOS" ]; then
-    debug "deciding on a decent sunos terminal"
     case "$TERM" in
-        "rxvt"*)
-        # we need some commands first of all...
-        safe_which toe 1> /dev/null && safe_which tic 1> /dev/null && YAY=1
-        if [ $YAY -eq 1 ]; then
-            # do we already have it?
-            toe | grep rxvt-unicode 1>/dev/null
-            if [ $? -eq 0 ]; then
-                # we have it. use it
-                export TERM=rxvt-unicode
-                debug "found rxvt-unicode terminfo in system directory"
-            else
-                OLD="$TERMINFO"
-                export TERMINFO=$HOME/dotfiles/terminfo
-                # try our local directory too
-                toe | grep rxvt-unicode 1> /dev/null
-                if [ $? -eq 0 ]; then # yep
-                    export TERM=rxvt-unicode
-                    debug "found rxvt-unicode terminfo in local directory"
-                else
-                    debug "couldn't find rxvt-unicode terminfo. compiling..."
-                    # not installed. compile it
-                    tic -o $TERMINFO $HOME/dotfiles/rxvt-unicode.ti
-                    # if we failed, restore old $TERMINFO
-                    if [ $? -eq 1 ]; then
-                        debug "failed to compile rxvt-unicode terminfo"
-                        export TERMINFO="$OLD"
-                        export TERM=dtterm
-                    fi
-                fi
-            fi
-        else
-            debug "we don't have tic and/or toe"
-        fi
-        ;;
-        "xterm"*)
-        export TERMINFO="$HOME/dotfiles/terminfo"
+        xterm*|rxvt*)
         export TERM=dtterm
-        ;;
-        *)
-        debug "not touching terminal"
-        ;;
     esac
 fi
 
