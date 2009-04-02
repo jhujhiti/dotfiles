@@ -135,6 +135,13 @@ fi
 ########## code goes here! ##########
 #####################################
 
+safe_which stty 1>/dev/null
+if [ $? -eq 0 ]; then
+    # good riddance
+    stty stop ^@
+    stty start ^@
+fi
+
 # add ssh-agent keys from ~/.ssh/id_rsa if we have it
 TMP=`safe_which 'ssh-add'`
 if [ -n "$TMP" ]; then
