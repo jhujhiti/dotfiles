@@ -112,10 +112,7 @@ fi
 if [ -d /cust ]; then
     for t in "bin" "sbin"
     do
-        for d in `find /cust/ -type d -name "$t"`
-        do
-            my_prepend_path "$d"
-        done
+        [ -d "/cust/$t" ] && my_prepend_path "/cust/$t"
     done
 fi
 
