@@ -135,9 +135,6 @@ fi
 ########## code goes here! ##########
 #####################################
 
-# git completion
-safe_which git 1>/dev/null && source ~/dotfiles/git-completion.bash
-
 # add ssh-agent keys from ~/.ssh/id_rsa if we have it
 TMP=`safe_which 'ssh-add'`
 if [ -n "$TMP" ]; then
