@@ -135,8 +135,8 @@ fi
 safe_which stty 1>/dev/null
 if [ $? -eq 0 ]; then
     # good riddance
-    stty stop ^@
-    stty start ^@
+    stty stop ^@ 2>/dev/null
+    stty start ^@ 2>/dev/null
 fi
 
 # add ssh-agent keys from ~/.ssh/id_rsa if we have it
