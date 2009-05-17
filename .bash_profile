@@ -132,6 +132,9 @@ fi
 ########## code goes here! ##########
 #####################################
 
+# classpath for java
+export CLASSPATH=$HOME/dotfiles/clojure/clojure-1.0.0.jar:$HOME/dotfiles/clojure/clojure-contrib.jar:$HOME/dotfiles/clojure/vimclojure.jar
+
 safe_which stty 1>/dev/null
 if [ $? -eq 0 ]; then
     # good riddance

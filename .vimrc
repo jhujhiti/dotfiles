@@ -57,6 +57,9 @@ set wrap
 let html_use_css=1
 let use_xhtml=1
 
+let vimclojure#NailgunClient = "/home/jhujhiti/dotfiles/clojure/ng-SunOS-i86pc"
+let clj_want_gorilla = 1
+
 " set readable colors for some broken colours
 "hi Todo ctermbg=magenta
 "hi Search ctermbg=magenta
