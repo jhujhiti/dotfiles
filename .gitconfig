@@ -1,3 +1,5 @@
 [user]
     name = Erick Turnquist
     email = jhujhiti@adjectivism.org
+[push]
+    default = matching
