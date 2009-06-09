@@ -55,17 +55,6 @@ pidcmd() {
     return 0
 }
 
-########## noisy terminal? ##########
-
-# set NOISY if we should do things like spit out fortunes
-case "$TERM" in
-    "screen" | "screen-bce" | "dumb" | "su")
-    ;;
-    * )
-    NOISY=1
-    ;;
-esac
-
 ########## path stuff ##########
 
 for p in "$HOME/bin" "/sbin" "/usr/sbin"
@@ -269,13 +258,6 @@ case "$TERM" in
 esac
 
 export TERMBGC="dark"
-
-if [ -n "$NOISY" ]; then
-    TMP=`safe_which fortune`    
-    if [ -n "$TMP" ]; then  
-        $TMP
-    fi
-fi
 
 umask 0022
 
