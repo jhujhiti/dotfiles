@@ -45,6 +45,7 @@ syn match  objcDirective    "@interface\|@implementation"
 syn match  objcDirective    "@class\|@end\|@defs"
 syn match  objcDirective    "@encode\|@protocol\|@selector"
 syn match  objcDirective    "@try\|@catch\|@finally\|@throw\|@synchronized"
+syn match  objcDirective    "@property\|@synthesize"
 
 " Match the ObjC method types
 "
