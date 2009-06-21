@@ -69,7 +69,7 @@ function GetObjCIndent()
 	return theIndent
     endif
 
-    if prev_line !~# ";"
+    if prev_line !~# ";" && prev_line !~# "{"
 	let prev_colon_pos = s:GetWidth(prev_line, ":")
 	let delta = s:GetWidth(cur_line, ":") - s:LeadingWhiteSpace(cur_line)
 	let theIndent = prev_colon_pos - delta
