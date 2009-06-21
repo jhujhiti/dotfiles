@@ -61,10 +61,3 @@ let use_xhtml=1
 
 let vimclojure#NailgunClient = "/home/jhujhiti/dotfiles/clojure/ng-SunOS-i86pc"
 let clj_want_gorilla = 1
-
-" set readable colors for some broken colours
-"hi Todo ctermbg=magenta
-"hi Search ctermbg=magenta
-"hi Folded ctermfg=black
-"hi FoldColumn ctermfg=black
-"hi SignColumn ctermfg=black
