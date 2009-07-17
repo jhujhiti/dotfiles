@@ -20,5 +20,5 @@ urxvt.color14: #7dd9e7
 urxvt.color15: #e6e6e6
 urxvt.urlLauncher: firefox -new-tab
 urxvt.keysym.M-u: perl:mark-yank-urls:activate_mark_mode
-urxvt.perl-lib: /nethome/jhujhiti/dotfiles/.urxvt/
+urxvt.perl-lib: /home/jhujhiti/dotfiles/.urxvt/
 urxvt.perl-ext: selection,mark-yank-urls
