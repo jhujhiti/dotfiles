@@ -21,7 +21,7 @@ if $TERMBGC == "dark"
 endif
 
 if has('gui')
-    colorscheme inkpot
+    colorscheme wombat
     set background=dark
     set guioptions=acegirLt
     set guifont="DejaVu Sans Mono 9:antialias=true"
