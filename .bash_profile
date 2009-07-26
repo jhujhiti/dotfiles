@@ -8,6 +8,11 @@ alias v='vim'
 export CVS_RSH="ssh"
 export PAGER="less"
 
+# these two environment variables are handy for automated debian changelog
+# editing and probably other things too
+export NAME="Erick Turnquist"
+export EMAIL="jhujhiti@adjectivism.org"
+
 ########## library functions ##########
 
 # debugging
