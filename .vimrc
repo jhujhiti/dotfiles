@@ -3,8 +3,6 @@ set shiftwidth=4
 set tabstop=4
 set softtabstop=4
 set expandtab
-set textwidth=78
-"set wrapmargin=78
 filetype on
 filetype plugin indent on
 set modeline
