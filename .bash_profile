@@ -126,6 +126,11 @@ fi
 ########## code goes here! ##########
 #####################################
 
+# set up bash completion if we have it
+if [ -f /etc/bash_completion ]; then
+    . /etc/bash_completion
+fi
+
 # classpath for java
 export CLASSPATH=$HOME/dotfiles/clojure/clojure-1.0.0.jar:$HOME/dotfiles/clojure/clojure-contrib.jar:$HOME/dotfiles/clojure/vimclojure.jar
 
