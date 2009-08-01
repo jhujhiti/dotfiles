@@ -12,7 +12,7 @@
 
 use strict;
 
-die "no base specified" if !$ARGV[2];
+die "no base specified\nUsage: script arpa hostname base-dn" if !$ARGV[2];
 my $base = $ARGV[2];
 my $ptr = $ARGV[1];
 my $arpa = $ARGV[0];
