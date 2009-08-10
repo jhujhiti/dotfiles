@@ -1,4 +1,4 @@
-urxvt.font: xft:Dejavu Sans Mono:pixelsize=11
+urxvt.font: xft:Dejavu Sans Mono-8
 urxvt.scrollBar: false
 urxvt.background: #1e1e27
 urxvt.foreground: #cdb78c
