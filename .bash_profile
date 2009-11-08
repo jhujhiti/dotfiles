@@ -67,6 +67,8 @@ do
     my_prepend_path $p
 done
 
+TMP=`gem environment gempath 2>/dev/null` && my_prepend_path $TMP
+
 if [ "$UNAME_S" == "SunOS" ]; then
     for p in "/usr/xpg4/bin" "/usr/xpg6/bin" "/usr/sfw/bin" "/usr/sfw/sbin" \
         "/opt/csw/bin" "/opt/csw/sbin" "/usr/local/bin" "/usr/local/sbin"
