@@ -67,7 +67,8 @@ do
     my_prepend_path $p
 done
 
-[ -d $HOME/.gem/ruby ] && for d in $HOME/.gem/ruby/*/bin
+TMP=`find $HOME/.gem/ruby -type d -name bin -print 2>/dev/null | wc -l`
+[ $TMP -gt 0 ] && for d in $HOME/.gem/ruby/*/bin
 do
     my_prepend_path "$d"
 done
