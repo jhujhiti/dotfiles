@@ -67,7 +67,10 @@ do
     my_prepend_path $p
 done
 
-TMP=`gem environment gempath 2>/dev/null` && my_prepend_path $TMP
+[ -d $HOME/.gem/ruby ] && for d in $HOME/.gem/ruby/*/bin
+do
+    my_prepend_path "$d"
+done
 
 if [ "$UNAME_S" == "SunOS" ]; then
     for p in "/usr/xpg4/bin" "/usr/xpg6/bin" "/usr/sfw/bin" "/usr/sfw/sbin" \
