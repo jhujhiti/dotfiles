@@ -28,6 +28,8 @@ if has('gui')
     set guifontwide="DejaVu Sans Mono 8:antialias=true"
 endif
 
+inoremap <C-\> <C-p>
+
 map <C-f> l
 map <C-b> h
 map <C-e> $
