@@ -49,6 +49,10 @@ nmap <F2> :s/(\%([^ \t)]\)\@=/( /ge<CR>:s/\%([^ \t(]\)\@<=)/ )/ge<CR>:s/)\%([^ \
 vmap <F2> <ESC>:'<,'>s/(\%([^ \t)]\)\@=/( /ge<CR>:'<,'>s/\%([^ \t(]\)\@<=)/ )/ge<CR>:'<,'>s/)\%([^ \t;]\)\@=/) /ge<CR>
 imap <F2> <ESC>:s/(\%([^ \t)]\)\@=/( /ge<CR>:s/\%([^ \t(]\)\@<=)/ )/ge<CR>:s/)\%([^ \t;]\)\@=/) /ge<CR>i
 
+call arpeggio#load()
+Arpeggionmap tn :tabnext<CR>
+Arpeggionmap tp :tabprevious<CR>
+
 let clj_highlight_builtins = 1
 let clj_paren_rainbow = 1
 
