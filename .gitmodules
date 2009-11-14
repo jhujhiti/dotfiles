@@ -1,0 +1,3 @@
+[submodule "submodules/vim-arpeggio"]
+	path = submodules/vim-arpeggio
+	url = git://github.com/kana/config.git
