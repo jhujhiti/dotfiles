@@ -13,6 +13,8 @@ set backspace=indent,eol,start
 set encoding=utf-8
 set fileencoding=utf-8
 
+set wildignore=*.beam
+
 set background=light
 if $TERMBGC == "dark"
     set background=dark
