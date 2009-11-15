@@ -260,7 +260,8 @@ if [ "$UNAME_S" == "Linux" ]; then
 else
     #ONEMIN='$(uptime | sed "s/^.*load average[s]\{0,1\}: \(.\...\).*$/\1/")'
     #PS1L="\[$(ps1_load_colour $ONEMIN)\]$ONEMIN"
-    PS1L='\[$(ps1_load_colour '"$(onemin)"')\]'"$(onemin)"
+    TMP="$(onemin)"
+    PS1L='\[$(ps1_load_colour '"$TMP"')\]'"$TMP"
 fi
 
 PS1P='\$'
