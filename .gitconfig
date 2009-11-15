@@ -1,5 +1,6 @@
 [user]
     name = Erick Turnquist
     email = jhujhiti@adjectivism.org
+    signingkey = 77E7AD4B
 [push]
     default = matching
