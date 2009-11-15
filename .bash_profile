@@ -23,9 +23,7 @@ debug() {
 # add something to $PATH if it's not already there
 my_prepend_path() {
     TMP=$(echo "$1" | sed -e 's/\//\\\//g')
-    if [ -n "${PATH/*$TMP:*}" ]; then
-        export PATH="$1:$PATH"
-    fi
+    [ -n "${PATH/*$TMP:*}" ] && export PATH="$1:$PATH"
 }
 
 # which on different platforms behaves differently
@@ -121,11 +119,6 @@ fi
 TMP=`safe_which 'vim'`
 if [ -n "$TMP" ]; then
     export EDITOR="$TMP"
-else
-    TMP=`safe_which 'emacs'`
-    if [ -n "$TMP" ]; then
-        export EDITOR="$TMP"
-    fi
 fi
 
 #####################################
@@ -133,19 +126,11 @@ fi
 #####################################
 
 # set up bash completion if we have it
-if [ -f /etc/bash_completion ]; then
-    . /etc/bash_completion
-fi
+[ -f /etc/bash_completion ] && . /etc/bash_completion
 
-# classpath for java
-export CLASSPATH=$HOME/dotfiles/clojure/clojure-1.0.0.jar:$HOME/dotfiles/clojure/clojure-contrib.jar:$HOME/dotfiles/clojure/vimclojure.jar
-
-safe_which stty 1>/dev/null
-if [ $? -eq 0 ]; then
-    # good riddance
-    stty stop ^@ 2>/dev/null
+# disable terminal flow control. good riddance
+safe_which stty 1>/dev/null && stty stop ^@ 2>/dev/null ; \
     stty start ^@ 2>/dev/null
-fi
 
 # add ssh-agent keys from ~/.ssh/id_rsa if we have it
 TMP=`safe_which 'ssh-add'`
@@ -155,14 +140,6 @@ if [ -n "$TMP" ]; then
         if [ $? -eq 1 ]; then
             $TMP ~/.ssh/id_rsa
         fi
-    fi
-fi
-
-# do we have sbcl? make sure the SBCL_HOME variable is set appropriately
-TMP=`safe_which 'sbcl'`
-if [ -n "$TMP" ]; then
-    if [ "$TMP" == "/cust/bin/sbcl" ]; then
-        export SBCL_HOME="${TMP/bin\/sbcl}lib/sbcl"
     fi
 fi
 
@@ -177,7 +154,6 @@ if [ -n "$TMP" ]; then
 fi
 
 ## handy aliases
-
 if [ "$UNAME_S" == "Linux" ]; then
     alias ls="ls --color=yes -AFh"
     alias ll="ls --color=yes -AFlh"
@@ -201,14 +177,6 @@ if [ "$UNAME_S" == "Linux" ]; then
         sparc* ) CPU_COUNT=$(sed -ne 's!^ncpus active[[:space:]]\+: \([[:digit:]]\+\).*!\1!p' /proc/cpuinfo);;
         x86_64 | i686) 
         CPU_COUNT=$(grep -c '^processor[[:space:]]*' /proc/cpuinfo)
-        #if [ `grep -c '^flags.*ht' /proc/cpuinfo` -gt 0 ]; then
-        ## looks like ht, but amd's multicore chips report as ht to fool
-        ## poorly written apps
-        #if [ `grep -c 'AuthenticAMD' /proc/cpuinfo` -lt 1 ]; then
-        # if we're not AMD, kill half of the CPU_COUNT to account for ht
-        #    CPU_COUNT=$((CPU_COUNT / 2))
-        #fi
-        #fi
         ;;
         * ) CPU_COUNT=1;; #guess for now...
     esac
@@ -226,12 +194,13 @@ fi
 ps1_load_colour() {
     tmp=${1%%.*}
     if [ $(expr $tmp '>=' $(expr $CPU_COUNT '*' 2)) == "1" ] ; then
-        echo -e '\033[01;31m'
+        echo -ne '\033[01;31m'
     elif [ $(expr $tmp '>=' $(expr $CPU_COUNT)) == "1" ] ; then
-        echo -e '\033[01;33m'
+        echo -ne '\033[01;33m'
     else
-        echo -e '\033[01;32m'
+        echo -ne '\033[01;32m'
     fi
+    echo -n $1
 }
 
 if [ "$UNAME_S" == "SunOS" ]; then
@@ -252,25 +221,22 @@ PS1H="\[\033[01;34m\]@\h"
 PS1D='\[\033[01;34m\]\w'
 
 onemin() {
-    echo '$(uptime | sed "s/^.*load average[s]\{0,1\}: \([[:digit:]]\{1,\}\...\).*$/\1/")'
+    if [ "$UNAME_S" == "Linux" ]; then
+        cut -d " " -f 1 /proc/loadavg
+    else
+        echo '$(uptime | sed "s/^.*load average[s]\{0,1\}: \([[:digit:]]\{1,\}\...\).*$/\1/")'
+    fi
 }
 
-if [ "$UNAME_S" == "Linux" ]; then
-    PS1L='\[$(ps1_load_colour $(cut -d " " -f 1 /proc/loadavg))\]$(cut -d " " -f 1 /proc/loadavg)'
-else
-    #ONEMIN='$(uptime | sed "s/^.*load average[s]\{0,1\}: \(.\...\).*$/\1/")'
-    #PS1L="\[$(ps1_load_colour $ONEMIN)\]$ONEMIN"
-    TMP="$(onemin)"
-    PS1L='\[$(ps1_load_colour '"$TMP"')\]'"$TMP"
-fi
+PS1L='\[$(ps1_load_colour $(onemin))\]'
 
 PS1P='\$'
 PS1Z='\[\033[00m\]'
 
 case "$TERM" in
-    xterm* ) export PS1="\[\033[00m\]${PS1U}${PS1H} ${PS1D} ${PS1L} ${PS1P} ${PS1Z}\[\033]2;\u@\h \w\007\]";;
-    screen* ) export PS1="\[\033[00m\]${PS1U}${PS1H} ${PS1D} ${PS1L} ${PS1P} ${PS1Z}\[\033]2;\u@\h \w\007\]";;
-    rxvt* ) export PS1="\[\033[00m\]${PS1U}${PS1H} ${PS1D} ${PS1L} ${PS1P} ${PS1Z}\[\033]2;\u@\h \w\007\]";;
+    xterm* ) export PS1="\[\033[00m\]${PS1U}${PS1H} ${PS1D} ${PS1L} ${PS1P} ${PS1Z}\[\033]0;\u@\h \w\007\]";;
+    screen* ) export PS1="\[\033[00m\]${PS1U}${PS1H} ${PS1D} ${PS1L} ${PS1P} ${PS1Z}\[\033]0;\u@\h \w\007\]";;
+    rxvt* ) export PS1="\[\033[00m\]${PS1U}${PS1H} ${PS1D} ${PS1L} ${PS1P} ${PS1Z}\[\033]0;\u@\h \w\007\]";;
     * ) export PS1="${PS1U}${PS1H} ${PS1D} ${PS1L} ${PS1P} ${PS1Z}";; 
 esac
 
@@ -281,13 +247,6 @@ umask 0022
 screen_title() {
     echo -n -e "\033k${1}\033\\"
 }
-
-# if we have a termcap for rxvt-unicode, use it on certain boxes
-# (i'll be using urxvt in that case anyway, and this will make vim colors
-# work in screen)
-if [ "$(hostname)" = "kali" -a "$TERM" != "linux" ]; then
-    safe_which toe 1>/dev/null && toe -a | grep 'rxvt-unicode' 1>/dev/null && export TERM=rxvt-unicode
-fi
 
 if [ "$UNAME_S" == "SunOS" ]; then
     case "$TERM" in
