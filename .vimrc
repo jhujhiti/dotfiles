@@ -10,6 +10,9 @@ set visualbell
 set scrolloff=4
 set backspace=indent,eol,start
 
+" http://vim.wikia.com/wiki/Omni_completion
+set omnifunc=syntaxcomplete#Complete
+
 set encoding=utf-8
 set fileencoding=utf-8
 
