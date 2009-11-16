@@ -60,7 +60,6 @@ autocmd BufRead,BufNewFile *.php5 setfiletype php
 autocmd FileType text setlocal textwidth=78
 autocmd FileType c,cpp,h,hpp :set cindent
 set autoindent
-set smartindent
 set wrap
 let html_use_css=1
 let use_xhtml=1
