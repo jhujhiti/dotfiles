@@ -2,4 +2,5 @@ Host *
     ForwardAgent yes
     RSAAuthentication yes
     GSSAPIAuthentication yes
+    GSSAPIDelegateCredentials yes
     Protocol 2
