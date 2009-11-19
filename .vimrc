@@ -33,6 +33,15 @@ endif
 call arpeggio#load()
 Arpeggionmap tn :tabnext<CR>
 Arpeggionmap tp :tabprevious<CR>
+Arpeggionmap t1 1gt
+Arpeggionmap t2 2gt
+Arpeggionmap t3 3gt
+Arpeggionmap t4 4gt
+Arpeggionmap t5 5gt
+Arpeggionmap t6 6gt
+Arpeggionmap t7 7gt
+Arpeggionmap t8 8gt
+Arpeggionmap t9 9gt
 
 let clj_highlight_builtins = 1
 let clj_paren_rainbow = 1
