@@ -200,7 +200,6 @@ ps1_load_colour() {
     else
         echo -ne '\033[01;32m'
     fi
-    echo -n $1
 }
 
 if [ "$UNAME_S" == "SunOS" ]; then
@@ -228,7 +227,7 @@ onemin() {
     fi
 }
 
-PS1L='\[$(ps1_load_colour $(onemin))\]'
+PS1L='\[$(ps1_load_colour '"$(onemin)"')\]'"$(onemin)"
 
 PS1P='\$'
 PS1Z='\[\033[00m\]'
