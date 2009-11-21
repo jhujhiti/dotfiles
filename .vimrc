@@ -30,8 +30,6 @@ if has('gui')
     set guifontwide="DejaVu Sans Mono 8:antialias=true"
 endif
 
-:au BufWinEnter * let w:m2=matchadd('ErrorMsg', '\%>80v.\+', -1)
-
 call arpeggio#load()
 Arpeggionmap tn :tabnext<CR>
 Arpeggionmap tp :tabprevious<CR>
