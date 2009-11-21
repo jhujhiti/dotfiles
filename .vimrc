@@ -23,7 +23,7 @@ if $TERMBGC == "dark"
 endif
 
 if has('gui')
-    colorscheme herald
+    colorscheme lucius
     set background=dark
     set guioptions=acegirLt
     set guifont="DejaVu Sans Mono 8:antialias=true"
