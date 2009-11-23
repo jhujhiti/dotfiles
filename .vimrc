@@ -25,7 +25,7 @@ endif
 if has('gui')
     colorscheme herald
     set background=dark
-    set guioptions=acegirLt
+    set guioptions=acegit
     set guifont="DejaVu Sans Mono 8:antialias=true"
     set guifontwide="DejaVu Sans Mono 8:antialias=true"
 endif
