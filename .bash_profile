@@ -221,7 +221,7 @@ PS1D='\[\033[01;34m\]\w'
 
 onemin() {
     if [ "$UNAME_S" == "Linux" ]; then
-        cut -d " " -f 1 /proc/loadavg
+        echo '$(cut -d " " -f 1 /proc/loadavg)'
     else
         echo '$(uptime | sed "s/^.*load average[s]\{0,1\}: \([[:digit:]]\{1,\}\...\).*$/\1/")'
     fi
