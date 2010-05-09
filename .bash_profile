@@ -65,11 +65,15 @@ do
     my_prepend_path $p
 done
 
-TMP=`find $HOME/.gem/ruby -type d -name bin -print 2>/dev/null | wc -l`
-[ $TMP -gt 0 ] && for d in $HOME/.gem/ruby/*/bin
-do
-    my_prepend_path "$d"
-done
+## find paths for ruby gems
+gem_path() {
+    GEMPATH=$(gem environment gempath)
+    for p in ${GEMPATH//:/$'\n'}
+    do
+        [ -d "$p/bin" ] && my_prepend_path "$p/bin"
+    done
+}
+safe_which gem 1>/dev/null && gem_path
 
 if [ "$UNAME_S" == "SunOS" ]; then
     for p in "/usr/xpg4/bin" "/usr/xpg6/bin" "/usr/sfw/bin" "/usr/sfw/sbin" \
