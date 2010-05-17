@@ -18,7 +18,7 @@ urxvt.color12: #7b98db
 urxvt.color13: #bf6ec3
 urxvt.color14: #7dd9e7
 urxvt.color15: #e6e6e6
-urxvt.urlLauncher: firefox -new-tab
+urxvt.urlLauncher: chromium-browser
 urxvt.keysym.M-u: perl:mark-yank-urls:activate_mark_mode
 urxvt.perl-lib: /home/jhujhiti/dotfiles/.urxvt/
 urxvt.perl-ext: selection,mark-yank-urls
