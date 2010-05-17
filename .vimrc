@@ -45,9 +45,6 @@ Arpeggionmap t7 7gt
 Arpeggionmap t8 8gt
 Arpeggionmap t9 9gt
 
-let clj_highlight_builtins = 1
-let clj_paren_rainbow = 1
-
 autocmd BufRead,BufNewFile *.php5 setfiletype php
 autocmd FileType text setlocal textwidth=78
 autocmd FileType c,cpp,h,hpp :set cindent
@@ -55,6 +52,3 @@ set autoindent
 set wrap
 let html_use_css=1
 let use_xhtml=1
-
-let vimclojure#NailgunClient = "/home/jhujhiti/dotfiles/clojure/ng-SunOS-i86pc"
-let clj_want_gorilla = 1
