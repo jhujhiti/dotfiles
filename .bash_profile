@@ -177,13 +177,7 @@ alias grab="sudo chown ${USER} --recursive"
 ## pretty prompt
 
 if [ "$UNAME_S" == "Linux" ]; then
-    case "$UNAME_M" in
-        sparc* ) CPU_COUNT=$(sed -ne 's!^ncpus active[[:space:]]\+: \([[:digit:]]\+\).*!\1!p' /proc/cpuinfo);;
-        x86_64 | i686) 
-        CPU_COUNT=$(grep -c '^processor[[:space:]]*' /proc/cpuinfo)
-        ;;
-        * ) CPU_COUNT=1;; #guess for now...
-    esac
+    CPU_COUNT=$(getconf _NPROCESSORS_ONLN)
 elif [ "$UNAME_S" == "Darwin" -o "$UNAME_S" == "FreeBSD" ]; then
     CPU_COUNT=$(sysctl hw.ncpu | sed 's!^hw\.ncpu\: \([[:digit:]]\{1,\}\)!\1!')
 elif [ "$UNAME_S" == "NetBSD" ]; then
