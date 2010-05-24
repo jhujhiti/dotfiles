@@ -13,7 +13,8 @@ myKeys = [
     ("M-S-q", spawn "gnome-session-save --gui --logout-dialog"),
     ("M-S-v", spawn "gvim"),
     ("M-S-l", spawn "gnome-screensaver-command --lock"),
-    ("M-S-b", spawn "gnome-open http:///")
+    ("M-S-b", spawn "gnome-open http:///"),
+    ("M-S-p", spawn "gnome-power-statistics")
     ]
 
 defaultLayout = layoutHints $ tiled ||| Mirror tiled ||| Full
