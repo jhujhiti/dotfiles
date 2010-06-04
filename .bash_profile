@@ -79,7 +79,7 @@ if [ "$UNAME_S" == "SunOS" ]; then
     for p in "/usr/xpg4/bin" "/usr/xpg6/bin" "/usr/sfw/bin" "/usr/sfw/sbin" \
         "/opt/csw/bin" "/opt/csw/sbin" "/usr/local/bin" "/usr/local/sbin"
     do
-        my_prepend_path $p
+        [ -d "$p" ] && my_prepend_path $p
     done
     if [ -d /usr/ccs/bin ]; then
         my_prepend_path "/usr/ccs/bin"
