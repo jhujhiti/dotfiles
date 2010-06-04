@@ -22,7 +22,7 @@ debug() {
 
 # add something to $PATH if it's not already there
 my_prepend_path() {
-    TMP=$(echo "$1" | sed -e 's/\//\\\//g')
+    local TMP=$(echo "$1" | sed -e 's/\//\\\//g')
     [ -n "${PATH/*$TMP:*}" ] && export PATH="$1:$PATH"
 }
 
