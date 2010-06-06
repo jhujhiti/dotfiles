@@ -2,8 +2,6 @@ export UNAME_S=$(uname -s)
 UNAME_M=$(uname -m)
 
 set -o emacs
-alias e='emacs'
-alias v='vim'
 
 export CVS_RSH="ssh"
 export PAGER="less"
@@ -176,6 +174,13 @@ else
 fi
 
 alias grab="sudo chown ${USER} --recursive"
+alias e='emacs'
+alias v='vim'
+if [ "$UNAME_S" == "SunOS" ]; then
+    alias pfe="pfexec"
+else
+    alias pfe="sudo"
+fi
 
 ## pretty prompt
 
