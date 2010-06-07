@@ -46,6 +46,15 @@ safe_which() {
     return 0
 }
 
+# detect nexenta
+is_nexenta() {
+    [ -n "$IS_NEXENTA" ] && debug "short-circuit is_nexenta()" && \
+        return $IS_NEXENTA
+    IS_NEXENTA=1
+    [[ "$(uname -v)" =~ Nexenta* ]] && IS_NEXENTA=0 && return 0
+    return 1
+}
+
 pidcmd() {
     local ZPID="$1"
     local CMD=$(ps -eo pid,comm | egrep "^[[:space:]]*$ZPID[[:space:]]" | \
