@@ -263,7 +263,7 @@ screen_title() {
 }
 
 if [ "$UNAME_S" == "SunOS" ]; then
-    case "$TERM" in
+    [ is_nexenta ] || case "$TERM" in
         xterm*|rxvt*)
         export TERM=dtterm
     esac
