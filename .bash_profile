@@ -4,7 +4,6 @@ UNAME_M=$(uname -m)
 set -o emacs
 
 export CVS_RSH="ssh"
-export PAGER="less"
 
 # these two environment variables are handy for automated debian changelog
 # editing and probably other things too
