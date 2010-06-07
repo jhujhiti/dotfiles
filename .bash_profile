@@ -97,14 +97,6 @@ if [ "$UNAME_S" == "SunOS" ]; then
             my_prepend_path "/usr/ccs/bin/sparcv9"
         fi
     fi
-
-    export MANPATH="/usr/local/man:/opt/csw/man:/usr/sfw/man:/usr/man"
-    if [ -d /cust/man ]; then
-        export MANPATH="/cust/man:$MANPATH"
-    fi
-    if [ -d /cust/share/man ]; then
-        export MANPATH="/cust/share/man:$MANPATH"
-    fi
 fi
 
 if [ "$UNAME_S" == "Darwin" ]; then
