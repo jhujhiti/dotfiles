@@ -162,7 +162,7 @@ if [ -n "$TMP" ]; then
 fi
 
 ## handy aliases
-if [ "$UNAME_S" == "Linux" ]; then
+if [ "$UNAME_S" == "Linux" -o is_nexenta ]; then
     alias ls="ls --color=yes -AFh"
     alias ll="ls --color=yes -AFlh"
 elif [ -x /sw/bin/ls ]; then
