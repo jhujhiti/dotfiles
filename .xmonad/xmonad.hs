@@ -6,6 +6,7 @@ import XMonad.Layout.PerWorkspace
 import XMonad.Layout.TwoPane
 import XMonad.Layout.Combo (combineTwo)
 import XMonad.Layout.OneBig
+import XMonad.Layout.Grid
 import XMonad.Layout.LayoutHints (layoutHints)
 import XMonad.Hooks.ManageDocks (avoidStruts)
 
@@ -17,7 +18,7 @@ myKeys = [
     ("M-S-p", spawn "gnome-power-statistics")
     ]
 
-defaultLayout = layoutHints $ tiled ||| Mirror tiled ||| Full
+defaultLayout = layoutHints $ tiled ||| Grid ||| Mirror tiled ||| Full
     where
         tiled = Tall nmaster delta ratio
         nmaster = 1
