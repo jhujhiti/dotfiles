@@ -27,7 +27,8 @@ load_module() {
 run_depends() {
     debug "running depends $1"
     local DEPS=$(sed -ne 's/^###[[:space:]]*depends:[[:space:]]*\(.*\)/\1/' \
-                      -e 'T skip' -e 'p' -e ': skip' "$1")
+                      -e 't print' -e 'b end' -e ': print' -e 'p' \
+                      -e ': end' "$1")
     local OLDIFS=$IFS
     IFS=$'\n'
     if [ -n "$DEPS" ]; then
