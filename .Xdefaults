@@ -22,3 +22,4 @@ urxvt.urlLauncher: chromium-browser
 urxvt.keysym.M-u: perl:mark-yank-urls:activate_mark_mode
 urxvt.perl-lib: /home/jhujhiti/dotfiles/.urxvt/
 urxvt.perl-ext: selection,mark-yank-urls
+urxvt.loginShell: true
