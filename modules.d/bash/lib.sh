@@ -38,3 +38,8 @@ quick_which() {
 disabled() {
     return 1
 }
+
+interactive() {
+    shopt -q login_shell
+    return $?
+}

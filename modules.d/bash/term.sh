@@ -1,5 +1,6 @@
 #!/bin/bash
 ### depends: module prompt
+### depends: interactive
 
 case "$TERM" in
     xterm* | screen* | rxvt* )

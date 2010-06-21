@@ -1,5 +1,6 @@
 #!/bin/bash
 ### depends: module lib
+### depends: interactive
 ### depends: quick_which stty
 
 # disable terminal flow control. good riddance

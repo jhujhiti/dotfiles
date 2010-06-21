@@ -1,5 +1,6 @@
 #!/bin/bash
 ### depends: module lib
+### depends: interactive
 ### depends: quick_which ssh-add
 ### depends: [ -r ~/.ssh/id_rsa ]
 

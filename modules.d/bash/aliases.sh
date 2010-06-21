@@ -1,5 +1,6 @@
 #!/bin/bash
 ### depends: module platform
+### depends: interactive
 
 if linux -o nexenta; then
     alias ls="ls --color=yes -AFh"

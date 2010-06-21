@@ -1,6 +1,7 @@
 #!/bin/bash
 ### depends: module lib
 ### depends: quick_which dircolors
+### depends: interactive
 ### depends: disabled
 
 if [ "$UNAME_S" == "Darwin" -a -r ~/dotfiles/dircolors_darwin ]; then

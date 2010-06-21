@@ -1,5 +1,6 @@
 #!/bin/bash
 ### depends: module platform
+### depends: interactive
 
 if linux; then
     CPU_COUNT=$(getconf _NPROCESSORS_ONLN)
