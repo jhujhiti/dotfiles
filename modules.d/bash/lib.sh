@@ -40,6 +40,6 @@ disabled() {
 }
 
 interactive() {
-    shopt -q login_shell
+    shopt -q login_shell || [ "$(uname -s)" == "Darwin" ]
     return $?
 }
