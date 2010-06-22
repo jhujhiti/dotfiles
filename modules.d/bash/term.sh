@@ -1,14 +1,13 @@
 #!/bin/bash
 ### depends: module prompt
-### depends: interactive
 
 case "$TERM" in
     xterm* | screen* | rxvt* )
-    export PS1="\[\033[00m\]${PS1U}${PS1H} ${PS1D} ${PS1L} ${PS1P} ${PS1Z}\[\033]0;\u@\h \w\007\]"
+    PS1="\[\033[00m\]${PS1U}${PS1H} ${PS1D} ${PS1L} ${PS1P} ${PS1Z}\[\033]0;\u@\h \w\007\]"
     ;;
 
     * )
-    export PS1="${PS1U}${PS1H} ${PS1D} ${PS1L} ${PS1P} ${PS1Z}"
+    PS1="${PS1U}${PS1H} ${PS1D} ${PS1L} ${PS1P} ${PS1Z}"
     ;; 
 esac
 
