@@ -4,7 +4,7 @@
 
 if linux; then
     CPU_COUNT=$(getconf _NPROCESSORS_ONLN)
-elif [ freebsd -o darwin ]; then
+elif freebsd -o darwin; then
     CPU_COUNT=$(sysctl hw.ncpu | sed 's!^hw\.ncpu\: \([[:digit:]]\{1,\}\)!\1!')
 elif netbsd; then
     CPU_COUNT=$(sysctl hw.ncpu | sed 's!^hw\.ncpu = \([[:digit:]]\{1,\}\)!\1!')
