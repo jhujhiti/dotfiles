@@ -9,6 +9,12 @@ set visualbell
 set scrolloff=4
 set backspace=indent,eol,start
 
+set hls
+" toggle hls
+nnoremap <F1> :set hlsearch! hlsearch?<CR>
+" remove search term
+nnoremap <F2> :let @/ = ""<CR>
+
 " http://vim.wikia.com/wiki/Omni_completion
 set omnifunc=syntaxcomplete#Complete
 
