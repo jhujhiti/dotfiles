@@ -15,6 +15,8 @@ nnoremap <F1> :set hlsearch! hlsearch?<CR>
 " remove search term
 nnoremap <F2> :let @/ = ""<CR>
 
+let mapleader = ","
+
 " http://vim.wikia.com/wiki/Omni_completion
 set omnifunc=syntaxcomplete#Complete
 
