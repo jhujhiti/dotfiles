@@ -11,8 +11,6 @@ case "$TERM" in
     ;; 
 esac
 
-export TERMBGC="dark"
-
 screen_title() {
     echo -n -e "\033k${1}\033\\"
 }

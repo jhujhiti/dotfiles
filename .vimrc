@@ -25,10 +25,7 @@ set fileencoding=utf-8
 
 set wildignore=*.beam
 
-set background=light
-if $TERMBGC == "dark"
-    set background=dark
-endif
+set background=dark
 
 if has('gui')
     colorscheme herald
