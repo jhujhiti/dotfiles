@@ -15,9 +15,10 @@ nnoremap <F1> :set hlsearch! hlsearch?<CR>
 " remove search term
 nnoremap <F2> :let @/ = ""<CR>
 
-nnoremap <F12> :lcd ~/soywiki<CR>:Soywiki<CR>
-
 let mapleader = ","
+
+" Soywiki
+nnoremap <Leader>sw :lcd ~/soywiki<CR>:Soywiki<CR>
 
 " http://vim.wikia.com/wiki/Omni_completion
 set omnifunc=syntaxcomplete#Complete
