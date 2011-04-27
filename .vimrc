@@ -29,9 +29,8 @@ set wildignore=*.beam
 
 set background=dark
 
-if has('gui')
+if has('gui_running')
     colorscheme herald
-    set background=dark
     set guioptions=acegit
     set guifont="DejaVu Sans Mono 8:antialias=true"
     set guifontwide="DejaVu Sans Mono 8:antialias=true"
