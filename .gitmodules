@@ -1,3 +1,6 @@
 [submodule "submodules/vim-arpeggio"]
 	path = submodules/vim-arpeggio
 	url = git://github.com/kana/config.git
+[submodule "submodules/vim-fugitive"]
+	path = submodules/vim-fugitive
+	url = git://github.com/jhujhiti/vim-fugitive.git
