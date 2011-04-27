@@ -1,0 +1,3 @@
+*.swp
+.vim/.netrwhist
+.vim/plugin/soywiki_starter.vim
