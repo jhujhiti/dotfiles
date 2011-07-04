@@ -1,1 +1,1 @@
-../../../../submodules/vim-arpeggio/vim/dot.vim/after/syntax/vim/arpeggio.vim
+../../../../submodules/vim-arpeggio/after/syntax/vim/arpeggio.vim

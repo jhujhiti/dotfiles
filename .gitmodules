@@ -1,9 +1,9 @@
-[submodule "submodules/vim-arpeggio"]
-	path = submodules/vim-arpeggio
-	url = git://github.com/kana/config.git
 [submodule "submodules/vim-fugitive"]
 	path = submodules/vim-fugitive
 	url = git://github.com/jhujhiti/vim-fugitive.git
 [submodule "submodules/gitv"]
 	path = submodules/gitv
 	url = git://github.com/jhujhiti/gitv.git
+[submodule "submodules/vim-arpeggio"]
+	path = submodules/vim-arpeggio
+	url = git://github.com/kana/vim-arpeggio.git

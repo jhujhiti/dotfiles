@@ -1,1 +1,1 @@
-../../submodules/vim-arpeggio/vim/dot.vim/autoload/arpeggio.vim
+../../submodules/vim-arpeggio/autoload/arpeggio.vim
