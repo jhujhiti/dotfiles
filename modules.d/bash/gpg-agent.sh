@@ -4,7 +4,7 @@
 ### depends: quick_which gpg-agent
 
 # start if we're not running
-gpg-agent > /dev/null 2>&1 ||
+gpg-agent > /dev/null 2>&1 || \
     gpg-agent --daemon \
     --write-env-file "${HOME}/.gpg-agent-info" > /dev/null 2>&1
 
