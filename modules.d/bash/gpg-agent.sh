@@ -16,3 +16,6 @@ if [ -f "${HOME}/.gpg-agent-info" ]; then
     #export SSH_AUTH_SOCK
     #export SSH_AGENT_PID
 fi
+
+# debian scripts fail without setting this
+export GPG_TTY=`tty`
