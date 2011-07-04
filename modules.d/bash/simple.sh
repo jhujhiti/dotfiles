@@ -10,8 +10,7 @@ export CVS_RSH="ssh"
 # editing and probably other things too
 export NAME="Erick Turnquist"
 export EMAIL="jhujhiti@adjectivism.org"
-# also handy. i can't for the life of me remember these key ids
+# also handy. i can't for the life of me remember this
 export GPGKEYID="77E7AD4B"
-export GPGKEYID_PKG="7ACC1CBC"
 
 umask 0022
