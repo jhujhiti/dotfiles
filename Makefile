@@ -1,6 +1,10 @@
 LINKS=.gitconfig .inputrc .screenrc .vim .vimrc
 BASE=$(shell basename `pwd`)
 setup:
+	git submodule init
+	git submodule update
+	git submodule foreach git submodule init
+	git submodule foreach git submodule update
 	rm -f ../.bash_profile ../.bashrc
 	ln -s $(BASE)/.bash_profile ../.bash_profile
 	ln -s $(BASE)/.bash_profile ../.bashrc
