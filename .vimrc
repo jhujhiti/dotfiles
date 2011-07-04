@@ -21,6 +21,11 @@ let mapleader = ","
 " Soywiki
 nnoremap <Leader>sw :lcd ~/soywiki<CR>:Soywiki<CR>
 
+" fugitive
+nnoremap <Leader>gcc :Gcommit<CR>
+nnoremap <Leader>gca :Gcommit -a<CR>
+nnoremap <Leader>gpp :Git push<CR>
+
 " http://vim.wikia.com/wiki/Omni_completion
 set omnifunc=syntaxcomplete#Complete
 
