@@ -7,3 +7,6 @@
 [submodule "submodules/vim-arpeggio"]
 	path = submodules/vim-arpeggio
 	url = git://github.com/kana/vim-arpeggio.git
+[submodule "submodules/vim-ragtag"]
+	path = submodules/vim-ragtag
+	url = git://github.com/tpope/vim-ragtag
