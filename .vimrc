@@ -63,6 +63,9 @@ let html_use_css=1
 let use_xhtml=1
 
 
+au BufRead,BufNewFile *.pp setfiletype puppet
+
+
 set laststatus=2
 " smart statusline
 " (originally from http://www.reddit.com/r/vim/comments/gexi6/a_smarter_statusline_code_in_comments/)
