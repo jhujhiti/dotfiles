@@ -10,6 +10,8 @@ set visualbell
 set scrolloff=4
 set backspace=indent,eol,start
 
+setlocal spell spelllang=en_us
+
 set hls
 " toggle hls
 nnoremap <F1> :set hlsearch! hlsearch?<CR>
