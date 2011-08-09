@@ -10,7 +10,7 @@ set visualbell
 set scrolloff=4
 set backspace=indent,eol,start
 
-setlocal spell spelllang=en_us
+autocmd FileType {mail,gitcommit} setlocal spell spelllang=en_us
 
 set hls
 " toggle hls
