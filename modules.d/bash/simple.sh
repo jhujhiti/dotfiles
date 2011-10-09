@@ -10,6 +10,9 @@ export CVS_RSH="ssh"
 # editing and probably other things too
 export NAME="Erick Turnquist"
 export EMAIL="jhujhiti@adjectivism.org"
+# also for debian, from the "New Maintainer's Guide"
+export DEBEMAIL="$NAME"
+export DEBFULLNAME="$EMAIL"
 # also handy. i can't for the life of me remember this
 export GPGKEYID="77E7AD4B"
 
