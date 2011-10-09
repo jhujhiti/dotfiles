@@ -11,3 +11,4 @@ attrcolor b ".I"
 defbce on
 altscreen on
 startup_message off
+defscrollback 10000
