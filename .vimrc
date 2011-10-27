@@ -66,6 +66,7 @@ let use_xhtml=1
 
 
 au BufRead,BufNewFile *.pp setfiletype puppet
+au BufRead,BufNewFile *.cf set ft=cf3
 
 
 set laststatus=2
