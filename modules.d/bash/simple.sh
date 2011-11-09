@@ -16,4 +16,4 @@ export DEBFULLNAME="$NAME"
 # also handy. i can't for the life of me remember this
 export GPGKEYID="77E7AD4B"
 
-umask 0022
+umask 0077
