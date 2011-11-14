@@ -3,12 +3,12 @@
 
 case "$TERM" in
     xterm* | screen* | rxvt* )
-    PS1="\[\033[00m\]${PS1U}${PS1H} ${PS1D} ${PS1L} ${PS1P} ${PS1Z}\[\033]0;\u@\h \w\007\]"
-    ;;
+        PS1="$(eval echo "\\\n[${PS1DATE} ${PS1D}${PS1DE}]\\\n${PS1U}${PS1H} ${PS1L} ${PS1P} ${PS1Z}")\[\033]0;\u@\h \w\007\]"
+        ;;
 
     * )
-    PS1="${PS1U}${PS1H} ${PS1D} ${PS1L} ${PS1P} ${PS1Z}"
-    ;; 
+        PS1="$(eval echo "\\\n[${PS1DATE} ${PS1D}${PS1DE}]\\\n${PS1U}${PS1H} ${PS1L} ${PS1P} ${PS1Z}")"
+        ;; 
 esac
 
 screen_title() {

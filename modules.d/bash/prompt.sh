@@ -17,30 +17,18 @@ fi
 ps1_load_color() {
     tmp=${1%%.*}
     if [ $(expr $tmp '>=' $(expr $CPU_COUNT '*' 2)) == "1" ] ; then
-        echo -ne '\033[01;31m'
+        echo -ne "${ANSI_BRIGHT}${ANSI_RED}"
     elif [ $(expr $tmp '>=' $(expr $CPU_COUNT)) == "1" ] ; then
-        echo -ne '\033[01;33m'
+        echo -ne "${ANSI_BRIGHT}${ANSI_YELLOW}"
     else
-        echo -ne '\033[01;32m'
+        echo -ne "${ANSI_RESET}"
     fi
 }
 
-if sunos; then
-    if [ $(/usr/xpg4/bin/id -un) == "root" ]; then
-        PS1U='\[\033[01;31m\]\u'
-    else
-        PS1U='\[\033[01;32m\]\u'
-    fi
-else
-    if [ `/usr/bin/whoami` = 'root' ]; then
-        PS1U='\[\033[01;31m\]\u'
-    else
-        PS1U='\[\033[01;32m\]\u'
-    fi
-fi
+PS1U="\\\u"
 
-PS1H="\[\033[01;34m\]@\h"
-PS1D='\[\033[01;34m\]\w'
+PS1H="@\\\h"
+PS1D="\\\w"
 
 onemin() {
     if linux; then
@@ -50,7 +38,22 @@ onemin() {
     fi
 }
 
-PS1L='\[$(ps1_load_color '"$(onemin)"')\]'"$(onemin)"
+PS1L="\$(ps1_load_color "$(onemin)")\$(onemin)\${ANSI_RESET}"
 
-PS1P='\$'
-PS1Z='\[\033[00m\]'
+if sunos; then
+    if [ $(/usr/xpg4/bin/id -un) == "root" ]; then
+        PS1P="\${ANSI_BRIGHT}\${ANSI_RED}#\${ANSI_RESET}"
+    else
+        PS1P="$"
+    fi
+else
+    if [ `/usr/bin/whoami` = 'root' ]; then
+        PS1P="\${ANSI_BRIGHT}\${ANSI_RED}#\${ANSI_RESET}"
+    else
+        PS1P="$"
+    fi
+fi
+
+PS1DATE="\\\D{%b %d %H:%M}"
+
+PS1Z="\${ANSI_RESET}"
