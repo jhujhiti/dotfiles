@@ -1,5 +1,6 @@
 #!/bin/bash
 ### depends: module platform
+### depends: module git
 ### depends: interactive
 
 if linux; then
@@ -29,6 +30,12 @@ PS1U="\\\u"
 
 PS1H="@\\\h"
 PS1D="\\\w"
+
+gps1() {
+    echo -n "\$(__git_ps1 ' {%s}')"
+}
+
+PS1DE="\$(gps1)"
 
 onemin() {
     if linux; then
