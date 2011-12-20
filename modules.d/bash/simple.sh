@@ -16,6 +16,9 @@ export DEBFULLNAME="$NAME"
 # also handy. i can't for the life of me remember this
 export GPGKEYID="77E7AD4B"
 
+# pager for quagga vtysh
+export VTYSH_PAGER=cat
+
 umask 0077
 
 ANSI_RESET='\[\033[0m\]'
