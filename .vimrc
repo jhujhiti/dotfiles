@@ -18,6 +18,8 @@ nnoremap <F1> :set hlsearch! hlsearch?<CR>
 " remove search term
 nnoremap <F2> :let @/ = ""<CR>
 
+vnoremap <F3> :Tabularize /[^ \t]\+<CR>
+
 let mapleader = ","
 
 " Soywiki
