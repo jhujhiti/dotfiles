@@ -3,11 +3,11 @@
 
 case "$TERM" in
     xterm* | screen* | rxvt* )
-        PS1="$(eval echo "[${PS1DATE} ${PS1D}${PS1DE}]\\\n${PS1U}${PS1H} ${PS1L} ${PS1P} ${PS1Z}")\[\033]0;\u@\h \w\007\]"
+        PS1="$(eval echo "[${PS1DATE} ${PS1D}${PS1DE}]${PS1SELINUX}\\\n${PS1U}${PS1H} ${PS1L} ${PS1P} ${PS1Z}")\[\033]0;\u@\h \w\007\]"
         ;;
 
     * )
-        PS1="$(eval echo "[${PS1DATE} ${PS1D}${PS1DE}]\\\n${PS1U}${PS1H} ${PS1L} ${PS1P} ${PS1Z}")"
+        PS1="$(eval echo "[${PS1DATE} ${PS1D}${PS1DE}]${PS1SELINUX}\\\n${PS1U}${PS1H} ${PS1L} ${PS1P} ${PS1Z}")"
         ;; 
 esac
 

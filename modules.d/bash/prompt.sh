@@ -37,6 +37,13 @@ gps1() {
 
 PS1DE="\$(gps1)"
 
+PS1SELINUX=""
+if quick_which /usr/sbin/selinuxenabled; then
+    if /usr/sbin/selinuxenabled; then
+        PS1SELINUX="."
+    fi
+fi
+
 onemin() {
     if linux; then
         echo '$(cut -d " " -f 1 /proc/loadavg)'
