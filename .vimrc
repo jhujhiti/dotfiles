@@ -41,10 +41,15 @@ set wildignore=*.beam
 set background=dark
 
 if has('gui_running')
-    colorscheme herald
     set guioptions=acegit
-    set guifont="DejaVu Sans Mono 8:antialias=true"
-    set guifontwide="DejaVu Sans Mono 8:antialias=true"
+    if has("win32")
+        colorscheme freya
+        set guifont=Consolas:h9:cANSI
+    else
+        colorscheme herald
+        set guifont="DejaVu Sans Mono 8:antialias=true"
+        set guifontwide="DejaVu Sans Mono 8:antialias=true"
+    endif
 endif
 
 call arpeggio#load()
