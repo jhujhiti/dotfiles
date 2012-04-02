@@ -9,6 +9,7 @@ set modeline
 set visualbell
 set scrolloff=4
 set backspace=indent,eol,start
+set showcmd
 
 autocmd FileType {mail,gitcommit} setlocal spell spelllang=en_us
 
