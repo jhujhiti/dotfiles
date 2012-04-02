@@ -53,6 +53,9 @@ if has('gui_running')
     endif
 endif
 
+nnoremap <left> :tabprevious<CR>
+nnoremap <right> :tabnext<CR>
+
 call arpeggio#load()
 Arpeggionmap tn :tabnext<CR>
 Arpeggionmap tp :tabprevious<CR>
