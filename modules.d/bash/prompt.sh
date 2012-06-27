@@ -3,29 +3,6 @@
 ### depends: module git
 ### depends: interactive
 
-if linux; then
-    CPU_COUNT=$(getconf _NPROCESSORS_ONLN)
-elif freebsd || darwin; then
-    CPU_COUNT=$(sysctl hw.ncpu | sed 's!^hw\.ncpu\: \([[:digit:]]\{1,\}\)!\1!')
-elif netbsd; then
-    CPU_COUNT=$(sysctl hw.ncpu | sed 's!^hw\.ncpu = \([[:digit:]]\{1,\}\)!\1!')
-elif openbsd; then
-    CPU_COUNT=$(sysctl hw.ncpu | awk -F '=' '{ print $2; };')
-elif sunos; then
-    CPU_COUNT=$(/usr/sbin/psrinfo | grep -c 'on-line')
-fi
-
-ps1_load_color() {
-    tmp=${1%%.*}
-    if [ $(expr $tmp '>=' $(expr $CPU_COUNT '*' 2)) == "1" ] ; then
-        echo -ne "${ANSI_BRIGHT}${ANSI_RED}"
-    elif [ $(expr $tmp '>=' $(expr $CPU_COUNT)) == "1" ] ; then
-        echo -ne "${ANSI_BRIGHT}${ANSI_YELLOW}"
-    else
-        echo -ne "${ANSI_RESET}"
-    fi
-}
-
 PS1U="\\\u"
 
 PS1H="@\\\h"
@@ -52,7 +29,7 @@ onemin() {
     fi
 }
 
-PS1L="\$(ps1_load_color "$(onemin)")\$(onemin)\${ANSI_RESET}"
+PS1L="\$(onemin)\${ANSI_RESET}"
 
 if sunos; then
     if [ $(/usr/xpg4/bin/id -un) == "root" ]; then
