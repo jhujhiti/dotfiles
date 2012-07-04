@@ -11,6 +11,8 @@ set scrolloff=4
 set backspace=indent,eol,start
 set showcmd
 
+call pathogen#infect()
+
 autocmd FileType {mail,gitcommit} setlocal spell spelllang=en_us
 
 set hls
