@@ -3,6 +3,12 @@
 ### depends: interactive
 ### depends: quick_which gpg-agent
 
+# read the file first, so if gpg-agent is already running, it will be found
+if [ -f "${HOME}/.gpg-agent-info" ]; then
+    . "${HOME}/.gpg-agent-info"
+    export GPG_AGENT_INFO
+fi
+
 # start if we're not running
 gpg-agent > /dev/null 2>&1 || \
     gpg-agent --daemon \
