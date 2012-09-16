@@ -25,6 +25,14 @@ vnoremap <F3> :Tabularize /[^ \t]\+<CR>
 
 let mapleader = ","
 
+" make tabs and endlines visible in list mode
+if has("win32")
+    set listchars=tab:>.,eol:$
+else
+    set listchars=tab:⇥.,eol:$
+endif
+nnoremap <Leader>lc :set list!<CR>
+
 " Soywiki
 nnoremap <Leader>sw :lcd ~/soywiki<CR>:Soywiki<CR>
 
