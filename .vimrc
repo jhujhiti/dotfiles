@@ -23,6 +23,8 @@ nnoremap <F2> :let @/ = ""<CR>
 
 vnoremap <F3> :Tabularize /[^ \t]\+<CR>
 
+" reserve F5 and up for buffer-specific
+
 let mapleader = ","
 
 " make tabs and endlines visible in list mode
@@ -32,6 +34,12 @@ else
     set listchars=tab:⇥.,eol:$
 endif
 nnoremap <Leader>lc :set list!<CR>
+
+" Tabularize CFEngine files as we type
+" TODO: if we're at the end of the line, the mark screws us up
+"autocmd FileType cf3 inoremap <buffer> <CR> <C-O>m[<C-O>:Tabularize /=>/<CR><C-O>g`[<CR><C-O>:delm [<CR>
+autocmd FileType cf3 nnoremap <buffer> <F5> m[:Tabularize /=>/<CR>g`[:delm [<CR>
+autocmd FileType cf3 inoremap <buffer> <F5> <C-O>m[<C-O>:Tabularize /=>/<CR><C-O>g`[<C-O>:delm [<CR>
 
 " Soywiki
 nnoremap <Leader>sw :lcd ~/soywiki<CR>:Soywiki<CR>
