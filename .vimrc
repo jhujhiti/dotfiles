@@ -65,7 +65,7 @@ if has('gui_running')
         colorscheme freya
         set guifont=Consolas:h9:cANSI
     else
-        colorscheme herald
+        colorscheme wombat
         set guifont="DejaVu Sans Mono 8:antialias=true"
         set guifontwide="DejaVu Sans Mono 8:antialias=true"
     endif
