@@ -15,7 +15,6 @@ setup:
 	ln -s ../$(BASE)/authorized_keys ../.ssh/authorized_keys
 
 x11: setup
-	ln -s $(BASE)/.gtkrc-2.0 ../.gtkrc-2.0
 	ln -s $(BASE)/.Xdefaults ../.Xdefaults
 
 all: setup
