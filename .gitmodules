@@ -1,6 +1,3 @@
-[submodule "submodules/vim-fugitive"]
-	path = submodules/vim-fugitive
-	url = git://github.com/jhujhiti/vim-fugitive.git
 [submodule "submodules/gitv"]
 	path = submodules/gitv
 	url = git://github.com/jhujhiti/gitv.git

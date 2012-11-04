@@ -44,11 +44,6 @@ autocmd FileType cf3 inoremap <buffer> <F5> <C-O>m[<C-O>:Tabularize /=>/<CR><C-O
 " Soywiki
 nnoremap <Leader>sw :lcd ~/soywiki<CR>:Soywiki<CR>
 
-" fugitive
-nnoremap <Leader>gcc :Gcommit<CR>
-nnoremap <Leader>gca :Gcommit -a<CR>
-nnoremap <Leader>gpp :Git push<CR>
-
 " http://vim.wikia.com/wiki/Omni_completion
 set omnifunc=syntaxcomplete#Complete
 
