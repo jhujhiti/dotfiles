@@ -1,1 +1,0 @@
-../../submodules/gitv/plugin/gitv.vim

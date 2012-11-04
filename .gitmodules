@@ -1,6 +1,3 @@
-[submodule "submodules/gitv"]
-	path = submodules/gitv
-	url = git://github.com/jhujhiti/gitv.git
 [submodule "submodules/vim-arpeggio"]
 	path = submodules/vim-arpeggio
 	url = git://github.com/kana/vim-arpeggio.git
