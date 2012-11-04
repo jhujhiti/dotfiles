@@ -17,7 +17,7 @@ PS1DE="\$(gps1)"
 PS1SELINUX=""
 if quick_which /usr/sbin/selinuxenabled; then
     if /usr/sbin/selinuxenabled; then
-        PS1SELINUX="."
+        PS1SELINUX=" $(id -Z)"
     fi
 fi
 
