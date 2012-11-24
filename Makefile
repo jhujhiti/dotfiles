@@ -11,8 +11,9 @@ setup:
 	for file in $(LINKS) ; do \
 	    ln -s $(BASE)/$$file ../$$file; \
 	    done
-	mkdir -p ../.ssh
+	mkdir -p ../.ssh ../.gnupg
 	ln -s ../$(BASE)/authorized_keys ../.ssh/authorized_keys
+	ln -s ../$(BASE)/gpg.conf ../.gnupg/gpg.conf
 
 x11: setup
 	ln -s $(BASE)/.Xdefaults ../.Xdefaults
