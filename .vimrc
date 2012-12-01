@@ -13,7 +13,9 @@ set showcmd
 
 call pathogen#infect()
 
-autocmd FileType {mail,gitcommit} setlocal spell spelllang=en_us
+autocmd BufRead,BufNewFile {README,INSTALL} setfiletype text
+autocmd FileType {mail,gitcommit,text} setlocal spell spelllang=en_us tw=78
+autocmd FileType {help} setlocal nospell
 
 set hls
 " toggle hls
