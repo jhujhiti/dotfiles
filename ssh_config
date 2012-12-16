@@ -1,8 +1,0 @@
-Host *
-    RSAAuthentication yes
-    Protocol 2
-
-Host *.adjectivism.org
-    GSSAPIAuthentication yes
-    GSSAPIDelegateCredentials yes
-    ForwardAgent yes
