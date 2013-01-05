@@ -14,7 +14,7 @@ export EMAIL="jhujhiti@adjectivism.org"
 export DEBEMAIL="$EMAIL"
 export DEBFULLNAME="$NAME"
 # also handy. i can't for the life of me remember this
-export GPGKEYID="77E7AD4B"
+export GPGKEYID="8C1BFCC5"
 
 # pager for quagga vtysh
 export VTYSH_PAGER=cat
