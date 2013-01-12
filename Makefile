@@ -1,4 +1,4 @@
-LINKS=.gitconfig .inputrc .screenrc .vim .vimrc .muttrc
+LINKS=.gitconfig .inputrc .screenrc .vim .vimrc .muttrc .kernel-pkg.conf
 BASE=$(shell basename `pwd`)
 setup:
 	git submodule init
