@@ -3,17 +3,17 @@
 ### depends: interactive
 
 if linux || nexenta; then
-    alias ls="ls --color=yes -AFh"
-    alias ll="ls --color=yes -AFlh"
+    alias ls="ls --color=yes -Fh"
+    alias ll="ls --color=yes -Flh"
 elif [ -x /sw/bin/ls ]; then
-    alias ls="/sw/bin/ls --color=yes -AFh"
-    alias ll="/sw/bin/ls --color=yes -AFlh"
+    alias ls="/sw/bin/ls --color=yes -Fh"
+    alias ll="/sw/bin/ls --color=yes -Flh"
 elif freebsd || darwin; then
-    alias ls="ls -AFGh"
-    alias ll="ls -AFGhl"
+    alias ls="ls -FGh"
+    alias ll="ls -FGhl"
 else
-    alias ls='ls -AFh'
-    alias ll='ls -AFhl'
+    alias ls='ls -Fh'
+    alias ll='ls -Fhl'
 fi
 
 if sunos; then
