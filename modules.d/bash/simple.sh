@@ -19,6 +19,9 @@ export GPGKEYID="8C1BFCC5"
 # pager for quagga vtysh
 export VTYSH_PAGER=cat
 
+# timezone
+export TZ="America/New_York"
+
 ANSI_RESET='\[\033[0m\]'
 ANSI_BRIGHT='\[\033[1m\]'
 ANSI_DIM='\[\033[2m\]'
