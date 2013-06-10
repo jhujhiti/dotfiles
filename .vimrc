@@ -17,11 +17,6 @@ autocmd BufRead,BufNewFile {README,INSTALL} setfiletype text
 autocmd FileType {mail,gitcommit,text} setlocal spell spelllang=en_us tw=78
 autocmd FileType {help} setlocal nospell
 
-" relative line numbering
-if version >= 703
-    set relativenumber
-endif
-
 set hls
 " toggle hls
 nnoremap <F1> :set hlsearch! hlsearch?<CR>
@@ -29,6 +24,13 @@ nnoremap <F1> :set hlsearch! hlsearch?<CR>
 nnoremap <F2> :let @/ = ""<CR>
 
 vnoremap <F3> :Tabularize /[^ \t]\+<CR>
+
+" relative line numbering
+if version >= 703
+    set relativenumber
+    noremap <F4> :set relativenumber! relativenumber?<CR>
+endif
+
 
 " reserve F5 and up for buffer-specific
 
