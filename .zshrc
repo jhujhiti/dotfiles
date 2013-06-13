@@ -136,8 +136,8 @@ fi
 
 # disable terminal flow control. good riddance
 if $(quick_which stty); then
-    stty stop ^@ 2>/dev/null
-    stty start ^@ 2>/dev/null
+    stty stop '^@' 2>/dev/null
+    stty start '^@' 2>/dev/null
 fi
 
 # prompt
