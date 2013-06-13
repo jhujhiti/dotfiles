@@ -145,11 +145,9 @@ PS1="[%D{%b %d %H:%M} %~]
 %m%# "
 
 # xterm title
-chpwd() {
+precmd() {
     print -Pn "\e]0;%m %~\a"
 }
-# we also want to do this at startup, so...
-chpwd
 
 # these two environment variables are handy for automated debian changelog
 # editing and probably other things too
