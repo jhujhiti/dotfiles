@@ -27,7 +27,6 @@ vnoremap <F3> :Tabularize /[^ \t]\+<CR>
 
 " relative line numbering
 if version >= 703
-    set relativenumber
     noremap <F4> :set relativenumber! relativenumber?<CR>
 endif
 
