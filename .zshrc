@@ -24,6 +24,8 @@ setopt hist_ignore_all_dups
 setopt hist_ignore_space
 # and the history and fc commands
 setopt hist_no_store
+# allow substitution in prompts
+setopt promptsubst
 # stop beeping at me
 unsetopt beep
 # don't cd to a directory automatically if i forget the cd
@@ -141,13 +143,40 @@ if $(quick_which stty); then
 fi
 
 # prompt
-PS1="[%D{%b %d %H:%M} %~]
+autoload -U add-zsh-hook
+autoload -U zgitinit
+zgitinit
+
+scm_prompt() {
+    zgit_isgit || return
+    zgit_inworktree || return
+    echo -n " {"
+    zgit_isbare && echo -n "BARE:"
+    echo -n "$(zgit_branch)"
+    local -a dirty
+    if ! zgit_isworktreeclean; then
+        dirty+="!"
+    fi
+    if zgit_hasunmerged; then
+        dirty+="*"
+    fi
+    if zgit_hasuntracked; then
+        dirty+="?"
+    fi
+    if [ -n "${dirty}" ]; then
+        echo -n ":${dirty}"
+    fi
+    echo -n "}"
+}
+
+PS1="[%D{%b %d %H:%M} %~"'$(scm_prompt)]'"
 %m%# "
 
 # xterm title
-precmd() {
+my_precmd_hook() {
     print -Pn "\e]0;%m %~\a"
 }
+add-zsh-hook precmd my_precmd_hook
 
 # these two environment variables are handy for automated debian changelog
 # editing and probably other things too

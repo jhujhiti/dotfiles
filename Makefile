@@ -1,5 +1,5 @@
 LINKS=.gitconfig .inputrc .screenrc .vim .vimrc .muttrc .kernel-pkg.conf \
-      .zshenv .zshrc
+      .zshenv .zshrc .zsh
 BASE=$(shell basename `pwd`)
 setup:
 	git submodule init

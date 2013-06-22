@@ -10,3 +10,6 @@
 [submodule "submodules/pathogen-bundles/vim-rails"]
 	path = submodules/pathogen-bundles/vim-rails
 	url = git://github.com/tpope/vim-rails.git
+[submodule "submodules/zsh-git"]
+	path = submodules/zsh-git
+	url = git://github.com/jcorbin/zsh-git
