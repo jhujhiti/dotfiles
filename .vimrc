@@ -43,12 +43,6 @@ else
 endif
 nnoremap <Leader>lc :set list!<CR>
 
-" Tabularize CFEngine files as we type
-" TODO: if we're at the end of the line, the mark screws us up
-"autocmd FileType cf3 inoremap <buffer> <CR> <C-O>m[<C-O>:Tabularize /=>/<CR><C-O>g`[<CR><C-O>:delm [<CR>
-autocmd FileType cf3 nnoremap <buffer> <F5> m[:Tabularize /=>/<CR>g`[:delm [<CR>
-autocmd FileType cf3 inoremap <buffer> <F5> <C-O>m[<C-O>:Tabularize /=>/<CR><C-O>g`[<C-O>:delm [<CR>
-
 " Soywiki
 nnoremap <Leader>sw :lcd ~/soywiki<CR>:Soywiki<CR>
 
