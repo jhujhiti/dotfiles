@@ -176,6 +176,7 @@ PS1="[%D{%b %d %H:%M} %~"'$(scm_prompt)]'"
 my_precmd_hook() {
     print -Pn "\e]0;%m %~\a"
 }
+add-zsh-hook precmd my_precmd_hook
 
 # these two environment variables are handy for automated debian changelog
 # editing and probably other things too
