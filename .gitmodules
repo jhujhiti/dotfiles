@@ -13,3 +13,6 @@
 [submodule "submodules/zsh-git"]
 	path = submodules/zsh-git
 	url = git://github.com/jcorbin/zsh-git
+[submodule "submodules/vim-paren-crosshairs"]
+	path = submodules/vim-paren-crosshairs
+	url = git://github.com/chreekat/vim-paren-crosshairs
