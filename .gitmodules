@@ -16,3 +16,6 @@
 [submodule "submodules/vim-paren-crosshairs"]
 	path = submodules/vim-paren-crosshairs
 	url = git://github.com/chreekat/vim-paren-crosshairs
+[submodule "submodules/pathogen-bundles/salt-vim"]
+	path = submodules/pathogen-bundles/salt-vim
+	url = git://github.com/saltstack/salt-vim
