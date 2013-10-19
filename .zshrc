@@ -16,8 +16,8 @@ setopt hist_verify
 setopt appendhistory
 # and do it as it happens
 setopt inc_append_history
-# and share it with all of the other zshs
-setopt share_history
+# and *don't* share it with all of the other zshs
+unsetopt share_history
 # don't keep duplicate commands in history
 setopt hist_ignore_all_dups
 # ignore lines that begin with space
