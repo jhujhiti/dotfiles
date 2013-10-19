@@ -12,7 +12,8 @@
 	url = git://github.com/tpope/vim-rails.git
 [submodule "submodules/zsh-git"]
 	path = submodules/zsh-git
-	url = git://github.com/jcorbin/zsh-git
+	url = git://github.com/jhujhiti/zsh-git
+	pushurl = git@github.com:jhujhiti/zsh-git
 [submodule "submodules/vim-paren-crosshairs"]
 	path = submodules/vim-paren-crosshairs
 	url = git://github.com/chreekat/vim-paren-crosshairs
