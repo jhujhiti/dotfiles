@@ -8,6 +8,7 @@ all: git $(LINKS) authorized_keys gpg.conf
 
 git:
 	git submodule init
+	git submodule sync
 	git submodule update
 
 $(REAL_LINKS):
