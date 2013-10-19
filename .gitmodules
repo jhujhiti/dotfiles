@@ -22,3 +22,6 @@
 [submodule "vim-puppet"]
 	path = submodules/pathogen-bundles/vim-puppet
 	url = git://github.com/rodjek/vim-puppet
+[submodule "submodules/pathogen-bundles/vim-bling"]
+	path = submodules/pathogen-bundles/vim-bling
+	url = git://github.com/ivyl/vim-bling
