@@ -25,3 +25,6 @@
 [submodule "submodules/pathogen-bundles/vim-bling"]
 	path = submodules/pathogen-bundles/vim-bling
 	url = git://github.com/ivyl/vim-bling
+[submodule "submodules/pathogen-bundles/base16-vim"]
+	path = submodules/pathogen-bundles/base16-vim
+	url = git://github.com/chriskempson/base16-vim
