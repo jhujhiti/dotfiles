@@ -19,3 +19,6 @@
 [submodule "submodules/pathogen-bundles/salt-vim"]
 	path = submodules/pathogen-bundles/salt-vim
 	url = git://github.com/saltstack/salt-vim
+[submodule "vim-puppet"]
+	path = submodules/pathogen-bundles/vim-puppet
+	url = git://github.com/rodjek/vim-puppet
