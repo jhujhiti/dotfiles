@@ -188,6 +188,8 @@ export DEBFULLNAME="$NAME"
 # also handy. i can't for the life of me remember this
 export GPGKEYID="8C1BFCC5"
 
+quick_which less && export MANPAGER="less"
+
 # pager for quagga vtysh
 export VTYSH_PAGER=cat
 
