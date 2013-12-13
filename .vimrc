@@ -17,6 +17,8 @@ autocmd BufRead,BufNewFile {README,INSTALL} setfiletype text
 autocmd FileType {mail,gitcommit,text} setlocal spell spelllang=en_us tw=78
 autocmd FileType {help} setlocal nospell
 
+cmap w!! w !sudo tee > /dev/null %
+
 set hls
 " toggle hls
 nnoremap <F1> :set hlsearch! hlsearch?<CR>
