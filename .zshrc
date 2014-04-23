@@ -41,6 +41,8 @@ zstyle :compinstall filename '~/.zshrc'
 
 autoload -Uz compinit
 compinit
+autoload -U colors
+colors
 
 platform=$(uname -s)
 linux() {
@@ -147,29 +149,115 @@ autoload -U add-zsh-hook
 autoload -U zgitinit
 zgitinit
 
+#    echo -n "\n\xc2\xb1 "
 scm_prompt() {
+    # this code is largely translated from https://github.com/olivierverdier/zsh-git-prompt/blob/master/gitstatus.py
     zgit_isgit || return
     zgit_inworktree || return
-    echo -n " {"
-    zgit_isbare && echo -n "BARE:"
-    echo -n "$(zgit_branch)"
-    local -a dirty
-    if ! zgit_isworktreeclean; then
-        dirty+="!"
+    local -A sym
+    sym[ahead_of]="↑"
+    sym[behind]="↓"
+    sym[prehash]=":"
+    sym[staged]="●"
+    sym[unstaged]="✚"
+    sym[conflicts]="✖"
+    sym[clean]="✔"
+    sym[untracked]="…"
+    sym[sep]="|"
+
+    head=$(zgit_head)
+
+    local -a changed_files
+    changed_files=("${(f)$(git diff --name-status | cut -c1)}")
+    if [ "${changed_files[1]}" = "" ]; then
+        changed_files=()
     fi
-    if zgit_hasunmerged; then
-        dirty+="*"
+    local -a staged_files
+    staged_files=("${(f)$(git diff --staged --name-status | cut -c1)}")
+    if [ "${staged_files[1]}" = "" ]; then
+        staged_files=()
     fi
-    if zgit_hasuntracked; then
-        dirty+="?"
+    changed_U=0
+    for f in $changed_files
+    do
+        [ "$f" = "U" ] && changed_U=$(($changed_U+1))
+    done
+    changed=$(($#changed_files - $changed_U))
+    conflicts=0
+    for f in $staged_files
+    do
+        [ "$f" = "U" ] && conflicts=$(($conflicts+1))
+    done
+    staged=$(($#staged_files - $conflicts))
+    untracked_files=("${(f)$(git ls-files --other --exclude-standard)}")
+    if [ "${untracked_files[1]}" = "" ]; then
+        untracked_files=()
     fi
-    if [ -n "${dirty}" ]; then
-        echo -n ":${dirty}"
+    untracked=$#untracked_files
+
+    if [ $changed -eq 0 -a $staged -eq 0 -a $untracked -eq 0 -a $conflicts -eq 0 ]; then
+        clean=0
+    else
+        clean=1
     fi
-    echo -n "}"
+
+    remote=""
+    if [ -z "$head" ]; then
+        head="${sym[prehash]}$(git rev-parse --short HEAD)"
+    else
+        remote_name="$(git config branch.${head}.remote)"
+        if [ -n "$remote_name" ]; then
+            merge_name="$(git config branch.${head}.merge)"
+            if [ "$remote_name" = "." ]; then # local
+                remote_ref=merge_name
+            else
+                remote_ref="refs/remotes/${remote_name}/${merge_name[12,$#merge_name]}"
+            fi
+            revgit="$(git rev-list --left-right ${remote_ref}...HEAD)"
+            # might need to git rev-list --left-to-right $merge_name...HEAD if that ever fails?
+            local -a revs
+            if [ -z "$revgit" ]; then
+                revs=()
+            else
+                revs=("${(f)revgit}")
+            fi
+            ahead=0
+            for l in $revs
+            do
+                [ "$l[1]" = ">" ] && ahead=$(($ahead+1))
+            done
+            behind=$(($#revs - $ahead))
+            if [ $behind -gt 0 ]; then
+                remote="${remote}${sym[behind]}${behind}"
+            fi
+            if [ $ahead -gt 0 ]; then
+                remote="${remote}${sym[ahead_of]}${ahead}"
+            fi
+        fi
+    fi
+
+    # finally, make the prompt
+    if [ $clean -eq 0 ]; then
+        stat="${sym[clean]}"
+    else
+        stat=""
+        if [ $conflicts -gt 0 ]; then
+            stat="${stat}${sym[conflicts]}${conflicts}"
+        fi
+        if [ $staged -gt 0 ]; then
+            stat="${stat}${sym[staged]}${staged}"
+        fi
+        if [ $changed -gt 0 ]; then
+            stat="${stat}${sym[unstaged]}${changed}"
+        fi
+        if [ $untracked -gt 0 ]; then
+            stat="${stat}${sym[untracked]}"
+        fi
+    fi
+    echo " ${head}${remote}${sym[sep]}${stat}"
 }
 
-PS1="[%D{%b %d %H:%M} %~"'$(scm_prompt)]'"
+PS1="[%D{%b %d %H:%M} %~"'$(scm_prompt)'"]
 %m%# "
 
 # xterm title
@@ -195,27 +283,3 @@ export VTYSH_PAGER=cat
 
 # timezone
 export TZ="America/New_York"
-
-ANSI_RESET='\[\033[0m\]'
-ANSI_BRIGHT='\[\033[1m\]'
-ANSI_DIM='\[\033[2m\]'
-ANSI_UNDERSCORE='\[\033[4m\]'
-ANSI_BLINK='\[\033[5m\]'
-ANSI_REVERSE='\[\033[7m\]'
-ANSI_HIDDEN='\[\033[8m\]'
-ANSI_BLACK='\[\033[30m\]'
-ANSI_RED='\[\033[31m\]'
-ANSI_GREEN='\[\033[32m\]'
-ANSI_YELLOW='\[\033[33m\]'
-ANSI_BLUE='\[\033[34m\]'
-ANSI_MAGENTA='\[\033[35m\]'
-ANSI_CYAN='\[\033[36m\]'
-ANSI_WHITE='\[\033[37m\]'
-ANSI_BG_BLACK='\[\033[40m\]'
-ANSI_BG_RED='\[\033[41m\]'
-ANSI_BG_GREEN='\[\033[42m\]'
-ANSI_BG_YELLOW='\[\033[43m\]'
-ANSI_BG_BLUE='\[\033[44m\]'
-ANSI_BG_MAGENTA='\[\033[45m\]'
-ANSI_BG_CYAN='\[\033[46m\]'
-ANSI_BG_WHITE='\[\033[47m\]'
