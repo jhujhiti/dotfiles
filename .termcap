@@ -1,0 +1,4 @@
+# every rxvt-unicode i use is a color terminal...
+# but not necessarily 256
+rxvt-unicode|rxvt-unicode terminal (X Window System):\
+    :Co#8:pa#64:tc=rxvt-unicode-256color:

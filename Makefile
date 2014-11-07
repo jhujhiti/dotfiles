@@ -1,10 +1,12 @@
 LINKS?=.gitconfig .inputrc .screenrc .vim .vimrc .muttrc .kernel-pkg.conf \
-      .zshenv .zshrc .zsh .Xdefaults .tmux.conf
+      .zshenv .zshrc .zsh .Xdefaults .tmux.conf .termcap
 BASE?=$(shell basename `pwd`)
 
 REAL_LINKS=$(addprefix ../,$(LINKS))
 
-all: git $(LINKS) authorized_keys gpg.conf
+all: git links
+
+links: $(LINKS) authorized_keys gpg.conf
 
 git:
 	git submodule init
@@ -32,6 +34,6 @@ gpg.conf: ../.gnupg ../.gnupg/gpg.conf
 
 .SECONDEXPANSION:
 
-.PHONY: all git $(LINKS) authorized_keys gpg.conf
+.PHONY: all git links $(LINKS) authorized_keys gpg.conf
 
 $(LINKS): ../$$@
