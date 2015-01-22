@@ -6,7 +6,7 @@ REAL_LINKS=$(addprefix ../,$(LINKS))
 
 all: git links
 
-links: $(LINKS) authorized_keys gpg.conf
+links: $(LINKS) authorized_keys ssh_config gpg.conf
 
 git:
 	git submodule init
@@ -18,8 +18,13 @@ $(REAL_LINKS):
 
 authorized_keys: ../.ssh ../.ssh/authorized_keys
 
+ssh_config: ../.ssh ../.ssh/config
+
 ../.ssh/authorized_keys:
 	ln -s ../$(BASE)/authorized_keys ../.ssh/authorized_keys
+
+../.ssh/config:
+	ln -s ../$(BASE)/ssh_config ../.ssh/config
 
 ../.ssh:
 	mkdir -p -m 700 ../.ssh
@@ -34,6 +39,6 @@ gpg.conf: ../.gnupg ../.gnupg/gpg.conf
 
 .SECONDEXPANSION:
 
-.PHONY: all git links $(LINKS) authorized_keys gpg.conf
+.PHONY: all git links $(LINKS) authorized_keys ssh_config gpg.conf
 
 $(LINKS): ../$$@

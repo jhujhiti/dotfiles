@@ -1,0 +1,3 @@
+Host *.adjectivism.org
+        User jhujhiti
+        ForwardAgent yes
