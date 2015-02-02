@@ -4,7 +4,11 @@ BASE?=$(shell basename `pwd`)
 
 REAL_LINKS=$(addprefix ../,$(LINKS))
 
-all: git links dirs
+BINS=$(shell ls bin)
+
+REAL_BINS=$(addprefix ../bin/,$(BINS))
+
+all: git links dirs bins
 
 links: $(LINKS) authorized_keys ssh_config gpg.conf
 
@@ -37,6 +41,11 @@ gpg.conf: ../.gnupg ../.gnupg/gpg.conf
 ../.gnupg:
 	mkdir -p ../.gnupg
 
+bins: ../bin $(REAL_BINS)
+
+$(REAL_BINS):
+	ln -s ../$(BASE)/bin/$(@F) ../bin/$(@F)
+
 dirs: ../bin ../tmp
 
 ../bin:
@@ -47,6 +56,8 @@ dirs: ../bin ../tmp
 
 .SECONDEXPANSION:
 
-.PHONY: all git links $(LINKS) authorized_keys ssh_config gpg.conf dirs
+.PHONY: all git links $(LINKS) authorized_keys ssh_config gpg.conf dirs bins $(BINS)
 
 $(LINKS): ../$$@
+
+$(BINS): ../$$@
