@@ -1,0 +1,7 @@
+#!/bin/sh
+
+master=$1
+
+shift
+
+ssh -o "ProxyCommand ssh -q $master nc %h %p" $@
