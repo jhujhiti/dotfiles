@@ -4,7 +4,7 @@ BASE?=$(shell basename `pwd`)
 
 REAL_LINKS=$(addprefix ../,$(LINKS))
 
-all: git links
+all: git links dirs
 
 links: $(LINKS) authorized_keys ssh_config gpg.conf
 
@@ -37,8 +37,16 @@ gpg.conf: ../.gnupg ../.gnupg/gpg.conf
 ../.gnupg:
 	mkdir -p ../.gnupg
 
+dirs: ../bin ../tmp
+
+../bin:
+	mkdir -p ../bin
+
+../tmp:
+	mkdir -p ../tmp
+
 .SECONDEXPANSION:
 
-.PHONY: all git links $(LINKS) authorized_keys ssh_config gpg.conf
+.PHONY: all git links $(LINKS) authorized_keys ssh_config gpg.conf dirs
 
 $(LINKS): ../$$@
