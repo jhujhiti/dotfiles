@@ -29,3 +29,6 @@
 [submodule "submodules/pathogen-bundles/vim-jinja"]
 	path = submodules/pathogen-bundles/vim-jinja
 	url = git://github.com/mitsuhiko/vim-jinja.git
+[submodule "submodules/pathogen-bundles/ShowMotion"]
+	path = submodules/pathogen-bundles/ShowMotion
+	url = git://github.com/boucherm/ShowMotion

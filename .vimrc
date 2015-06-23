@@ -137,3 +137,32 @@ endfunction
 
 au InsertEnter * call InsertStatuslineColor(v:insertmode)
 au InsertLeave * hi StatColor guibg=#95e454 guifg=black ctermbg=lightgreen ctermfg=black
+
+" ShowMotion
+"*** Highlights both big and small motions
+nmap w <Plug>(show-motion-both-w)
+nmap W <Plug>(show-motion-both-W)
+nmap b <Plug>(show-motion-both-b)
+nmap B <Plug>(show-motion-both-B)
+nmap e <Plug>(show-motion-both-e)
+nmap E <Plug>(show-motion-both-E)
+
+"*** Only highlights motions corresponding to the one you typed
+"nmap w <Plug>(show-motion-w)
+"nmap W <Plug>(show-motion-W)
+"nmap b <Plug>(show-motion-b)
+"nmap B <Plug>(show-motion-B)
+"nmap e <Plug>(show-motion-e)
+"nmap E <Plug>(show-motion-E)
+
+"Show motion for chars:  
+nmap f <Plug>(show-motion-f)
+nmap t <Plug>(show-motion-t)
+nmap F <Plug>(show-motion-F)
+nmap T <Plug>(show-motion-T)
+nmap ; <Plug>(show-motion-;)
+nmap , <Plug>(show-motion-,) 
+
+highlight SM_SmallMotionGroup cterm=italic                ctermbg=53 gui=italic                guibg=#5f005f
+highlight SM_BigMotionGroup   cterm=italic,bold,underline ctermbg=54 gui=italic,bold,underline guibg=#5f0087
+highlight SM_CharSearchGroup  cterm=italic,bold           ctermbg=4  gui=italic,bold           guibg=#3f6691
