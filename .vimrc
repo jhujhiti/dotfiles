@@ -166,3 +166,7 @@ nmap , <Plug>(show-motion-,)
 highlight SM_SmallMotionGroup cterm=italic                ctermbg=53 gui=italic                guibg=#5f005f
 highlight SM_BigMotionGroup   cterm=italic,bold,underline ctermbg=54 gui=italic,bold,underline guibg=#5f0087
 highlight SM_CharSearchGroup  cterm=italic,bold           ctermbg=4  gui=italic,bold           guibg=#3f6691
+
+" vim-easy-align
+vmap <tab> <Plug>(EasyAlign)
+nmap ga <Plug>(EasyAlign)

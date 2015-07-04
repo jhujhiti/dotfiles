@@ -32,3 +32,6 @@
 [submodule "submodules/pathogen-bundles/ShowMotion"]
 	path = submodules/pathogen-bundles/ShowMotion
 	url = git://github.com/boucherm/ShowMotion
+[submodule "submodules/pathogen-bundles/vim-easy-align"]
+	path = submodules/pathogen-bundles/vim-easy-align
+	url = git://github.com/junegunn/vim-easy-align
