@@ -163,6 +163,7 @@ scm_prompt() {
     sym[conflicts]="✖"
     sym[clean]="✔"
     sym[untracked]="…"
+    sym[stashed]="↤"
     sym[sep]="|"
 
     head=$(zgit_head)
@@ -195,7 +196,13 @@ scm_prompt() {
     fi
     untracked=$#untracked_files
 
-    if [ $changed -eq 0 -a $staged -eq 0 -a $untracked -eq 0 -a $conflicts -eq 0 ]; then
+    if [ -f "${zgit_info[dir]}/refs/stash" ]; then
+        stashed=0
+    else
+        stashed=1
+    fi
+
+    if [ $changed -eq 0 -a $staged -eq 0 -a $untracked -eq 0 -a $conflicts -eq 0 -a $stashed -eq 1 ]; then
         clean=0
     else
         clean=1
@@ -252,6 +259,9 @@ scm_prompt() {
         fi
         if [ $untracked -gt 0 ]; then
             stat="${stat}${sym[untracked]}"
+        fi
+        if [ $stashed -eq 0 ]; then
+            stat="${stat}${sym[stashed]}"
         fi
     fi
     echo " ${head}${remote}${sym[sep]}${stat}"
