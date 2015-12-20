@@ -1,3 +1,24 @@
+" Key binding quick reference
+" mapleader is ,
+" <F1> - toggle search highlight
+" <F2> - clear search
+" <F3> - tabularize on whitespace
+" <F4> - toggle relative line numbers
+" ,lc - toggle listchars
+" ,sw - soywiki
+" :w!! - write it with sudo tee
+" visual <tab> - easyalign
+" ga - easyalign
+" Arpeggio:
+" tn - next tab
+" tp - previous tab
+" tX - tab X
+" Windows:
+" gr - resize this split to fit the visual selection
+" gss - split this selection
+" gsa - split this selection above
+" gsb - split this selection below
+
 set nocompatible
 syntax on
 set shiftwidth=4
