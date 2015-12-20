@@ -35,3 +35,6 @@
 [submodule "submodules/pathogen-bundles/vim-easy-align"]
 	path = submodules/pathogen-bundles/vim-easy-align
 	url = git://github.com/junegunn/vim-easy-align
+[submodule "submodules/pathogen-bundles/visual-split"]
+	path = submodules/pathogen-bundles/visual-split
+	url = https://github.com/wellle/visual-split.vim
