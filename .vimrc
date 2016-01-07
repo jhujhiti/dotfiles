@@ -32,6 +32,11 @@ set scrolloff=4
 set backspace=indent,eol,start
 set showcmd
 
+let g:pathogen_disabled = []
+if v:version < '704' || !has('python')
+    call add(g:pathogen_disabled, 'vim-pandoc')
+    call add(g:pathogen_disabled, 'vim-pandoc-syntax')
+endif
 call pathogen#infect()
 
 autocmd BufRead,BufNewFile {README,INSTALL} setfiletype text
