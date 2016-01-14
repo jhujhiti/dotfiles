@@ -1,3 +1,7 @@
+Host *
+        # CVE-2016-0777
+        UseRoaming no
+
 Host *.adjectivism.org
         User jhujhiti
         ForwardAgent yes
