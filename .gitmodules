@@ -44,3 +44,6 @@
 [submodule "submodules/pathogen-bundles/vim-pandoc-syntax"]
 	path = submodules/pathogen-bundles/vim-pandoc-syntax
 	url = https://github.com/vim-pandoc/vim-pandoc-syntax
+[submodule "submodules/pathogen-bundles/braceless"]
+	path = submodules/pathogen-bundles/braceless
+	url = https://github.com/tweekmonster/braceless.vim

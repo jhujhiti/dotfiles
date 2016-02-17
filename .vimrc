@@ -18,6 +18,8 @@
 " gss - split this selection
 " gsa - split this selection above
 " gsb - split this selection below
+" braceless (python text objects):
+" motion P selects this object
 
 set nocompatible
 syntax on
@@ -42,6 +44,7 @@ call pathogen#infect()
 autocmd BufRead,BufNewFile {README,INSTALL} setfiletype text
 autocmd FileType {mail,gitcommit,text} setlocal spell spelllang=en_us tw=78
 autocmd FileType {help} setlocal nospell
+autocmd FileType python BracelessEnable +indent +highlight
 
 set formatoptions-=o
 
