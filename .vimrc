@@ -44,7 +44,7 @@ call pathogen#infect()
 autocmd BufRead,BufNewFile {README,INSTALL} setfiletype text
 autocmd FileType {mail,gitcommit,text} setlocal spell spelllang=en_us tw=78
 autocmd FileType {help} setlocal nospell
-autocmd FileType python BracelessEnable +indent +highlight
+autocmd FileType python BracelessEnable +indent +highlight +fold
 
 set formatoptions-=o
 
