@@ -20,10 +20,10 @@ set pgp_use_gpg_agent=yes
 
 set sort=threads
 
-save-hook . "=INBOX/Addressed"
+save-hook . "=INBOX.Addressed"
 
 set use_from
-alternates '(jhujhiti|erick\.turnquist)(\+[^@]+)?@(adjectivism\.org|jhujhiti\.name)'
+alternates '(jhujhiti|erick\.turnquist|erick|eric|erik)(\+[^@]+)?@(adjectivism(-dev)?\.org|turnqui.st)'
 set from="jhujhiti@adjectivism.org"
 #reply-hook '~h X-Original-To:[[:space:]]*erick\.turnquist(\\\+[^@]+)?@adjectivism\.org' "set from=\"erick.turnquist@adjectivism.org\""
 set reverse_name
