@@ -135,7 +135,8 @@ if $(quick_which ssh-add); then
     for k in id_rsa id_ed25519
     do
         if [[ -r ~/.ssh/${k} ]]; then
-            ssh-add -L 2>/dev/null | grep `awk '{ print $2; };' ~/.ssh/${k}.pub` > /dev/null
+            pubkey=$(ssh-keygen -yf ~/.ssh/${k} | awk '{ print $2; }' 2>/dev/null)
+            ssh-add -L 2>/dev/null | grep "${pubkey}" > /dev/null
             if [ $? -eq 1 ]; then
                 ssh-add ~/.ssh/${k} 2>/dev/null
             fi
