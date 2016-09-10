@@ -131,11 +131,16 @@ if $(quick_which gpg-agent); then
     export GPG_TTY=`tty`
 fi
 
-if $(quick_which ssh-add && [[ -r ~/.ssh/id_rsa ]]); then
-    ssh-add -L 2>/dev/null | grep `awk '{ print $2; };' ~/.ssh/id_rsa.pub` > /dev/null
-    if [ $? -eq 1 ]; then
-        ssh-add ~/.ssh/id_rsa 2>/dev/null
-    fi
+if $(quick_which ssh-add); then
+    for k in id_rsa id_ed25519
+    do
+        if [[ -r ~/.ssh/${k} ]]; then
+            ssh-add -L 2>/dev/null | grep `awk '{ print $2; };' ~/.ssh/${k}.pub` > /dev/null
+            if [ $? -eq 1 ]; then
+                ssh-add ~/.ssh/${k} 2>/dev/null
+            fi
+        fi
+    done
 fi
 
 # disable terminal flow control. good riddance
