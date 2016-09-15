@@ -18,7 +18,7 @@ urxvt.color12: #7b98db
 urxvt.color13: #bf6ec3
 urxvt.color14: #7dd9e7
 urxvt.color15: #e6e6e6
-urxvt.urlLauncher: x-www-browser
+urxvt.urlLauncher: xdg-open
 urxvt.keysym.M-u: perl:mark-yank-urls:activate_mark_mode
 urxvt.keysym.C-Up: perl:font-size:increase
 urxvt.keysym.C-Down: perl:font-size:decrease
