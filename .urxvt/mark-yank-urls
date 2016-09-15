@@ -1,13 +1,23 @@
-#! perl
+#!/usr/bin/perl
+# Author:  Bart Trojanowski <bart@jukie.net>
+# Website: http://www.jukie.net/~bart/blog/urxvt-url-yank
+# License: GPLv2
 
-# ----------------------------------------
+use strict;
+use warnings;
 
-# same url as used in "selection"
-my $url_matcher =
-   qr{(
-      (?:https?://|ftp://|news://|mailto:|file://)[ab-zA-Z0-9\-\@;\/?:&=%\$_.+!*\x27(),~#]+
-      [ab-zA-Z0-9\-\@;\/?:&=%\$_+!*\x27()~]   # exclude some trailing characters (heuristic)
-   )}x;
+my $url_matcher = qr{(
+        (?:https?://|ftp://|news://|mailto:|file://|www\.)[ab-zA-Z0-9\-\@;\/?:&=%\$_.+!*\x27(),~#]+
+        [ab-zA-Z0-9\-\@;\/?&=%\$_+!*\x27()~]   # exclude some trailing characters (heuristic)
+)}x;
+
+# alternative URL matcher submitted by worn_mind to handle URLs with non-latin alphabet;
+# not tested by me :-)
+my $intl_url_matcher = qr{(
+        (?:https?://|ftp://|news://|mailto:|file://|www\.)[\w0-9|\-\@;\/?:&=%\$.+!*\x27(),~#]+
+        [\w0-9|\-\@;\/?&=%\$+!*\x27()~]   # exclude some trailing characters (heuristic)
+)}x;
+
 
 sub on_start {
     my ($term) = @_;
@@ -17,6 +27,14 @@ sub on_start {
         import Clipboard;
     }
 
+	eval { require Regexp::Common::URI };
+	if(!$@) {
+		require Regexp::Common;
+		Regexp::Common->import('URI');
+
+		$url_matcher = $Regexp::Common::RE{URI}{HTTP};
+	}
+
     $term->{browser} = $term->x_resource ("urlLauncher") || "x-www-browser";
 
     ()
@@ -25,21 +43,26 @@ sub on_start {
 sub on_line_update {
     my ($term, $row) = @_;
 
-    # fetch the line that has changed
-    my $line = $term->line ($row);
+    # Fetch the line that has changed.
+    my $line = $term->line($row);
     my $text = $line->t;
 
-    # find all urls (if any)
-    while ($text =~ /$url_matcher/g) {
+    # Find and underline URLs.
+    while ($text =~ /($url_matcher)/g) {
+        my $url = $1;
         my $rend = $line->r;
 
-        # mark all characters as underlined. we _must_ not toggle underline,
-        # as we might get called on an already-marked url.
-        if ($term->x_resource ("underlineURLs") eq "true") {
-            $_ |= urxvt::RS_Uline
-            for @{$rend}[ $-[1] .. $+[1] - 1];
+        # Mark all characters as underlined. we _must_ not toggle underline, as
+        # we might get called on an already-marked URL.
+        my $underlineURLs = $term->x_resource ('underlineURLs') || 'false';
+        if($underlineURLs eq 'true') {
+			my ($first, $last) = ($-[1], $+[1] - 1);
 
-            $line->r ($rend);
+			--$last if $url =~ s/["']$//;
+
+            $_ |= urxvt::RS_Uline for @{$rend}[$first .. $last];
+
+            $line->r($rend);
         }
     }
 
@@ -59,9 +82,12 @@ sub on_button_release {
         my $line = $term->line ($row);
         my $text = $line->t;
 
-        while ($text =~ /$url_matcher/g) {
-            if ($-[1] <= $col && $+[1] >= $col) {
-                $term->exec_async ($term->{browser}, $1);
+        while ($text =~ /($url_matcher)/g) {
+            my ($url, $first, $last) = ($1, $-[1], $+[1]);
+
+            if($first <= $col && $last >= $col) {
+                $url =~ s/["']$//;
+                $term->exec_async($term->{browser}, $url);
                 return 1;
             }
         }
@@ -70,28 +96,12 @@ sub on_button_release {
     ()
 }
 
-#sub on_scroll_back {
-#    my ($term, $lines, $saved) = @_;
-#
-#    if ($lines > $url_selected && $url_selected>0) {
-#        move_highlight ($term, 1);
-#    }
-#
-#    for (my $n=0; $n<$lines; $n++) {
-#        shift @url_db 
-#    }
-#
-#    ()
-#}
-
-# ----------------------------------------
 
 my $mark_mode_active = 0;
 my %mod = ( 'control' => 0, 'shift' => 0 );
 my $url_selected = -1;
 my @url_db = ();
 
-# ----------------------------------------
 
 sub do_scan_for_urls {
     my ($term) = @_;
@@ -101,22 +111,28 @@ sub do_scan_for_urls {
     my $row_start = $term->top_row;
     my $row_end = $term->nrow;
 
-    for (my $row=$row_start; $row<=$row_end; $row++) {
+	for my $row ($row_start .. $row_end) {
 
-        # fetch the line that has changed
+        # Fetch the line that has changed.
         my $line = $term->line ($row);
         my $text = $line->t;
 
-        # find all urls (if any)
-        while ($text =~ /$url_matcher/g) {
+        # Find all urls (if any).
+        while ($text =~ /($url_matcher)/g) {
             my $rend = $line->r;
-            my $url = $1;
 
-            my %h = ( 'row'      => $row,
-                      'col_from' => $-[1], 
-                      'col_to'   => $+[1] - 1,
-                      'url'      => $url);
-            push @url_db, \%h;
+			my ($url, $first, $last) = ($1, $-[1], $+[1] - 1);
+
+			--$last if $url =~ s/["']$//;
+
+            my %h = (
+				row => $row,
+				col_from => $first,
+				col_to => $last,
+				url => $url,
+			);
+				
+			push @url_db, \%h;
         }
     }
 
@@ -124,11 +140,11 @@ sub do_scan_for_urls {
     return $#url_db + 1;
 }
 
+
 sub on_user_command {
     my ($term, $cmd) = @_;
 
-    $cmd eq "mark-yank-urls:activate_mark_mode"
-        and activate_mark_mode($term);
+	activate_mark_mode($term) if $cmd eq 'mark-yank-urls:activate_mark_mode';
 
     ()
 }
@@ -136,10 +152,15 @@ sub on_user_command {
 sub on_key_press {
     my ($term, $event, $keysym, $octets) = @_;
 
-    ($keysym == 65507) && { $mod{control} = 1 };
-    ($keysym == 65505) && { $mod{shift} = 1 };
+    if ($keysym == 65507) {                     # <control>
+        $mod{control} = 1;
 
-    # ignore all input when we are active
+    } elsif ($keysym == 65505) {                # <shift>
+        $mod{shift} = 1;
+
+    }
+
+    # Ignore all input when we are active.
     $mark_mode_active && return 1;
 
     ()
@@ -157,8 +178,7 @@ sub on_key_release {
 
         } elsif ($keysym == 65293) {                # <enter>
             my $url = get_active_url($term);
-            $url =~ s/\(["|><&()]\)/\\$1/;
-            $term->exec_async ($term->{browser} . ' ' . $url);
+            $term->exec_async($term->{browser}, $url);
             deactivate_mark_mode ($term);
             return 1;
 
