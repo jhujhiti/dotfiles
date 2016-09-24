@@ -12,6 +12,7 @@ set net_inc=5
 set header_cache="~/.mutt/headercache"
 
 set smtp_url="smtp://jhujhiti@smtp.adjectivism.org:587/"
+set smtp_authenticators="plain:gssapi"
 
 set pgp_autosign=yes
 set pgp_autoinline=no
