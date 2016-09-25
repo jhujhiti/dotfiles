@@ -91,11 +91,10 @@ set background=dark
 
 if has('gui_running')
     set guioptions=acegit
+    colorscheme base16-eighties
     if has("win32")
-        colorscheme freya
         set guifont=Consolas:h9:cANSI
     else
-        colorscheme lucius
         set guifont="DejaVu Sans Mono 8:antialias=true"
         set guifontwide="DejaVu Sans Mono 8:antialias=true"
     endif
