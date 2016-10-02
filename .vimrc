@@ -92,12 +92,10 @@ set background=dark
 if has('gui_running')
     set guioptions=acegit
     colorscheme base16-eighties
-    if has("win32")
-        set guifont=Consolas:h9:cANSI
-    else
-        set guifont="DejaVu Sans Mono 8:antialias=true"
-        set guifontwide="DejaVu Sans Mono 8:antialias=true"
-    endif
+    set guifont=DejaVu\ Sans\ Mono\ 9
+    set guifontwide=DejaVu\ Sans\ Mono\ 9
+    set lines=44
+    set columns=132
 endif
 
 call arpeggio#load()
