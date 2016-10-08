@@ -3,6 +3,9 @@ HISTFILE=~/.zsh_history
 HISTSIZE=5000
 SAVEHIST=5000
 
+# the path to our dotfiles repository
+dotfiles=$(dirname $0:A)
+
 # enable extended globbing
 setopt extendedglob
 # warn me if a glob doesn't produce anything
@@ -299,3 +302,19 @@ export VTYSH_PAGER=cat
 
 # timezone
 export TZ="America/New_York"
+
+# wrap the aws cli
+# if we have it installed, and are able to find a filter file for the given
+# command, filter the output through jq
+function aws {
+    if $(quick_which jq) && [ $# -ge 2 ]; then
+        filename=${dotfiles}/aws/${1}/${2}
+        if [ -f $filename ]; then
+            command aws $@ | jq -f $filename
+        else
+            command aws $@
+        fi
+    else
+        command aws $@
+    fi
+}

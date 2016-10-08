@@ -1,0 +1,6 @@
+[.Reservations | .[].Instances | select(.[].State.Name != "terminated") | {
+    name: (.[].Tags? + []) | from_entries | .Name?,
+    instance: .[].InstanceId,
+    state: .[].State.Name,
+    type: .[].InstanceType
+}]
