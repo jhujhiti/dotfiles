@@ -3,6 +3,6 @@
     instance: .[].InstanceId,
     state: .[].State.Name,
     type: .[].InstanceType,
-    public_address: .[].PublicIpAddress,
-    private_address: .[].NetworkInterfaces | .[].PrivateIpAddress
+    "public-address": .[].PublicIpAddress,
+    "private-address": .[].NetworkInterfaces | .[].PrivateIpAddress
 }]
