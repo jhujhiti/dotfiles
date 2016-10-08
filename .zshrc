@@ -313,6 +313,7 @@ export TZ="America/New_York"
 function aws {
     local -a opts
     local -A filter
+    local filename
     zparseopts -D -E -- -full=opts -filter:=filter
     if [ $# -ge 2 ]; then
         filename=${dotfiles}/aws/${1}/${2}
