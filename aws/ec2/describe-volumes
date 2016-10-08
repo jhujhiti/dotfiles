@@ -1,0 +1,7 @@
+[.Volumes | {
+    name: (.[].Tags? + []) | from_entries | .Name?,
+    volume: .[].VolumeId,
+    size: .[].Size,
+    state: .[].State,
+    attachment: .[].Attachments | .[].InstanceId
+}]
