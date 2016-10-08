@@ -307,15 +307,36 @@ export TZ="America/New_York"
 # wrap the aws cli
 # if we have it installed, and are able to find a filter file for the given
 # command, filter the output through jq
+# additional options:
+# --filter: run the output through this additional jq filter
+# --full:   don't apply the default jq filter that we have
 function aws {
-    if $(quick_which jq) && [ $# -ge 2 ]; then
+    local -a opts
+    local -A filter
+    zparseopts -D -E -- -full=opts -filter:=filter
+    if [ $# -ge 2 ]; then
         filename=${dotfiles}/aws/${1}/${2}
-        if [ -f $filename ]; then
+    fi
+    if [[ $#opts -gt 0 || $#filter -gt 0 ]]; then
+        if $(quick_which jq); then
+            jq1='.'
+            if [[ -n $filename && -f $filename && ${opts[(r)--full]} != --full ]]; then
+                jq1="-f $filename"
+            fi
+            if [ -n "$filter" ]; then
+                command aws $@ | jq ${=jq1} | jq $filter
+            else
+                command aws $@ | jq ${=jq1}
+            fi
+        else
+            >&2 echo "jq must be installed in order to use options"
+            return 1
+        fi
+    else
+        if $(quick_which jq) && [[ -n "$filename" && -f "$filename" ]]; then
             command aws $@ | jq -f $filename
         else
             command aws $@
         fi
-    else
-        command aws $@
     fi
 }
