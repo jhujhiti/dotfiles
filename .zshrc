@@ -74,7 +74,8 @@ darwin() {
 safe_which() {
     local TMP
     TMP=`which $1 2>/dev/null`
-    if [ $? -eq 0 ]; then
+    ret=$?
+    if [ $ret -eq 0 ]; then
         # for Solaris:
         if [ -z "${TMP/*no $1*}" ]; then
             echo ""
@@ -87,7 +88,7 @@ safe_which() {
         return 1
     fi
     echo $TMP
-    return 0
+    return $ret
 }
 
 quick_which() {
