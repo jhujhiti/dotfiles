@@ -4,7 +4,7 @@ HISTSIZE=5000
 SAVEHIST=5000
 
 # the path to our dotfiles repository
-dotfiles=$(dirname $0:A)
+dotfiles=$(dirname $(readlink -f ~/.zshrc))
 
 # enable extended globbing
 setopt extendedglob
