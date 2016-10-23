@@ -18,6 +18,7 @@ set pgp_autosign=yes
 set pgp_autoinline=no
 set pgp_sign_as=0x8C1BFCC5
 set pgp_use_gpg_agent=yes
+set pgp_auto_decode=yes # decode the email body rather than only looking at mime type
 
 set sort=threads
 
