@@ -4,5 +4,5 @@
     state: .[].State.Name,
     type: .[].InstanceType,
     "public-address": .[].PublicIpAddress,
-    "private-address": .[].NetworkInterfaces | .[].PrivateIpAddress
+    "private-address": [.[].NetworkInterfaces | .[].PrivateIpAddress]
 }]
