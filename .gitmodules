@@ -47,3 +47,6 @@
 [submodule "submodules/pathogen-bundles/braceless"]
 	path = submodules/pathogen-bundles/braceless
 	url = https://github.com/tweekmonster/braceless.vim
+[submodule "submodules/pathogen-bundles/vim-latex-live-preview"]
+	path = submodules/pathogen-bundles/vim-latex-live-preview
+	url = https://github.com/xuhdev/vim-latex-live-preview
