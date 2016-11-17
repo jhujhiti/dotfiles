@@ -25,7 +25,7 @@ set sort=threads
 save-hook . "=INBOX.Addressed"
 
 set use_from
-alternates '(jhujhiti|erick\.turnquist|erick|eric|erik)(\+[^@]+)?@(adjectivism(-dev)?\.org|turnqui.st)'
+alternates '(jhujhiti|erick\.turnquist|erick|eric|erik)(\+[^@]+)?@(adjectivism(-dev)?\.org|turnqui\.st|turnqu\.ist)'
 set from="jhujhiti@adjectivism.org"
 #reply-hook '~h X-Original-To:[[:space:]]*erick\.turnquist(\\\+[^@]+)?@adjectivism\.org' "set from=\"erick.turnquist@adjectivism.org\""
 set reverse_name
