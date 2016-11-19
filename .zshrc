@@ -277,8 +277,12 @@ scm_prompt() {
     echo " ${head}${remote}${sym[sep]}${stat}"
 }
 
+if [[ "$IN_TMPDIR" == "yes" ]]; then
+    ps1_tmpdir=' %F{red}(tmp)%f'
+fi
+
 PS1="[%D{%b %d %H:%M} %~"'$(scm_prompt)'"]
-%m%# "
+%m${ps1_tmpdir}%# "
 
 # xterm title
 my_precmd_hook() {
@@ -303,6 +307,18 @@ export VTYSH_PAGER=cat
 
 # timezone
 export TZ="America/New_York"
+
+# run a shell in a temporary directory and clean it up afterwards
+function tmpdir {
+    root=${1:-/tmp}
+    d=$(mktemp -dp "${root}")
+    pushd ${d} > /dev/null
+    export IN_TMPDIR=yes
+    ${@:-${SHELL}}
+    unset IN_TMPDIR
+    popd > /dev/null
+    rm -rf $d
+}
 
 # wrap the aws cli
 # if we have it installed, and are able to find a filter file for the given
