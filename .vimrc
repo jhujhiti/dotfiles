@@ -68,6 +68,17 @@ endif
 
 let mapleader = ","
 
+" cscope
+if has("cscope")
+    set cscopetag cscopeverbose
+    cnoreabbrev csa cs add
+    cnoreabbrev csf cs find
+    cnoreabbrev csk cs kill
+    cnoreabbrev csr cs reset
+    cnoreabbrev css cs show
+    cnoreabbrev csh cs help
+endif
+
 " make tabs and endlines visible in list mode
 if has("win32")
     set listchars=tab:>.,eol:$
