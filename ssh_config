@@ -1,4 +1,6 @@
-Include config_local
+# git isn't ready for this...
+# /home/jhujhiti/.ssh/config: line 1: Bad configuration option: include
+#Include config_local
 
 Host *
         # CVE-2016-0777
