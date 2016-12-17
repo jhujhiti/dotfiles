@@ -111,6 +111,9 @@ if has('gui_running')
     set columns=132
     let g:calendar_google_calendar=1
     nnoremap <Leader>cal :Calendar<CR>
+    if has('X11')
+        set clipboard=unnamedplus " use the X11 CLIPBOARD
+    endif
 endif
 
 call arpeggio#load()
