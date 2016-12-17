@@ -50,3 +50,6 @@
 [submodule "submodules/pathogen-bundles/vim-latex-live-preview"]
 	path = submodules/pathogen-bundles/vim-latex-live-preview
 	url = https://github.com/xuhdev/vim-latex-live-preview
+[submodule "submodules/pathogen-bundles/calendar"]
+	path = submodules/pathogen-bundles/calendar
+	url = git://github.com/itchyny/calendar.vim

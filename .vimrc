@@ -20,6 +20,8 @@
 " gsb - split this selection below
 " braceless (python text objects):
 " motion P selects this object
+" Miscellaneous:
+" ,cal - open Calendar
 
 set nocompatible
 syntax on
@@ -107,6 +109,8 @@ if has('gui_running')
     set guifontwide=DejaVu\ Sans\ Mono\ 9
     set lines=44
     set columns=132
+    let g:calendar_google_calendar=1
+    nnoremap <Leader>cal :Calendar<CR>
 endif
 
 call arpeggio#load()
