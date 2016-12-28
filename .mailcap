@@ -1,1 +1,2 @@
 text/html; w3m -cols $COLUMNS -I %{charset} -T text/html; copiousoutput;
+image/*; feh %s
