@@ -311,7 +311,7 @@ export TZ="America/New_York"
 # run a shell in a temporary directory and clean it up afterwards
 function tmpdir {
     root=${1:-/tmp}
-    d=$(mktemp -dp "${root}")
+    d=$(TMPDIR="${root}" mktemp -d)
     pushd ${d} > /dev/null
     export IN_TMPDIR=yes
     ${@:-${SHELL}}
