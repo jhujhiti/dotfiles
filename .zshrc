@@ -314,7 +314,7 @@ function tmpdir {
     d=$(TMPDIR="${root}" mktemp -d)
     pushd ${d} > /dev/null
     export IN_TMPDIR=yes
-    ${@:-${SHELL}}
+    ${SHELL}
     unset IN_TMPDIR
     popd > /dev/null
     rm -rf $d
