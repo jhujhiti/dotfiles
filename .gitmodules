@@ -53,3 +53,6 @@
 [submodule "submodules/pathogen-bundles/calendar"]
 	path = submodules/pathogen-bundles/calendar
 	url = git://github.com/itchyny/calendar.vim
+[submodule "submodules/pathogen-bundles/nerdtree"]
+	path = submodules/pathogen-bundles/nerdtree
+	url = git://github.com/scrooloose/nerdtree
