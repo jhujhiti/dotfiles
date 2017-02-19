@@ -56,3 +56,12 @@
 [submodule "submodules/pathogen-bundles/nerdtree"]
 	path = submodules/pathogen-bundles/nerdtree
 	url = git://github.com/scrooloose/nerdtree
+[submodule "submodules/pathogen-bundles/vim-airline"]
+	path = submodules/pathogen-bundles/vim-airline
+	url = https://github.com/vim-airline/vim-airline
+[submodule "submodules/pathogen-bundles/vim-fugitive"]
+	path = submodules/pathogen-bundles/vim-fugitive
+	url = https://github.com/tpope/vim-fugitive
+[submodule "submodules/pathogen-bundles/vim-airline-themes"]
+	path = submodules/pathogen-bundles/vim-airline-themes
+	url = https://github.com/vim-airline/vim-airline-themes
