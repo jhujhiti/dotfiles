@@ -3,8 +3,35 @@ HISTFILE=~/.zsh_history
 HISTSIZE=5000
 SAVEHIST=5000
 
+platform=$(uname -s)
+linux() {
+    if [[ "$platform" == "Linux" ]]; then
+        return 0
+    else
+        return 1
+    fi
+}
+freebsd() {
+    if [[ "$platform" == "FreeBSD" ]]; then
+        return 0
+    else
+        return 1
+    fi
+}
+darwin() {
+    if [[ "$platform" == "Darwin" ]]; then
+        return 0
+    else
+        return 1
+    fi
+}
+
 # the path to our dotfiles repository
-dotfiles=$(dirname $(readlink -f ~/.zshrc))
+if linux; then
+    dotfiles=$(dirname $(readlink -f ~/.zshrc))
+else
+    dotfiles=$(dirname $(realpath ~/.zshrc))
+fi
 
 # enable extended globbing
 setopt extendedglob
@@ -46,29 +73,6 @@ autoload -Uz compinit
 compinit
 autoload -U colors
 colors
-
-platform=$(uname -s)
-linux() {
-    if [[ "$platform" == "Linux" ]]; then
-        return 0
-    else
-        return 1
-    fi
-}
-freebsd() {
-    if [[ "$platform" == "FreeBSD" ]]; then
-        return 0
-    else
-        return 1
-    fi
-}
-darwin() {
-    if [[ "$platform" == "Darwin" ]]; then
-        return 0
-    else
-        return 1
-    fi
-}
 
 # which on different platforms behaves differently
 safe_which() {
