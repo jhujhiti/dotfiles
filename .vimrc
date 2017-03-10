@@ -114,7 +114,13 @@ if has('gui_running')
     set guioptions=acegit
     colorscheme base16-eighties
     set guifont=DejaVu\ Sans\ Mono\ 9
-    set guifontwide=DejaVu\ Sans\ Mono\ 9
+    if has('unix')
+        let s:uname = system('uname -s')
+        if s:uname == "Darwin"
+            " macvim doesn't like this and i'm not sure i care enough to debug
+            set guifontwide=DejaVu\ Sans\ Mono\ 9
+        endif
+    endif
     set lines=44
     set columns=132
     let g:calendar_google_calendar=1
