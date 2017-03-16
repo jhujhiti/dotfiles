@@ -63,6 +63,9 @@ unsetopt autocd
 # don't interrupt me if a background job finishes while i'm typing
 unsetopt notify
 
+# / is a path separator, not part of a word (^W should stop at /)
+WORDCHARS=${WORDCHARS/\/}
+
 # emacs line editing mode
 bindkey -e
 
