@@ -1,0 +1,21 @@
+#!/usr/bin/env zsh
+
+set -e
+
+oldbranch="$(git symbolic-ref --short HEAD)"
+if [ $? -ne 0 ]; then
+    oldbranch="$(git name-rev --name-only --always HEAD)"
+fi
+newbranch="${1:=master}"
+
+if [ -z "$oldbranch" -o -z "$newbranch" ]; then
+    echo "Refusing to continue with a null branch:"
+    echo "oldbranch = $oldbranch"
+    echo "newbranch = $newbranch"
+fi
+
+git checkout "$newbranch"
+
+if [ "$oldbranch" != "$(git name-rev --name-only --always HEAD)" ]; then
+    git branch -D "$oldbranch"
+fi
