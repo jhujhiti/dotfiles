@@ -12,6 +12,7 @@ if [ -z "$oldbranch" -o -z "$newbranch" ]; then
     echo "Refusing to continue with a null branch:"
     echo "oldbranch = $oldbranch"
     echo "newbranch = $newbranch"
+    exit 1
 fi
 
 git checkout "$newbranch"
