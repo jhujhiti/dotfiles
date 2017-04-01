@@ -62,3 +62,6 @@
 [submodule "submodules/pathogen-bundles/vim-airline-themes"]
 	path = submodules/pathogen-bundles/vim-airline-themes
 	url = https://github.com/vim-airline/vim-airline-themes
+[submodule "submodules/pathogen-bundles/ale"]
+	path = submodules/pathogen-bundles/ale
+	url = https://github.com/w0rp/ale

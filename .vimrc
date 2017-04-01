@@ -45,6 +45,10 @@ if v:version < '704' || !has('python')
     call add(g:pathogen_disabled, 'vim-pandoc')
     call add(g:pathogen_disabled, 'vim-pandoc-syntax')
 endif
+if v:version < '800'
+    call add(g:pathogen_disabled, 'ale')
+endif
+let g:ale_sign_column_always = 1
 call pathogen#infect()
 
 autocmd BufRead,BufNewFile {README,INSTALL} setfiletype text
