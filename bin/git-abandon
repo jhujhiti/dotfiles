@@ -1,4 +1,4 @@
-#!/usr/bin/env zsh
+#!/bin/sh
 
 set -e
 
@@ -6,7 +6,7 @@ oldbranch="$(git symbolic-ref --short HEAD)"
 if [ $? -ne 0 ]; then
     oldbranch="$(git name-rev --name-only --always HEAD)"
 fi
-newbranch="${1:=master}"
+newbranch="${1:-master}"
 
 if [ -z "$oldbranch" -o -z "$newbranch" ]; then
     echo "Refusing to continue with a null branch:"
