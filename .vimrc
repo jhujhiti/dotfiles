@@ -147,7 +147,6 @@ Arpeggionmap t7 7gt
 Arpeggionmap t8 8gt
 Arpeggionmap t9 9gt
 
-set smartindent
 set autoindent
 set wrap
 let html_use_css=1
