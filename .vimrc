@@ -56,6 +56,7 @@ autocmd FileType {mail,gitcommit,text} setlocal spell spelllang=en_us tw=78
 autocmd FileType {help} setlocal nospell
 
 set formatoptions-=o
+set diffopt+=vertical
 
 cmap w!! w !sudo tee > /dev/null %
 
