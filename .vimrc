@@ -99,9 +99,6 @@ else
 endif
 nnoremap <Leader>lc :set list!<CR>
 
-" Soywiki
-nnoremap <Leader>sw :lcd ~/soywiki<CR>:Soywiki<CR>
-
 nnoremap <Leader>nt :NERDTreeToggle<CR>
 
 " http://vim.wikia.com/wiki/Omni_completion
