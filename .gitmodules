@@ -26,9 +26,6 @@
 [submodule "submodules/pathogen-bundles/vim-jinja"]
 	path = submodules/pathogen-bundles/vim-jinja
 	url = git://github.com/mitsuhiko/vim-jinja.git
-[submodule "submodules/pathogen-bundles/ShowMotion"]
-	path = submodules/pathogen-bundles/ShowMotion
-	url = git://github.com/boucherm/ShowMotion
 [submodule "submodules/pathogen-bundles/vim-easy-align"]
 	path = submodules/pathogen-bundles/vim-easy-align
 	url = git://github.com/junegunn/vim-easy-align
@@ -65,3 +62,6 @@
 [submodule "submodules/pathogen-bundles/vim-virtualenv"]
 	path = submodules/pathogen-bundles/vim-virtualenv
 	url = https://github.com/jmcantrell/vim-virtualenv
+[submodule "submodules/pathogen-bundles/quick-scope"]
+	path = submodules/pathogen-bundles/quick-scope
+	url = https://github.com/unblevable/quick-scope
