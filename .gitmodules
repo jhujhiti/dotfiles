@@ -65,3 +65,6 @@
 [submodule "submodules/pathogen-bundles/quick-scope"]
 	path = submodules/pathogen-bundles/quick-scope
 	url = https://github.com/unblevable/quick-scope
+[submodule "submodules/pathogen-bundles/vimtex"]
+	path = submodules/pathogen-bundles/vimtex
+	url = https://github.com/lervag/vimtex
