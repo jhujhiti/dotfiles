@@ -71,3 +71,6 @@
 [submodule "submodules/pathogen-bundles/vim-orgmode"]
 	path = submodules/pathogen-bundles/vim-orgmode
 	url = https://github.com/jceb/vim-orgmode
+[submodule "submodules/pathogen-bundles/vim-speeddating"]
+	path = submodules/pathogen-bundles/vim-speeddating
+	url = https://github.com/tpope/vim-speeddating
