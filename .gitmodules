@@ -68,3 +68,6 @@
 [submodule "submodules/pathogen-bundles/vimtex"]
 	path = submodules/pathogen-bundles/vimtex
 	url = https://github.com/lervag/vimtex
+[submodule "submodules/pathogen-bundles/vim-orgmode"]
+	path = submodules/pathogen-bundles/vim-orgmode
+	url = https://github.com/jceb/vim-orgmode
