@@ -114,6 +114,39 @@ else
     alias ll="ls -Fhl"
 fi
 
+# tmux is a huge pain in the ass, so here's a hack to set TERM to a 256color
+# tmux-compatible setting if and only if the parent shell was using a 256color
+# TERM. this is used in conjunction with the update-environment setting in tmux
+term_exists() {
+    return $(tput -T "$1" init >/dev/null 2>&1)
+}
+# there's probably a cross-platform trick to get tput -T <term> {colors,Co} to
+# work, but i can't figure it out. zsh always seems to have the correct value
+# in $terminfo[colors], so we can spawn another shell to use that
+terminfo_colors() {
+    echo $(TERM="$1" zsh -c 'echo $terminfo[colors]')
+}
+if [[ -v TMUX ]]; then
+    # candidate terms. we'll use the first one that seems to exist
+    terms=(tmux screen)
+    if [[ $(terminfo_colors $_PARENT_TERM) -eq 256 ]]; then
+        # the parent was 256-capable, so prepend these to the list of
+        # candidates
+        terms=(tmux-256color screen-256color $terms)
+    fi
+    # set TERM to whichever we find first
+    for t in $terms
+    do
+        if $(term_exists $t); then
+            export TERM=$t
+            break
+        fi
+    done
+else
+    # set _PARENT_TERM if we are not running inside tmux (save it for later)
+    export _PARENT_TERM=$TERM
+fi
+
 quick_which vim && export EDITOR=vim
 
 if $(quick_which gpg-agent); then
