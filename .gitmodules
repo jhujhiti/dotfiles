@@ -74,3 +74,6 @@
 [submodule "submodules/pathogen-bundles/vim-speeddating"]
 	path = submodules/pathogen-bundles/vim-speeddating
 	url = https://github.com/tpope/vim-speeddating
+[submodule "submodules/pathogen-bundles/gitv"]
+	path = submodules/pathogen-bundles/gitv
+	url = https://github.com/gregsexton/gitv
