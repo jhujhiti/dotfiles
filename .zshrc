@@ -118,7 +118,14 @@ fi
 # tmux-compatible setting if and only if the parent shell was using a 256color
 # TERM. this is used in conjunction with the update-environment setting in tmux
 term_exists() {
-    return $(tput -T "$1" init >/dev/null 2>&1)
+    # hilariously, tput with an unknown terminal type on OS X causes an
+    # infinite loop. so that's pretty terrible. i really didn't want to have to
+    # look through the filesystem for termcap/terminfos, but here we are
+    if darwin; then
+        return $(find /usr/share/terminfo -type f -name "$1" 2>&1 | grep '.' >/dev/null 2>&1)
+    else
+        return $(tput -T "$1" init >/dev/null 2>&1)
+    fi
 }
 # there's probably a cross-platform trick to get tput -T <term> {colors,Co} to
 # work, but i can't figure it out. zsh always seems to have the correct value
@@ -126,7 +133,7 @@ term_exists() {
 terminfo_colors() {
     echo $(TERM="$1" zsh -c 'echo $terminfo[colors]')
 }
-if [[ -v TMUX ]]; then
+if [[ -n "$TMUX" ]]; then
     # candidate terms. we'll use the first one that seems to exist
     terms=(tmux screen)
     if [[ $(terminfo_colors $_PARENT_TERM) -eq 256 ]]; then
