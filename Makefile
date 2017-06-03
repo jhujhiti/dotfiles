@@ -16,6 +16,7 @@ git:
 	git submodule init
 	git submodule sync
 	git submodule update
+	git status submodules/ --porcelain=v1 | grep '^?? ' | cut -d' ' -f2- | xargs rm -rf
 
 $(REAL_LINKS):
 	ln -s $(BASE)/$(@F) ../$(@F)
