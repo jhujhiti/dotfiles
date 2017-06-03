@@ -122,9 +122,12 @@ set wildignore=*.beam
 
 set background=dark
 
+if has('gui_running') || &t_Co == 256
+    colorscheme base16-eighties
+endif
+
 if has('gui_running')
     set guioptions=acegit
-    colorscheme base16-eighties
     set guifont=DejaVu\ Sans\ Mono\ 9
     if has('unix')
         let s:uname = system('uname -s')
