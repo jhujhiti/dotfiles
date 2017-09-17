@@ -2,6 +2,7 @@ set spoolfile="imap://jhujhiti@imap.adjectivism.org/"
 set folder="imap://jhujhiti@imap.adjectivism.org/"
 set record="=Sent"
 set postponed="=Drafts"
+set trash="=Trash"
 set ssl_starttls=yes
 set ssl_force_tls=yes
 unset imap_passive
