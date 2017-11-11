@@ -21,6 +21,8 @@ set pgp_sign_as=0x8C1BFCC5
 set pgp_use_gpg_agent=yes
 set pgp_auto_decode=yes # decode the email body rather than only looking at mime type
 
+set query_command = "ldap-address-search '%s'"
+
 set sort=threads
 
 save-hook . "=INBOX.Addressed"

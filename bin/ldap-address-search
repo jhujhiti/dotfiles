@@ -1,0 +1,21 @@
+#!/bin/sh
+
+filter="(&(objectClass=inetOrgPerson)(cn=*)(mail=*)(|(cn=*$@*)(sn=*$@*)(givenName=*$@*)(mail=*$@*)))"
+
+echo searching
+
+ldapsearch -LLL "$filter" cn mail 2>/dev/null | while read attr val
+do
+    case "$attr" in
+        cn:)
+            name="$val"
+            ;;
+        mail:)
+            # this is lazily only going to grab one mail attribute
+            mail="$val"
+            ;;
+        '')
+            printf "${mail}\t${name}\n"
+            ;;
+    esac
+done
