@@ -1,0 +1,3 @@
+xkb_symbols "local" {
+    key <AD09> { [ U0CA0 ] };
+};
