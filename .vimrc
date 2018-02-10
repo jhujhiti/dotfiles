@@ -48,6 +48,7 @@ if v:version < '800'
     call add(g:pathogen_disabled, 'ale')
 endif
 let g:ale_sign_column_always = 1
+let g:ale_haskell_ghc_options = '-fno-code -v0 -dynamic'
 call pathogen#infect()
 
 autocmd BufRead,BufNewFile {README,INSTALL} setfiletype text
