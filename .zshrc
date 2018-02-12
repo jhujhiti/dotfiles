@@ -369,6 +369,18 @@ export VTYSH_PAGER=cat
 # timezone
 export TZ="America/New_York"
 
+chpwd() {
+    # we want to switch to an appropriate virtualenv automatically on cd.
+    # the mapping variable here can be defined anywhere, probably in .zshrc_local.
+    # eg., typeset -A venvmap ; venvmap[${HOME}/myproject]=myvenv
+    # TODO: should we leave the venv automatically too?
+    if [ -n "$(type workon)" ]; then
+        if (( ${+venvmap[$(pwd)]} )); then
+            workon "${venvmap[$(pwd)]}"
+        fi
+    fi
+}
+
 # run a shell in a temporary directory and clean it up afterwards
 function tmpdir {
     root=${1:-/tmp}
