@@ -201,6 +201,20 @@ if $(quick_which stty); then
     stty start '^@' 2>/dev/null
 fi
 
+# maybe set up virtualenvwrapper
+if $(quick_which virtualenvwrapper.sh); then
+    export VIRTUAL_ENV_DISABLE_PROMPT=1
+    . virtualenvwrapper.sh
+fi
+venv_prompt() {
+    # bail if we're going to manage the prompt with the default virtualenv script instead
+    [ -z "$VIRTUAL_ENV_DISABLE_PROMPT" ] && return
+    # or if we're not actually in a virtualenv
+    [ -z "$VIRTUAL_ENV" ] && return
+    venv=$(basename "$VIRTUAL_ENV")
+    echo " venv:${venv}"
+}
+
 # prompt
 autoload -U add-zsh-hook
 autoload -U zgitinit
@@ -328,7 +342,7 @@ if [[ "$IN_TMPDIR" == "yes" ]]; then
     ps1_tmpdir=' %F{red}(tmp)%f'
 fi
 
-PS1="[%D{%b %d %H:%M} %~"'$(scm_prompt)'"]
+PS1="[%D{%b %d %H:%M} %~"'$(venv_prompt)$(scm_prompt)'"]
 %m${ps1_tmpdir}%# "
 
 # xterm title
