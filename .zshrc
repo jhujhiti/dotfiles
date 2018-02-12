@@ -375,7 +375,7 @@ chpwd() {
     # eg., typeset -A venvmap ; venvmap[${HOME}/myproject]=myvenv
     # TODO: should we leave the venv automatically too?
     if [ -n "$(type workon)" ]; then
-        if (( ${+venvmap[$(pwd)]} )); then
+        if [[ -v venvmap[$(pwd)] ]]; then
             workon "${venvmap[$(pwd)]}"
         fi
     fi
