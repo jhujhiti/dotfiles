@@ -11,7 +11,7 @@ REAL_BINS=$(addprefix ../bin/,$(BINS))
 
 all: git links dirs bins
 
-links: $(LINKS) authorized_keys ssh_config gpg.conf
+links: $(LINKS) authorized_keys ssh_config gpg.conf xmonad
 
 git:
 	git submodule init
@@ -21,6 +21,23 @@ git:
 
 $(REAL_LINKS):
 	ln -s $(BASE)/$(@F) ../$(@F)
+
+xmonad: ../.xmonad ../.xmonad/xmonad.hs ../.config ../.config/xmobar ../.config/xmobar/xmobarrc
+
+../.xmonad:
+	mkdir -p ../.xmonad
+
+../.xmonad/xmonad.hs:
+	ln -s ../$(BASE)/xmonad/xmonad.hs ../.xmonad/xmonad.hs
+
+../.config:
+	mkdir -p ../.config
+
+../.config/xmobar:
+	mkdir -p ../.config/xmobar
+
+../.config/xmobar/xmobarrc:
+	ln -s ../../$(BASE)/xmonad/xmobarrc ../.config/xmobar/xmobarrc
 
 authorized_keys: ../.ssh ../.ssh/authorized_keys
 
@@ -58,7 +75,7 @@ dirs: ../bin ../tmp
 
 .SECONDEXPANSION:
 
-.PHONY: all git links $(LINKS) authorized_keys ssh_config gpg.conf dirs bins $(BINS)
+.PHONY: all git links $(LINKS) authorized_keys ssh_config gpg.conf xmonad dirs bins $(BINS)
 
 $(LINKS): ../$$@
 

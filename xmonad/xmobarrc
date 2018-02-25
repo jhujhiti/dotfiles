@@ -1,0 +1,21 @@
+Config {
+    font = "xft:DejaVu Sans-8,antialias=true",
+    position = Top,
+    sepChar = "%",
+    alignSep = "}{",
+    commands = [
+        Run BatteryP ["BAT0"] [
+            "-t", "<acstatus>",
+            "-l", "#f2777a",
+            "--",
+            "-O", "Charging <left>% / <timeleft>",
+            "-i", "Charged",
+            "-o", "Discharging <left>% / <timeleft>"
+        ] 600,
+        Run Date "%a %b %d %H:%M" "date" 10,
+        Run StdinReader
+    ],
+    template = "%StdinReader%}{Battery: %battery% | %date%",
+    bgColor = "#2d2d2d",
+    fgColor = "#d3d0c8"
+}
