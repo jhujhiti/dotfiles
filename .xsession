@@ -39,3 +39,12 @@ dotfiles="${HOME}/dotfiles"
 if $(quick_which setxkbmap) && $(quick_which xkbcomp); then
     setxkbmap -print | sed -e '/xkb_symbols/s/"[[:space:]]/+local:2&/' | xkbcomp -w0 -I"$dotfiles/xkb" - $DISPLAY
 fi
+
+xset r rate 250
+xset -b
+export TZ=America/New_York
+export LANG=en_US.UTF-8
+export GDK_SCALE=2
+# FIXME: stop spawning this blindly in case it's already running
+eval `ssh-agent`
+[ -x "${HOME}/.fehbg" ] && ${HOME}/.fehbg
