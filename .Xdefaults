@@ -39,3 +39,4 @@ urxvt.perl-lib: /home/jhujhiti/dotfiles/.urxvt/
 urxvt.perl-ext: selection,mark-yank-urls,font-size
 urxvt.loginShell: true
 urxvt.geometry: 132x44
+urxvt.urgentOnBell: true
