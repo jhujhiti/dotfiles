@@ -18,7 +18,8 @@ import XMonad.Hooks.UrgencyHook
 import XMonad.Actions.CycleWS
 import qualified XMonad.StackSet as W
 
-myWorkspaces = ["irssi", "1", "2", "3", "4", "5", "6"]
+workspaceKeys = "`1234567890"
+myWorkspaces = ["irssi"] ++ map (\x -> [x]) "123456"
 myTerminal = "urxvt"
 appKeys :: [(String, String)]
 appKeys = [
@@ -80,7 +81,7 @@ myKeys = \conf -> mkKeymap conf $ autoKeys ++
     ]
     ++
     [(mask ++ "M-" ++ [key], action tag)
-        | (tag, key) <- zip myWorkspaces "`1234567890",
+        | (tag, key) <- zip myWorkspaces workspaceKeys,
         (mask, action) <- [("", windows . W.view), ("S-", windows . W.shift)]
     ]
     ++
