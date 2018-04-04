@@ -148,7 +148,7 @@ xmonadConfig = withUrgencyHook NoUrgencyHook $ def {
     layoutHook = layout,
     borderWidth = 4,
     workspaces = myWorkspaces,
-    normalBorderColor = color!!0,
+    normalBorderColor = color!!2,
     focusedBorderColor = color!!7
     }
 
