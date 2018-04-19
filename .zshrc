@@ -71,6 +71,8 @@ bindkey -e
 
 # completion stuff
 zstyle :compinstall filename '~/.zshrc'
+# find all the git-* commands and let me complete them
+zstyle ':completion:*:*:git:*' user-commands ${${(M)${(k)commands}:#git-*}/git-/}
 
 autoload -Uz compinit
 compinit
