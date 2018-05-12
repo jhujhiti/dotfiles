@@ -11,7 +11,7 @@ REAL_BINS=$(addprefix ../bin/,$(BINS))
 
 all: git links dirs bins
 
-links: $(LINKS) authorized_keys ssh_config gpg.conf xmonad
+links: $(LINKS) authorized_keys ssh_config gpg xmonad
 
 git:
 	git submodule init
@@ -52,10 +52,13 @@ ssh_config: ../.ssh ../.ssh/config
 ../.ssh:
 	mkdir -p -m 700 ../.ssh
 
-gpg.conf: ../.gnupg ../.gnupg/gpg.conf
+gpg: ../.gnupg ../.gnupg/gpg.conf ../.gnupg/gpg-agent.conf
 
 ../.gnupg/gpg.conf:
 	ln -s ../$(BASE)/gpg.conf ../.gnupg/gpg.conf
+
+../.gnupg/gpg-agent.conf:
+	ln -s ../$(BASE)/gpg-agent.conf ../.gnupg/gpg-agent.conf
 
 ../.gnupg:
 	mkdir -p ../.gnupg
@@ -75,7 +78,7 @@ dirs: ../bin ../tmp
 
 .SECONDEXPANSION:
 
-.PHONY: all git links $(LINKS) authorized_keys ssh_config gpg.conf xmonad dirs bins $(BINS)
+.PHONY: all git links $(LINKS) authorized_keys ssh_config gpg xmonad dirs bins $(BINS)
 
 $(LINKS): ../$$@
 

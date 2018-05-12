@@ -158,30 +158,19 @@ fi
 
 quick_which vim && export EDITOR=vim
 
-if $(quick_which gpg-agent); then
-    # read the file first, so if gpg-agent is already running, it will
-    # be found
-    if [ -f "${HOME}/.gpg-agent-info" ]; then
-        . "${HOME}/.gpg-agent-info"
-        export GPG_AGENT_INFO
+# we're going to try to replace ssh-agent with gpg-agent.
+# as of gpg 2.2, we have some new tricks.
+if $(quick_which gpg-agent) && $(quick_which gpg-connect-agent) && $(quick_which gpgconf); then
+    # gpg-connect-agent will try to start one.
+    # the config file will enable the ssh socket when the agent starts.
+    # if any of this fails we'll just not touch the environment and ssh-agent itself should work.
+    if gpg-connect-agent -q /bye 2>&1 >/dev/null; then
+        sock=$(gpgconf -q --list-dir agent-ssh-socket)
+        if [ -S "${sock}" ]; then
+            export SSH_AUTH_SOCK="${sock}"
+            export GPG_TTY=$(tty)
+        fi
     fi
-
-    # start if we're not running
-    gpg-agent > /dev/null 2>&1 || \
-        gpg-agent --daemon \
-        --write-env-file "${HOME}/.gpg-agent-info" > /dev/null 2>&1
-
-    # read the info file and export its variables
-    if [ -f "${HOME}/.gpg-agent-info" ]; then
-        . "${HOME}/.gpg-agent-info"
-        export GPG_AGENT_INFO
-        # uncomment these if we ever replace ssh-agent
-        #export SSH_AUTH_SOCK
-        #export SSH_AGENT_PID
-    fi
-
-    # debian scripts fail without setting this
-    export GPG_TTY=`tty`
 fi
 
 if $(quick_which ssh-add); then
