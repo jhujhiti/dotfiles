@@ -1,6 +1,6 @@
 LINKS?=.gitconfig .inputrc .screenrc .vim .vimrc .muttrc .kernel-pkg.conf \
       .zprofile .zshenv .zshrc .zsh .Xdefaults .tmux.conf .termcap .mailcap \
-      .xsession
+      .xsession .nethackrc
 BASE?=$(shell basename `pwd`)
 
 REAL_LINKS=$(addprefix ../,$(LINKS))
