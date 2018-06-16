@@ -19,7 +19,7 @@ import XMonad.Actions.CycleWS
 import qualified XMonad.StackSet as W
 
 workspaceKeys = "`1234567890"
-myWorkspaces = ["irssi"] ++ map (\x -> [x]) "123456"
+myWorkspaces = ["irssi"] ++ map (\x -> [x]) "1234567890"
 myTerminal = "urxvt"
 appKeys :: [(String, String)]
 appKeys = [
