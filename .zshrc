@@ -161,14 +161,17 @@ quick_which vim && export EDITOR=vim
 # we're going to try to replace ssh-agent with gpg-agent.
 # as of gpg 2.2, we have some new tricks.
 if $(quick_which gpg-agent) && $(quick_which gpg-connect-agent) && $(quick_which gpgconf); then
-    # gpg-connect-agent will try to start one.
-    # the config file will enable the ssh socket when the agent starts.
-    # if any of this fails we'll just not touch the environment and ssh-agent itself should work.
-    if gpg-connect-agent -q /bye 2>&1 >/dev/null; then
-        sock=$(gpgconf -q --list-dir agent-ssh-socket)
-        if [ -S "${sock}" ]; then
-            export SSH_AUTH_SOCK="${sock}"
-            export GPG_TTY=$(tty)
+    # only try to touch this if we're sshed here. otherwise we break agent forwarding
+    if [ -z "${SSH_CONNECTION}" ]; then
+        # gpg-connect-agent will try to start one.
+        # the config file will enable the ssh socket when the agent starts.
+        # if any of this fails we'll just not touch the environment and ssh-agent itself should work.
+        if gpg-connect-agent -q /bye 2>&1 >/dev/null; then
+            sock=$(gpgconf -q --list-dir agent-ssh-socket)
+            if [ -S "${sock}" ]; then
+                export SSH_AUTH_SOCK="${sock}"
+                export GPG_TTY=$(tty)
+            fi
         fi
     fi
 fi
