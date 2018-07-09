@@ -17,6 +17,7 @@ import XMonad.Layout.FixedColumn
 import XMonad.Hooks.UrgencyHook
 import XMonad.Actions.CycleWS
 import qualified XMonad.StackSet as W
+import System.Exit
 
 workspaceKeys = "`1234567890"
 myWorkspaces = ["irssi"] ++ map (\x -> [x]) "1234567890"
@@ -77,7 +78,8 @@ myKeys = \conf -> mkKeymap conf $ autoKeys ++
     ("M-m",         nextWS),
     ("M-<Tab>",     toggleWS),
     ("M-M1-S-c",    kill),
-    ("M-z",         restart "xmonad" True)
+    ("M-z",         restart "xmonad" True),
+    ("M-M1-S-z",    io (exitWith ExitSuccess))
     ]
     ++
     [(mask ++ "M-" ++ [key], action tag)
