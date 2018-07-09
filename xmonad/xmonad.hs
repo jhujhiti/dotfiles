@@ -75,7 +75,7 @@ myKeys = \conf -> mkKeymap conf $ autoKeys ++
     ("M-.",         sendMessage (IncMasterN (-1))),
     ("M-n",         prevWS),
     ("M-m",         nextWS),
-    ("M-<Tab>",         toggleWS),
+    ("M-<Tab>",     toggleWS),
     ("M-M1-S-c",    kill),
     ("M-z",         restart "xmonad" True)
     ]
