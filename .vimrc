@@ -11,8 +11,8 @@
 " visual <tab> - easyalign
 " ga - easyalign
 " Tabs:
-" <C-Space>X - go to tab X
-" <C-Space><C-Space> - go to next tab
+" <C-Space>X OR ,tX - go to tab X
+" <C-Space><C-Space> OR ,tt - go to next tab
 " Windows:
 " gr - resize this split to fit the visual selection
 " gss - split this selection
@@ -77,15 +77,25 @@ noremap <F5> :set paste! paste?<CR>
 
 " tab navigation
 nnoremap <C-Space>1 1gt
+nnoremap <Leader>t1 1gt
 nnoremap <C-Space>2 2gt
+nnoremap <Leader>t2 2gt
 nnoremap <C-Space>3 3gt
+nnoremap <Leader>t3 3gt
 nnoremap <C-Space>4 4gt
+nnoremap <Leader>t4 4gt
 nnoremap <C-Space>5 5gt
+nnoremap <Leader>t5 5gt
 nnoremap <C-Space>6 6gt
+nnoremap <Leader>t6 6gt
 nnoremap <C-Space>7 7gt
+nnoremap <Leader>t7 7gt
 nnoremap <C-Space>8 8gt
+nnoremap <Leader>t8 8gt
 nnoremap <C-Space>9 9gt
+nnoremap <Leader>t9 9gt
 nnoremap <C-Space><C-Space> gt
+nnoremap <Leader>tt gt
 
 
 " reserve F6 and up for buffer-specific
