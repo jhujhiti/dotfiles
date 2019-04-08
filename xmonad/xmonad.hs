@@ -27,7 +27,7 @@ appKeys = [
     ("<Return>", myTerminal),
     ("v", "gvim"),
     ("c", "galculator"),
-    ("p", "keepassx2 ~/storage/passwords.kdbx"),
+    ("p", "keepassxc ~/storage/passwords.kdbx"),
     ("b", "chromium")
     ]
 applications :: [(String, String)] -> [(String, X ())]
