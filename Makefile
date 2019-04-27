@@ -11,7 +11,7 @@ REAL_BINS=$(addprefix ../bin/,$(BINS))
 
 all: git links dirs bins
 
-links: $(LINKS) authorized_keys ssh_config gpg xmonad
+links: $(LINKS) authorized_keys ssh_config gpg xmonad gitignore
 
 git:
 	git submodule init
@@ -21,6 +21,9 @@ git:
 
 $(REAL_LINKS):
 	ln -s $(BASE)/$(@F) ../$(@F)
+
+gitignore:
+	ln -s ../$(BASE)/.gitignore ../.gitignore
 
 xmonad: ../.xmonad ../.xmonad/xmonad.hs ../.config ../.config/xmobar ../.config/xmobar/xmobarrc
 

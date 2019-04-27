@@ -1,6 +1,8 @@
 [user]
-    name = Erick Turnquist
-    email = jhujhiti@adjectivism.org
-    signingkey = 8C1BFCC5
+	name = Erick Turnquist
+	email = jhujhiti@adjectivism.org
+	signingkey = 8C1BFCC5
 [push]
-    default = matching
+	default = matching
+[core]
+	excludesfile = /home/jhujhiti/.gitignore
