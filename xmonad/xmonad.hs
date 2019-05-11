@@ -1,35 +1,41 @@
-import XMonad
-import XMonad.Util.EZConfig
-import XMonad.Layout.Tabbed
-import XMonad.Layout.SubLayouts
-import XMonad.Layout.WindowNavigation
-import XMonad.Layout.BoringWindows
-import XMonad.Layout.Simplest
-import XMonad.Hooks.DynamicLog
-import XMonad.Util.Themes
-import XMonad.Util.Font
-import XMonad.Layout.PerWorkspace
-import XMonad.Layout.LayoutHints
-import XMonad.Layout.AvoidFloats
-import XMonad.Layout.SimplestFloat
-import XMonad.Layout.LayoutBuilder
-import XMonad.Layout.FixedColumn
-import XMonad.Hooks.UrgencyHook
-import XMonad.Actions.CycleWS
-import qualified XMonad.StackSet as W
+{-# OPTIONS_GHC -Wno-missing-signatures #-}
 import System.Exit
+import qualified Data.Map.Internal
+import XMonad
+import XMonad.Actions.CycleWS
+import XMonad.Hooks.DynamicLog
+import XMonad.Hooks.UrgencyHook
+import XMonad.Layout.BoringWindows
+import XMonad.Layout.FixedColumn
+import XMonad.Layout.PerWorkspace
+import XMonad.Layout.Simplest
+import XMonad.Layout.SubLayouts
+import XMonad.Layout.Tabbed
+import XMonad.Layout.ThreeColumns
+import XMonad.Layout.WindowNavigation
+import XMonad.Util.EZConfig
+import qualified XMonad.Layout.Renamed as R
+import qualified XMonad.StackSet as W
 
+workspaceKeys :: String
 workspaceKeys = "`1234567890"
+
+myWorkspaces :: [String]
 myWorkspaces = ["irssi"] ++ map (\x -> [x]) "1234567890"
+
+myTerminal :: String
 myTerminal = "urxvt"
+
 appKeys :: [(String, String)]
 appKeys = [
     ("<Return>", myTerminal),
     ("v", "gvim"),
     ("c", "galculator"),
     ("p", "keepassxc ~/storage/passwords.kdbx"),
-    ("b", "chromium")
+    ("b", "firefox"),
+    ("a", "emacs")
     ]
+
 applications :: [(String, String)] -> [(String, X ())]
 applications = map (\(k, v) -> ("M-S-" ++ k, spawn v))
 
@@ -50,6 +56,7 @@ autoKeys = foldl1 (++) l
               withDirections "M-C" pullGroup
               ]
 
+myKeys :: XConfig Layout -> Data.Map.Internal.Map (KeyMask, KeySym) (X())
 myKeys = \conf -> mkKeymap conf $ autoKeys ++
     [
     -- media keys
@@ -93,17 +100,15 @@ myKeys = \conf -> mkKeymap conf $ autoKeys ++
     ]
 
 tall = Tall 1 (3/100) (1/2)
+layouts = tall ||| Mirror tall ||| ThreeCol 1 (3/100) (1/2) ||| (R.renamed [R.Replace "ThreeColMid"] $ ThreeColMid 1 (3/100) (1/2)) ||| Full
+inner = Simplest
+outer = boringWindows layouts
 
---tabconf = configurableNavigation (navigateBrightness 0) $ addTabs shrinkText myTheme $ subLayout [] Simplest $ boringWindows
-
-defaultLayout = configurableNavigation (navigateBrightness 0) $ addTabs shrinkText myTheme $ subLayout [] Simplest $ boringWindows $ tall ||| Mirror tall ||| Full
+defaultLayout = configurableNavigation (navigateBrightness 0) $ addTabs shrinkText myTheme $ subLayout [] inner $ outer
+--defaultLayout = configurableNavigation (navigateBrightness 0) $ (addTabs shrinkText myTheme outer) ||| subLayout [] inner outer
+--defaultLayout = configurableNavigation (navigateBrightness 0) $ addTabs shrinkText myTheme outer
 
 irssiLayout = configurableNavigation (navigateBrightness 0) $ addTabs shrinkText myTheme $ subLayout [] Simplest $ boringWindows $ FixedColumn 1 14 132 20
---irssiLayout = layoutHints $ avoidFloats $ simplestFloat
---irssiLayout = layoutHints $ (
---                            layoutN 1 (absBox 0 0 1860 1244) Nothing Full $ (
---                              layoutAll (absBox 0 0 (0) (0)) Full)
---                            )
 
 layout = onWorkspace "irssi" irssiLayout $
     defaultLayout
@@ -162,7 +167,7 @@ myXmobarPP = xmobarPP {
     ppSep = " | "
     }
 
-toggleStrutsKey XConfig { XMonad.modMask = modMask } = (modMask, xK_b)
+toggleStrutsKey XConfig { XMonad.modMask = mask } = (mask, xK_b)
 
 main = do
     xmonad =<< statusBar "xmobar" myXmobarPP toggleStrutsKey xmonadConfig
