@@ -22,8 +22,10 @@ git:
 $(REAL_LINKS):
 	ln -s $(BASE)/$(@F) ../$(@F)
 
-gitignore:
-	ln -s ../$(BASE)/.gitignore ../.gitignore
+gitignore: ../.gitignore
+
+../.gitignore:
+	ln -s $(BASE)/global.gitignore ../.gitignore
 
 xmonad: ../.xmonad ../.xmonad/xmonad.hs ../.config ../.config/xmobar ../.config/xmobar/xmobarrc
 
@@ -81,7 +83,7 @@ dirs: ../bin ../tmp
 
 .SECONDEXPANSION:
 
-.PHONY: all git links $(LINKS) authorized_keys ssh_config gpg xmonad dirs bins $(BINS)
+.PHONY: all git links $(LINKS) authorized_keys ssh_config gpg xmonad gitignore dirs bins $(BINS)
 
 $(LINKS): ../$$@
 
