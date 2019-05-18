@@ -30,6 +30,7 @@ M-S-[`1234567890] - move window to workspace
 M-<Tab> - toggle between workspaces (like alt-tab for workspaces)
 M-[nm] - previous/next workspace
 
+M-b - toggle struts
 M-z - restart xmonad
 M-M1-S-z - quit xmonad
 -}
@@ -38,9 +39,11 @@ import qualified Data.Map.Internal
 import XMonad
 import XMonad.Actions.CycleWS
 import XMonad.Hooks.DynamicLog
+import XMonad.Hooks.ManageHelpers
 import XMonad.Hooks.UrgencyHook
 import XMonad.Layout.BoringWindows
 import XMonad.Layout.FixedColumn
+import XMonad.Layout.NoBorders
 import XMonad.Layout.PerWorkspace
 import XMonad.Layout.Simplest
 import XMonad.Layout.SubLayouts
@@ -147,6 +150,13 @@ irssiLayout = configurableNavigation (navigateBrightness 0) $ addTabs shrinkText
 layout = onWorkspace "irssi" irssiLayout $
     defaultLayout
 
+myManageHook = composeAll [
+-- TODO
+-- Allows focusing other monitors without killing the fullscreen
+--  [ isFullscreen --> (doF W.focusDown <+> doFullFloat)
+  isFullscreen --> doFullFloat
+  ]
+
 -- this is based on base16-eighties
 color :: [String]
 color = [
@@ -186,11 +196,12 @@ xmonadConfig = withUrgencyHook NoUrgencyHook $ def {
     modMask = mod4Mask,
     terminal = myTerminal,
     keys = myKeys,
-    layoutHook = layout,
+    layoutHook = smartBorders (layout),
     borderWidth = 4,
     workspaces = myWorkspaces,
     normalBorderColor = color!!2,
-    focusedBorderColor = color!!7
+    focusedBorderColor = color!!7,
+    manageHook = myManageHook <+> manageHook def
     }
 
 myXmobarPP = xmobarPP {
