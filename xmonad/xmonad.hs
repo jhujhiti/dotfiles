@@ -1,4 +1,38 @@
 {-# OPTIONS_GHC -Wno-missing-signatures #-}
+{-
+-- Quick guide to key bindings
+
+Applications: M-S-<key>
+b - firefox
+p - keepassxc
+c - calculator
+a - emacs
+v - gvim
+<Return> - urxvt
+
+Windows:
+Generally, M alone is focus management. M-S is window management. M-C is tab management.
+M-[hjkl] - move focus in that direction
+M-[;'] - move focus left or right in this tab group
+M-[qwe] - move focus to display
+M-S-[hjkl] - swap window with the one in that direction
+M-S-[;'] - grow or shrink the master area
+M-S-[,.] - grow or shrink the number of master windows
+M-S-[qwe] - move window to display
+M-C-[hjkl] - grab the window in that direction and pull it into a tab group with this one
+M-C-m - merge all windows into tab group
+M-C-u - unmerge this window from the tab group
+M-M1-S-c - kill
+
+Workspaces:
+M-[`1234567890] - switch to workspace
+M-S-[`1234567890] - move window to workspace
+M-<Tab> - toggle between workspaces (like alt-tab for workspaces)
+M-[nm] - previous/next workspace
+
+M-z - restart xmonad
+M-M1-S-z - quit xmonad
+-}
 import System.Exit
 import qualified Data.Map.Internal
 import XMonad
@@ -79,8 +113,8 @@ myKeys = \conf -> mkKeymap conf $ autoKeys ++
     ("M-'",         onGroup W.focusDown'),
     ("M-S-'",       sendMessage Expand),
     ("M-t",         withFocused $ windows . W.sink),
-    ("M-,",         sendMessage (IncMasterN 1)),
-    ("M-.",         sendMessage (IncMasterN (-1))),
+    ("M-S-,",       sendMessage (IncMasterN 1)),
+    ("M-S-.",       sendMessage (IncMasterN (-1))),
     ("M-n",         prevWS),
     ("M-m",         nextWS),
     ("M-<Tab>",     toggleWS),
