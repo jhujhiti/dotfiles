@@ -1,5 +1,5 @@
-LINKS?=.gitconfig .inputrc .screenrc .vim .vimrc .muttrc .kernel-pkg.conf \
-      .zprofile .zshenv .zshrc .zsh .Xdefaults .tmux.conf .termcap .mailcap \
+LINKS?=.gitconfig .inputrc .screenrc .vim .vimrc .muttrc .zprofile \
+      .zshenv .zshrc .zsh .Xdefaults .tmux.conf .termcap .mailcap \
       .xsession .nethackrc
 BASE?=$(shell basename `pwd`)
 
