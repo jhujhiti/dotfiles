@@ -9,9 +9,12 @@ BINS=$(shell ls bin)
 
 REAL_BINS=$(addprefix ../bin/,$(BINS))
 
-all: git links dirs bins
+# directories to create in our home directory
+DIRS?=bin tmp .emacs.d .config .xmonad .gnupg
 
-links: $(LINKS) authorized_keys ssh_config gpg xmonad gitignore emacs
+all: git links $(REAL_BINS) ../tmp
+
+links: $(LINKS) authorized_keys ssh_config gpg xmonad ../.gitignore emacs
 
 git:
 	git submodule init
@@ -22,76 +25,55 @@ git:
 $(REAL_LINKS):
 	ln -s $(BASE)/$(@F) ../$(@F)
 
-emacs: ../.emacs.d ../.emacs.d/init.el
+emacs: ../.emacs.d/init.el
 
-../.emacs.d:
-	mkdir -p $@
-
-../.emacs.d/init.el:
+../.emacs.d/init.el: | $(@D)
 	ln -s ../$(BASE)/emacs/init.el $@
 
-gitignore: ../.gitignore
-
 ../.gitignore:
-	ln -s $(BASE)/global.gitignore ../.gitignore
+	ln -s $(BASE)/global.gitignore $@
 
-xmonad: ../.xmonad ../.xmonad/xmonad.hs ../.config ../.config/xmobar ../.config/xmobar/xmobarrc
+xmonad: ../.xmonad/xmonad.hs ../.config/xmobar/xmobarrc
 
-../.xmonad:
-	mkdir -p ../.xmonad
+../.xmonad/xmonad.hs: | $(@D)
+	ln -s ../$(BASE)/xmonad/xmonad.hs $@
 
-../.xmonad/xmonad.hs:
-	ln -s ../$(BASE)/xmonad/xmonad.hs ../.xmonad/xmonad.hs
+../.config/xmobar: | $(@D)
+	mkdir -p $@
 
-../.config:
-	mkdir -p ../.config
+../.config/xmobar/xmobarrc: | $(@D)
+	ln -s ../../$(BASE)/xmonad/xmobarrc $@
 
-../.config/xmobar:
-	mkdir -p ../.config/xmobar
+authorized_keys: ../.ssh/authorized_keys
 
-../.config/xmobar/xmobarrc:
-	ln -s ../../$(BASE)/xmonad/xmobarrc ../.config/xmobar/xmobarrc
+ssh_config: ../.ssh/config
 
-authorized_keys: ../.ssh ../.ssh/authorized_keys
+../.ssh/authorized_keys: | $(@D)
+	ln -s ../$(BASE)/authorized_keys $@
 
-ssh_config: ../.ssh ../.ssh/config
-
-../.ssh/authorized_keys:
-	ln -s ../$(BASE)/authorized_keys ../.ssh/authorized_keys
-
-../.ssh/config:
-	ln -s ../$(BASE)/ssh_config ../.ssh/config
+../.ssh/config: | $(@D)
+	ln -s ../$(BASE)/ssh_config $@
 
 ../.ssh:
-	mkdir -p -m 700 ../.ssh
+	mkdir -p -m 700 $@
 
-gpg: ../.gnupg ../.gnupg/gpg.conf ../.gnupg/gpg-agent.conf
+gpg: ../.gnupg/gpg.conf ../.gnupg/gpg-agent.conf
 
-../.gnupg/gpg.conf:
-	ln -s ../$(BASE)/gpg.conf ../.gnupg/gpg.conf
+../.gnupg/gpg.conf: | $(@D)
+	ln -s ../$(BASE)/gpg.conf $@
 
-../.gnupg/gpg-agent.conf:
-	ln -s ../$(BASE)/gpg-agent.conf ../.gnupg/gpg-agent.conf
-
-../.gnupg:
-	mkdir -p ../.gnupg
-
-bins: ../bin $(REAL_BINS)
+../.gnupg/gpg-agent.conf: | $(@D)
+	ln -s ../$(BASE)/gpg-agent.conf $@
 
 $(REAL_BINS):
 	ln -s ../$(BASE)/bin/$(@F) ../bin/$(@F)
 
-dirs: ../bin ../tmp
-
-../bin:
-	mkdir -p ../bin
-
-../tmp:
-	mkdir -p ../tmp
+$(addprefix ../,$(DIRS)):
+	mkdir -p $@
 
 .SECONDEXPANSION:
 
-.PHONY: all git links $(LINKS) authorized_keys ssh_config gpg xmonad gitignore emacs dirs bins $(BINS)
+.PHONY: all git links $(LINKS) authorized_keys ssh_config gpg xmonad emacs $(BINS)
 
 $(LINKS): ../$$@
 
