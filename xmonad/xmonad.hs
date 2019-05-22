@@ -14,11 +14,11 @@ Windows:
 Generally, M alone is focus management. M-S is window management. M-C is tab management.
 M-[hjkl] - move focus in that direction
 M-[;'] - move focus left or right in this tab group
-M-[qwe] - move focus to display
+M-[qwer] - move focus to screen
 M-S-[hjkl] - swap window with the one in that direction
 M-S-[;'] - grow or shrink the master area
 M-S-[,.] - grow or shrink the number of master windows
-M-S-[qwe] - move window to display
+M-S-[qwer] - move window to screen
 M-C-[hjkl] - grab the window in that direction and pull it into a tab group with this one
 M-C-m - merge all windows into tab group
 M-C-u - unmerge this window from the tab group
@@ -59,6 +59,9 @@ workspaceKeys = "`1234567890"
 
 myWorkspaces :: [String]
 myWorkspaces = ["irssi"] ++ map (\x -> [x]) "1234567890"
+
+screenKeys :: String
+screenKeys = "qwer"
 
 myTerminal :: String
 myTerminal = "urxvt"
@@ -132,7 +135,7 @@ myKeys = \conf -> mkKeymap conf $ autoKeys ++
     ]
     ++
     [(mask ++ "M-" ++ [key], screenWorkspace screen >>= flip whenJust (windows . action))
-        | (screen, key) <- zip [0..] "qwe",
+        | (screen, key) <- zip [0..] screenKeys,
         (mask, action) <- [("", W.view), ("S-", W.shift)]
     ]
 
@@ -141,11 +144,14 @@ layouts = tall ||| Mirror tall ||| ThreeCol 1 (3/100) (1/2) ||| (R.renamed [R.Re
 inner = Simplest
 outer = boringWindows layouts
 
-defaultLayout = configurableNavigation (navigateBrightness 0) $ addTabs shrinkText myTheme $ subLayout [] inner $ outer
---defaultLayout = configurableNavigation (navigateBrightness 0) $ (addTabs shrinkText myTheme outer) ||| subLayout [] inner outer
---defaultLayout = configurableNavigation (navigateBrightness 0) $ addTabs shrinkText myTheme outer
+addnav l = configurableNavigation (navigateBrightness 0) l
 
-irssiLayout = configurableNavigation (navigateBrightness 0) $ addTabs shrinkText myTheme $ subLayout [] Simplest $ boringWindows $ FixedColumn 1 14 132 20
+-- add tabs to the layout without adding the "Tabbed" to the layout description
+addtabs l = R.renamed [R.CutWordsLeft 1] $ addTabs shrinkText myTheme l
+
+defaultLayout = addnav $ addtabs $ subLayout [] inner $ outer
+
+irssiLayout = addnav $ addtabs $ subLayout [] inner $ boringWindows $ FixedColumn 1 14 132 20
 
 layout = onWorkspace "irssi" irssiLayout $
     defaultLayout
