@@ -11,7 +11,7 @@ REAL_BINS=$(addprefix ../bin/,$(BINS))
 
 all: git links dirs bins
 
-links: $(LINKS) authorized_keys ssh_config gpg xmonad gitignore
+links: $(LINKS) authorized_keys ssh_config gpg xmonad gitignore emacs
 
 git:
 	git submodule init
@@ -21,6 +21,14 @@ git:
 
 $(REAL_LINKS):
 	ln -s $(BASE)/$(@F) ../$(@F)
+
+emacs: ../.emacs.d ../.emacs.d/init.el
+
+../.emacs.d:
+	mkdir -p $@
+
+../.emacs.d/init.el:
+	ln -s ../$(BASE)/emacs/init.el $@
 
 gitignore: ../.gitignore
 
@@ -83,7 +91,7 @@ dirs: ../bin ../tmp
 
 .SECONDEXPANSION:
 
-.PHONY: all git links $(LINKS) authorized_keys ssh_config gpg xmonad gitignore dirs bins $(BINS)
+.PHONY: all git links $(LINKS) authorized_keys ssh_config gpg xmonad gitignore emacs dirs bins $(BINS)
 
 $(LINKS): ../$$@
 
