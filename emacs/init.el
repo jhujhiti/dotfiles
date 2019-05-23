@@ -39,6 +39,7 @@ Example: (apply-mode-hook 'flycheck-mode \"emacs-lisp\" \"haskell\")"
 (use-package evil-surround)
 (use-package flycheck-gometalinter)
 (use-package flycheck-haskell)
+(use-package flycheck-yamllint)
 (use-package flymake)
 (use-package flymake-css)
 (use-package flymake-cursor)
@@ -53,6 +54,7 @@ Example: (apply-mode-hook 'flycheck-mode \"emacs-lisp\" \"haskell\")"
 (use-package haskell-mode)
 (use-package jedi)
 (use-package jedi-core)
+(use-package jinja2-mode)
 (use-package markdown-mode)
 (use-package magit)
 (use-package ox-hugo :after ox)
@@ -78,6 +80,9 @@ Example: (apply-mode-hook 'flycheck-mode \"emacs-lisp\" \"haskell\")"
 
 ; beautification
 ;; basic look-and-feel
+; default height and width
+(add-to-list 'default-frame-alist '(width . 132))
+(add-to-list 'default-frame-alist '(height . 44))
 ; Mac OS (ns) DPI scaling is a pain. or at least that's what i think this problem is
 (setq window-system-default-frame-alist '(
                                           (x (font . "DejaVu Sans Mono-9"))
