@@ -54,6 +54,7 @@ Example: (apply-mode-hook 'flycheck-mode \"emacs-lisp\" \"haskell\")"
 (use-package jedi)
 (use-package jedi-core)
 (use-package markdown-mode)
+(use-package magit)
 (use-package ox-hugo :after ox)
 (use-package pandoc)
 (use-package pandoc-mode)
