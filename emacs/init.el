@@ -2,6 +2,8 @@
 ;;; Commentary:
 ;;; go away flycheck error
 ;;; Code:
+
+; ----- Helper functions -----
 (defun make-mode-hooks (&rest modes)
   "Concatenates -mode-hook onto the end of each argument (MODES)
 and returns them as interned symbols."
@@ -17,16 +19,50 @@ Example: (apply-mode-hook 'flycheck-mode \"emacs-lisp\" \"haskell\")"
           (add-hook it hook))
         (apply 'make-mode-hooks modes)))
 
+; ----- Package bootstrap -----
 (require 'package)
 (add-to-list 'package-archives
              '("melpa-stable" . "https://stable.melpa.org/packages/") t)
 (package-initialize)
+(require 'use-package-ensure)
+(setq use-package-always-ensure t)
 
-(use-package which-key :ensure t)
+(use-package base16-theme)
+(use-package company)
+(use-package company-go)
+(use-package company-jedi)
+(use-package company-shell)
+(use-package evil)
+(use-package evil-leader)
+(use-package evil-numbers)
+(use-package evil-quickscope)
+(use-package evil-surround)
+(use-package flycheck-gometalinter)
+(use-package flycheck-haskell)
+(use-package flymake)
+(use-package flymake-css)
+(use-package flymake-cursor)
+(use-package flymake-haskell-multi)
+(use-package flymake-json)
+(use-package flymake-python-pyflakes)
+(use-package flymake-ruby)
+(use-package flymake-shell)
+(use-package ghc)
+(use-package ghc-imported-from)
+(use-package go-mode)
+(use-package haskell-mode)
+(use-package jedi)
+(use-package jedi-core)
+(use-package markdown-mode)
+(use-package ox-hugo :after ox)
+(use-package pandoc)
+(use-package pandoc-mode)
+(use-package rainbow-delimiters)
+(use-package salt-mode)
 
-(require 'evil)
+
 (evil-mode t)
-(use-package evil-surround :ensure t :config (global-evil-surround-mode 1))
+(use-package evil-surround :config (global-evil-surround-mode 1))
 
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 4)
@@ -40,6 +76,15 @@ Example: (apply-mode-hook 'flycheck-mode \"emacs-lisp\" \"haskell\")"
 (eval-after-load 'flycheck '(add-hook 'flycheck-mode-hook #'flycheck-haskell-setup))
 
 ; beautification
+;; basic look-and-feel
+; Mac OS (ns) DPI scaling is a pain. or at least that's what i think this problem is
+(setq window-system-default-frame-alist '(
+                                          (x (font . "DejaVu Sans Mono-9"))
+                                          (ns (font . "DejaVu Sans Mono-12"))))
+;; stop asking for "yes" and "no"
+(defalias 'yes-or-no-p 'y-or-n-p)
+;; don't ask at all about following symlinks to version-controlled files
+(setq vc-follow-symlinks t)
 ;; use lots of colors for () in elisp
 (apply-mode-hook 'rainbow-delimiters-mode "emacs-lisp")
 ;; word wrap
@@ -51,8 +96,6 @@ Example: (apply-mode-hook 'flycheck-mode \"emacs-lisp\" \"haskell\")"
 ; don't spell check inside strings in prog-mode
 (setq flyspell-prog-text-faces
       (delq 'font-lock-string-face flyspell-prog-text-faces))
-
-(use-package ox-hugo :ensure t :after ox)
 
 ;(require 'evil-leader)
 ;(global-evil-leader-mode)
@@ -79,9 +122,6 @@ Example: (apply-mode-hook 'flycheck-mode \"emacs-lisp\" \"haskell\")"
  '(ido-mode (quote both) nil (ido))
  '(inhibit-startup-screen t)
  '(menu-bar-mode nil)
- '(package-selected-packages
-   (quote
-    (which-key salt-mode company-jedi jedi jedi-core flycheck-gometalinter company-go go-mode ox-hugo rainbow-delimiters flycheck-haskell use-package evil-quickscope evil-surround evil-numbers company company-shell flymake flymake-css flymake-cursor flymake-json flymake-python-pyflakes flymake-ruby flymake-shell markdown-mode pandoc pandoc-mode flycheck-ghcmod flymake-haskell-multi ghc ghc-imported-from ghci-completion haskell-mode 2048-game base16-theme evil-leader evil)))
  '(scroll-bar-mode nil)
  '(tool-bar-mode nil))
 (custom-set-faces
@@ -89,5 +129,5 @@ Example: (apply-mode-hook 'flycheck-mode \"emacs-lisp\" \"haskell\")"
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 90 :width normal :foundry "PfEd" :family "DejaVu Sans Mono")))))
+ )
 ;;; init.el ends here
