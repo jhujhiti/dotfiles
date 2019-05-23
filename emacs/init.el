@@ -60,9 +60,9 @@ Example: (apply-mode-hook 'flycheck-mode \"emacs-lisp\" \"haskell\")"
 (use-package rainbow-delimiters)
 (use-package salt-mode)
 
-
 (evil-mode t)
 (use-package evil-surround :config (global-evil-surround-mode 1))
+(setq evil-highlight-closing-paren-at-point-states '(not emacs insert replace normal visual))
 
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 4)
@@ -81,14 +81,27 @@ Example: (apply-mode-hook 'flycheck-mode \"emacs-lisp\" \"haskell\")"
 (setq window-system-default-frame-alist '(
                                           (x (font . "DejaVu Sans Mono-9"))
                                           (ns (font . "DejaVu Sans Mono-12"))))
-;; stop asking for "yes" and "no"
-(defalias 'yes-or-no-p 'y-or-n-p)
-;; don't ask at all about following symlinks to version-controlled files
-(setq vc-follow-symlinks t)
 ;; use lots of colors for () in elisp
 (apply-mode-hook 'rainbow-delimiters-mode "emacs-lisp")
 ;; word wrap
 (apply-mode-hook 'visual-line-mode "text")
+;; kill the welcome screen
+(setq inhibit-startup-screen t)
+;; turn off gui elements
+(menu-bar-mode -1)
+(tool-bar-mode -1)
+(scroll-bar-mode -1)
+
+; usability
+;; stop asking for "yes" and "no"
+(defalias 'yes-or-no-p 'y-or-n-p)
+;; don't ask at all about following symlinks to version-controlled files
+(setq vc-follow-symlinks t)
+;; quit confirmation
+(setq confirm-kill-emacs 'y-or-n-p)
+;; ido-mode
+(ido-mode)
+(ido-everywhere t)
 
 ; spelling
 (apply-mode-hook 'flyspell-mode "text")
@@ -96,6 +109,13 @@ Example: (apply-mode-hook 'flycheck-mode \"emacs-lisp\" \"haskell\")"
 ; don't spell check inside strings in prog-mode
 (setq flyspell-prog-text-faces
       (delq 'font-lock-string-face flyspell-prog-text-faces))
+
+; specific language settings
+;; haskell
+(setq flycheck-ghc-args '("-dynamic"))
+(setq flycheck-haskell-runghc-command '("runghc -dynamic"))
+(setq haskell-check-command "ghc -fno-code")
+(setq haskell-process-args-ghci (quote ("-dynamic" "-ferror-spans")))
 
 ;(require 'evil-leader)
 ;(global-evil-leader-mode)
@@ -108,22 +128,10 @@ Example: (apply-mode-hook 'flycheck-mode \"emacs-lisp\" \"haskell\")"
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(confirm-kill-emacs (quote y-or-n-p))
  '(custom-enabled-themes (quote (base16-eighties)))
  '(custom-safe-themes
    (quote
-    ("9be1d34d961a40d94ef94d0d08a364c3d27201f3c98c9d38e36f10588469ea57" default)))
- '(evil-highlight-closing-paren-at-point-states (quote (not emacs insert replace normal visual)))
- '(flycheck-ghc-args (quote ("-dynamic")))
- '(flycheck-haskell-runghc-command (quote ("runghc -dynamic")))
- '(haskell-check-command "ghc -fno-code")
- '(haskell-compile-command "ghc -Wall -ferror-spans -dynamic -fforce-recomp -c %s")
- '(haskell-process-args-ghci (quote ("-dynamic" "-ferror-spans")))
- '(ido-mode (quote both) nil (ido))
- '(inhibit-startup-screen t)
- '(menu-bar-mode nil)
- '(scroll-bar-mode nil)
- '(tool-bar-mode nil))
+    ("9be1d34d961a40d94ef94d0d08a364c3d27201f3c98c9d38e36f10588469ea57" default))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
