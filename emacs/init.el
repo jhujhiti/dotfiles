@@ -66,6 +66,11 @@ Example: (apply-mode-hook 'flycheck-mode \"emacs-lisp\" \"haskell\")"
 ;; must come after evil and magit
 (use-package evil-magit)
 
+(byte-recompile-directory "~/.emacs.d/lisp" 0)
+(add-to-list 'load-path "~/.emacs.d/lisp")
+(add-to-list 'flycheck-emacs-lisp-load-path "~/.emacs.d/lisp")
+(require 'junos-mode)
+
 (evil-mode t)
 (use-package evil-surround :config (global-evil-surround-mode 1))
 (setq evil-highlight-closing-paren-at-point-states '(not emacs insert replace normal visual))

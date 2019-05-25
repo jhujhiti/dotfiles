@@ -3,3 +3,4 @@
 .vim/plugin/soywiki_starter.vim
 .DS_Store
 .vim/spell/*
+*.elc

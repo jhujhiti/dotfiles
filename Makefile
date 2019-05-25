@@ -22,13 +22,16 @@ git:
 $(REAL_LINKS):
 	ln -s $(BASE)/$(@F) ../$(@F)
 
-emacs: ../.emacs.d ../.emacs.d/init.el
+emacs: ../.emacs.d ../.emacs.d/init.el ../.emacs.d/lisp
 
 ../.emacs.d:
 	mkdir -p $@
 
 ../.emacs.d/init.el:
 	ln -s ../$(BASE)/emacs/init.el $@
+
+../.emacs.d/lisp:
+	ln -s ../$(BASE)/emacs/lisp $@
 
 gitignore: ../.gitignore
 
