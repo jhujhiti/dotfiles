@@ -63,6 +63,8 @@ Example: (apply-mode-hook 'flycheck-mode \"emacs-lisp\" \"haskell\")"
 (use-package rainbow-delimiters)
 (use-package salt-mode)
 (use-package which-key)
+;; must come after evil and magit
+(use-package evil-magit)
 
 (evil-mode t)
 (use-package evil-surround :config (global-evil-surround-mode 1))
@@ -118,6 +120,9 @@ Example: (apply-mode-hook 'flycheck-mode \"emacs-lisp\" \"haskell\")"
 ; don't spell check inside strings in prog-mode
 (setq flyspell-prog-text-faces
       (delq 'font-lock-string-face flyspell-prog-text-faces))
+
+; magit
+(global-set-key (kbd "C-c g") 'magit-status)
 
 ; specific language settings
 ;; haskell
