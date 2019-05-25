@@ -62,6 +62,7 @@ Example: (apply-mode-hook 'flycheck-mode \"emacs-lisp\" \"haskell\")"
 (use-package pandoc-mode)
 (use-package rainbow-delimiters)
 (use-package salt-mode)
+(use-package which-key)
 
 (evil-mode t)
 (use-package evil-surround :config (global-evil-surround-mode 1))
@@ -108,6 +109,8 @@ Example: (apply-mode-hook 'flycheck-mode \"emacs-lisp\" \"haskell\")"
 ;; ido-mode
 (ido-mode)
 (ido-everywhere t)
+;; enable which-key mode globally
+(which-key-mode)
 
 ; spelling
 (apply-mode-hook 'flyspell-mode "text")
