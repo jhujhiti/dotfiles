@@ -8,7 +8,7 @@
   "Concatenates -mode-hook onto the end of each argument (MODES)
 and returns them as interned symbols."
   (mapcar (lambda (it)
-            (intern (concat it "-mode-hook")))
+            (intern (concat (symbol-name it) "-mode-hook")))
           modes))
 
 (defun apply-mode-hook (hook &rest modes)
@@ -80,10 +80,10 @@ Example: (apply-mode-hook 'flycheck-mode \"emacs-lisp\" \"haskell\")"
 (defvaralias 'c-basic-offset 'tab-width)
 
 ; completion
-(apply-mode-hook 'company-mode "prog")
+(apply-mode-hook 'company-mode 'prog)
 
 ; syntax/style checking
-(apply-mode-hook 'flycheck-mode "prog")
+(apply-mode-hook 'flycheck-mode 'prog)
 (eval-after-load 'flycheck '(add-hook 'flycheck-mode-hook #'flycheck-haskell-setup))
 
 ; beautification
@@ -96,9 +96,9 @@ Example: (apply-mode-hook 'flycheck-mode \"emacs-lisp\" \"haskell\")"
                                           (x (font . "DejaVu Sans Mono-9"))
                                           (ns (font . "DejaVu Sans Mono-12"))))
 ;; use lots of colors for () in elisp
-(apply-mode-hook 'rainbow-delimiters-mode "emacs-lisp")
+(apply-mode-hook 'rainbow-delimiters-mode 'emacs-lisp)
 ;; word wrap
-(apply-mode-hook 'visual-line-mode "text")
+(apply-mode-hook 'visual-line-mode 'text)
 ;; kill the welcome screen
 (setq inhibit-startup-screen t)
 ;; turn off gui elements
@@ -120,8 +120,8 @@ Example: (apply-mode-hook 'flycheck-mode \"emacs-lisp\" \"haskell\")"
 (which-key-mode)
 
 ; spelling
-(apply-mode-hook 'flyspell-mode "text")
-(apply-mode-hook 'flyspell-prog-mode "prog")
+(apply-mode-hook 'flyspell-mode 'text)
+(apply-mode-hook 'flyspell-prog-mode 'prog)
 ; don't spell check inside strings in prog-mode
 (setq flyspell-prog-text-faces
       (delq 'font-lock-string-face flyspell-prog-text-faces))
