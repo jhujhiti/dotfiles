@@ -81,6 +81,8 @@ Example: (apply-mode-hook 'flycheck-mode \"emacs-lisp\" \"haskell\")"
 
 ; completion
 (apply-mode-hook 'company-mode 'prog)
+;; insert pairs (eg., "()") automatically
+(apply-mode-hook 'electric-pair-mode 'prog)
 
 ; syntax/style checking
 (apply-mode-hook 'flycheck-mode 'prog)
