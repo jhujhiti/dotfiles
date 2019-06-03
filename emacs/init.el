@@ -75,18 +75,19 @@ Example: (apply-mode-hook 'flycheck-mode \"emacs-lisp\" \"haskell\")"
 (use-package evil-surround :config (global-evil-surround-mode 1))
 (setq evil-highlight-closing-paren-at-point-states '(not emacs insert replace normal visual))
 
-(setq-default indent-tabs-mode nil)
-(setq-default tab-width 4)
-(defvaralias 'c-basic-offset 'tab-width)
-
 ; completion
 (apply-mode-hook 'company-mode 'prog)
 ;; insert pairs (eg., "()") automatically
 (apply-mode-hook 'electric-pair-mode 'prog)
 
-; syntax/style checking
+; syntax/style
 (apply-mode-hook 'flycheck-mode 'prog)
 (eval-after-load 'flycheck '(add-hook 'flycheck-mode-hook #'flycheck-haskell-setup))
+;; tabs and indenting
+(setq-default indent-tabs-mode nil)
+(setq-default tab-width 4)
+(setq-default c-basic-offset 8)
+(setq-default c-default-style "k&r")
 
 ; beautification
 ;; basic look-and-feel
