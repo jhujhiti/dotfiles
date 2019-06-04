@@ -62,6 +62,7 @@ Example: (apply-mode-hook 'flycheck-mode \"emacs-lisp\" \"haskell\")"
 (use-package pandoc-mode)
 (use-package rainbow-delimiters)
 (use-package salt-mode)
+(use-package smart-tabs-mode)
 (use-package which-key)
 ;; must come after evil and magit
 (use-package evil-magit)
@@ -86,8 +87,11 @@ Example: (apply-mode-hook 'flycheck-mode \"emacs-lisp\" \"haskell\")"
 ;; tabs and indenting
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 4)
-(setq-default c-basic-offset 8)
+(setq-default c-basic-offset 4)
 (setq-default c-default-style "k&r")
+(smart-tabs-insinuate 'c 'c++ 'python 'ruby 'cperl 'nxml)
+;; we want to enable indenting with tabs on the modes above
+(apply-mode-hook (lambda () (setq indent-tabs-mode t)) 'c 'c++ 'python 'ruby 'cperl 'nxml)
 
 ; beautification
 ;; basic look-and-feel
