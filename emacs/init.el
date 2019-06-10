@@ -49,6 +49,7 @@ Example: (apply-mode-hook 'flycheck-mode \"emacs-lisp\" \"haskell\")"
 (use-package flymake-python-pyflakes)
 (use-package flymake-ruby)
 (use-package flymake-shell)
+(use-package forge :after magit)
 (use-package ghc)
 (use-package ghc-imported-from)
 (use-package go-mode)
