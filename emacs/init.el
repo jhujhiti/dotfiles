@@ -34,6 +34,7 @@ Example: (apply-mode-hook 'flycheck-mode \"emacs-lisp\" \"haskell\")"
 (use-package company-shell)
 (use-package evil)
 (use-package evil-leader)
+(use-package evil-magit :after (evil magit))
 (use-package evil-numbers)
 (use-package evil-quickscope)
 (use-package evil-surround)
@@ -64,8 +65,6 @@ Example: (apply-mode-hook 'flycheck-mode \"emacs-lisp\" \"haskell\")"
 (use-package salt-mode)
 (use-package smart-tabs-mode)
 (use-package which-key)
-;; must come after evil and magit
-(use-package evil-magit)
 
 (byte-recompile-directory "~/.emacs.d/lisp" 0)
 (add-to-list 'load-path "~/.emacs.d/lisp")
