@@ -72,6 +72,12 @@ Example: (apply-mode-hook 'flycheck-mode \"emacs-lisp\" \"haskell\")"
 (add-to-list 'flycheck-emacs-lisp-load-path "~/.emacs.d/lisp")
 (require 'junos-mode)
 
+(if (file-directory-p "~/.emacs.d/site-lisp") (progn
+                                                (byte-recompile-directory "~/.emacs.d/site-lisp" 0)
+                                                (add-to-list 'load-path "~/.emacs.d/site-lisp")
+                                                (add-to-list 'flycheck-emacs-lisp-load-path "~/.emacs.d/site-lisp")
+                                                (require 'site-lisp)))
+
 (evil-mode t)
 (use-package evil-surround :config (global-evil-surround-mode 1))
 (setq evil-highlight-closing-paren-at-point-states '(not emacs insert replace normal visual))
