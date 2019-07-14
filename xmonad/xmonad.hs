@@ -36,13 +36,14 @@ M-M1-S-z - quit xmonad
 -}
 import System.Exit
 import qualified Data.Map.Internal
-import XMonad
+import XMonad hiding ((|||))
 import XMonad.Actions.CycleWS
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.ManageHelpers
 import XMonad.Hooks.UrgencyHook
 import XMonad.Layout.BoringWindows
 import XMonad.Layout.FixedColumn
+import XMonad.Layout.LayoutCombinators
 import XMonad.Layout.NoBorders
 import XMonad.Layout.PerWorkspace
 import XMonad.Layout.Simplest
@@ -108,6 +109,12 @@ myKeys = \conf -> mkKeymap conf $ autoKeys ++
     -- window management
     ("M-<Space>",   sendMessage NextLayout),
     ("M-S-<Space>", setLayout $ layoutHook conf),
+    -- submap for selecting specific layouts
+    ("M-C-<Space> 1", sendMessage $ JumpToLayout "Tall"),
+    ("M-C-<Space> 2", sendMessage $ JumpToLayout "Mirror Tall"),
+    ("M-C-<Space> 3", sendMessage $ JumpToLayout "ThreeCol"),
+    ("M-C-<Space> 4", sendMessage $ JumpToLayout "ThreeColMid"),
+    ("M-C-<Space> 5", sendMessage $ JumpToLayout "Full"),
     ("M1-<Tab>",    windows W.focusDown),
     ("M1-S-<Tab>",  windows W.focusUp),
     ("M-S-m",       windows W.focusMaster),
