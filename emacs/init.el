@@ -32,6 +32,7 @@ Example: (apply-mode-hook 'flycheck-mode \"emacs-lisp\" \"haskell\")"
 (use-package company-go)
 (use-package company-jedi)
 (use-package company-shell)
+(use-package diminish)
 (use-package evil)
 (use-package evil-leader)
 (use-package evil-magit :after (evil magit))
@@ -84,6 +85,7 @@ Example: (apply-mode-hook 'flycheck-mode \"emacs-lisp\" \"haskell\")"
 
 ; completion
 (apply-mode-hook 'company-mode 'prog)
+(diminish 'company-mode)
 ;; insert pairs (eg., "()") automatically
 (apply-mode-hook 'electric-pair-mode 'prog)
 
@@ -118,6 +120,9 @@ Example: (apply-mode-hook 'flycheck-mode \"emacs-lisp\" \"haskell\")"
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
+;; diminish some other modes. i have nowhere else to put these
+(diminish 'auto-revert-mode)
+(diminish 'undo-tree-mode)
 
 ; usability
 ;; stop asking for "yes" and "no"
@@ -131,6 +136,7 @@ Example: (apply-mode-hook 'flycheck-mode \"emacs-lisp\" \"haskell\")"
 (ido-everywhere t)
 ;; enable which-key mode globally
 (which-key-mode)
+(diminish 'which-key-mode)
 
 ; spelling
 (apply-mode-hook 'flyspell-mode 'text)
