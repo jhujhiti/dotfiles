@@ -50,11 +50,13 @@ Example: (apply-mode-hook 'flycheck-mode \"emacs-lisp\" \"haskell\")"
 (use-package flymake-python-pyflakes)
 (use-package flymake-ruby)
 (use-package flymake-shell)
+(use-package flyspell-correct-ivy)
 (use-package forge :after magit)
 (use-package ghc)
 (use-package ghc-imported-from)
 (use-package go-mode)
 (use-package haskell-mode)
+(use-package ivy)
 (use-package jedi)
 (use-package jedi-core)
 (use-package jinja2-mode)
@@ -131,9 +133,11 @@ Example: (apply-mode-hook 'flycheck-mode \"emacs-lisp\" \"haskell\")"
 (setq vc-follow-symlinks t)
 ;; quit confirmation
 (setq confirm-kill-emacs 'y-or-n-p)
-;; ido-mode
-(ido-mode)
-(ido-everywhere t)
+;; ivy
+(ivy-mode 1)
+(diminish 'ivy-mode)
+(setq ivy-use-virtual-buffers t)
+(setq ivy-count-format "%d/%d ")
 ;; enable which-key mode globally
 (which-key-mode)
 (diminish 'which-key-mode)
@@ -144,6 +148,9 @@ Example: (apply-mode-hook 'flycheck-mode \"emacs-lisp\" \"haskell\")"
 ; don't spell check inside strings in prog-mode
 (setq flyspell-prog-text-faces
       (delq 'font-lock-string-face flyspell-prog-text-faces))
+; enable the ivy minibuffer
+(require 'flyspell-correct-ivy)
+(define-key flyspell-mode-map (kbd "M-$") 'flyspell-correct-wrapper)
 
 ; magit
 (global-set-key (kbd "C-c g") 'magit-status)
