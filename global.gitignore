@@ -1,3 +1,5 @@
+# -*- mode: gitignore; -*-
+
 # Swap
 [._]*.s[a-v][a-z]
 [._]*.sw[a-p]
@@ -15,3 +17,6 @@ Session.vim
 tags
 # Persistent undo
 [._]*.un~
+
+*~
+\#*\#
