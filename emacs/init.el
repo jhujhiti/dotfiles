@@ -1,7 +1,4 @@
 ;;; package --- init.el
-;;; Commentary:
-;;; go away flycheck error
-;;; Code:
 
 ; ----- Helper functions -----
 (defun make-mode-hooks (&rest modes)
@@ -14,7 +11,7 @@ and returns them as interned symbols."
 (defun apply-mode-hook (hook &rest modes)
   "Apply HOOK to each mode listed in MODES.
 MODES is specified as in make-mode-hooks.
-Example: (apply-mode-hook 'flycheck-mode \"emacs-lisp\" \"haskell\")"
+Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
   (mapc (lambda (it)
           (add-hook it hook))
         (apply 'make-mode-hooks modes)))
@@ -39,12 +36,10 @@ Example: (apply-mode-hook 'flycheck-mode \"emacs-lisp\" \"haskell\")"
 (use-package evil-numbers)
 (use-package evil-quickscope)
 (use-package evil-surround)
-(use-package flycheck-gometalinter)
-(use-package flycheck-haskell)
-(use-package flycheck-yamllint)
 (use-package flymake)
 (use-package flymake-css)
-(use-package flymake-cursor)
+;; Causes errors, not interested in why right now
+;; (use-package flymake-cursor)
 (use-package flymake-haskell-multi)
 (use-package flymake-json)
 (use-package flymake-python-pyflakes)
@@ -72,13 +67,11 @@ Example: (apply-mode-hook 'flycheck-mode \"emacs-lisp\" \"haskell\")"
 
 (byte-recompile-directory "~/.emacs.d/lisp" 0)
 (add-to-list 'load-path "~/.emacs.d/lisp")
-(add-to-list 'flycheck-emacs-lisp-load-path "~/.emacs.d/lisp")
 (require 'junos-mode)
 
 (if (file-directory-p "~/.emacs.d/site-lisp") (progn
                                                 (byte-recompile-directory "~/.emacs.d/site-lisp" 0)
                                                 (add-to-list 'load-path "~/.emacs.d/site-lisp")
-                                                (add-to-list 'flycheck-emacs-lisp-load-path "~/.emacs.d/site-lisp")
                                                 (require 'site-lisp)))
 
 (evil-mode t)
@@ -92,8 +85,7 @@ Example: (apply-mode-hook 'flycheck-mode \"emacs-lisp\" \"haskell\")"
 (apply-mode-hook 'electric-pair-mode 'prog)
 
 ; syntax/style
-(apply-mode-hook 'flycheck-mode 'prog)
-(eval-after-load 'flycheck '(add-hook 'flycheck-mode-hook #'flycheck-haskell-setup))
+(apply-mode-hook 'flymake-mode 'prog)
 ;; tabs and indenting
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 4)
@@ -143,6 +135,7 @@ Example: (apply-mode-hook 'flycheck-mode \"emacs-lisp\" \"haskell\")"
 (diminish 'which-key-mode)
 
 ; spelling
+(diminish 'flyspell-mode)
 (apply-mode-hook 'flyspell-mode 'text)
 (apply-mode-hook 'flyspell-prog-mode 'prog)
 ; don't spell check inside strings in prog-mode
@@ -157,8 +150,6 @@ Example: (apply-mode-hook 'flycheck-mode \"emacs-lisp\" \"haskell\")"
 
 ; specific language settings
 ;; haskell
-(setq flycheck-ghc-args '("-dynamic"))
-(setq flycheck-haskell-runghc-command '("runghc -dynamic"))
 (setq haskell-check-command "ghc -fno-code")
 (setq haskell-process-args-ghci (quote ("-dynamic" "-ferror-spans")))
 
@@ -176,7 +167,10 @@ Example: (apply-mode-hook 'flycheck-mode \"emacs-lisp\" \"haskell\")"
  '(custom-enabled-themes (quote (base16-eighties)))
  '(custom-safe-themes
    (quote
-    ("9be1d34d961a40d94ef94d0d08a364c3d27201f3c98c9d38e36f10588469ea57" default))))
+    ("9be1d34d961a40d94ef94d0d08a364c3d27201f3c98c9d38e36f10588469ea57" default)))
+ '(package-selected-packages
+   (quote
+    (which-key use-package smart-tabs-mode salt-mode rainbow-delimiters poly-ansible pandoc-mode pandoc ox-hugo jedi go-mode ghc-imported-from ghc forge flyspell-correct-ivy flymake-shell flymake-ruby flymake-python-pyflakes flymake-json flymake-haskell-multi flymake-cursor flymake-css flycheck-yamllint flycheck-haskell flycheck-gometalinter evil-surround evil-quickscope evil-numbers evil-magit evil-leader diminish company-shell company-jedi company-go base16-theme))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
