@@ -129,6 +129,8 @@ Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
 ;; ivy
 (ivy-mode 1)
 (diminish 'ivy-mode)
+(setq ivy-re-builders-alist
+      '((t . ivy--regex-ignore-order)))
 (setq ivy-use-virtual-buffers t)
 (setq ivy-count-format "%d/%d ")
 ;; enable which-key mode globally
