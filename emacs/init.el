@@ -52,6 +52,7 @@ Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
 (use-package ghc-imported-from)
 (use-package go-mode)
 (use-package haskell-mode)
+(use-package inf-ruby)
 (use-package ivy)
 (use-package jedi)
 (use-package jedi-core)
@@ -62,6 +63,7 @@ Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
 (use-package pandoc)
 (use-package pandoc-mode)
 (use-package rainbow-delimiters)
+(use-package rubocop)
 (use-package salt-mode)
 (use-package smart-tabs-mode)
 (use-package which-key)
@@ -92,9 +94,9 @@ Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
 (setq-default tab-width 4)
 (setq-default c-basic-offset 4)
 (setq-default c-default-style "k&r")
-(smart-tabs-insinuate 'c 'c++ 'python 'ruby 'cperl 'nxml)
+(smart-tabs-insinuate 'c 'c++ 'python 'cperl 'nxml)
 ;; we want to enable indenting with tabs on the modes above
-(apply-mode-hook (lambda () (setq indent-tabs-mode t)) 'c 'c++ 'python 'ruby 'cperl 'nxml)
+(apply-mode-hook (lambda () (setq indent-tabs-mode t)) 'c 'c++ 'python 'cperl 'nxml)
 
 ; beautification
 ;; basic look-and-feel
@@ -173,7 +175,7 @@ Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
     ("9be1d34d961a40d94ef94d0d08a364c3d27201f3c98c9d38e36f10588469ea57" default)))
  '(package-selected-packages
    (quote
-    (gitignore-mode which-key use-package smart-tabs-mode salt-mode rainbow-delimiters poly-ansible pandoc-mode pandoc ox-hugo jedi go-mode ghc-imported-from ghc forge flyspell-correct-ivy flymake-shell flymake-ruby flymake-python-pyflakes flymake-json flymake-haskell-multi flymake-cursor flymake-css flycheck-yamllint flycheck-haskell flycheck-gometalinter evil-surround evil-quickscope evil-numbers evil-magit evil-leader diminish company-shell company-jedi company-go base16-theme))))
+    (rubocop inf-ruby gitignore-mode which-key use-package smart-tabs-mode salt-mode rainbow-delimiters poly-ansible pandoc-mode pandoc ox-hugo jedi go-mode ghc-imported-from ghc forge flyspell-correct-ivy flymake-shell flymake-ruby flymake-python-pyflakes flymake-json flymake-haskell-multi flymake-css evil-surround evil-quickscope evil-numbers evil-magit evil-leader diminish company-shell company-jedi company-go base16-theme))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
