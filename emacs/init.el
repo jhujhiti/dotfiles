@@ -82,6 +82,15 @@ Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
 (use-package evil-surround :config (global-evil-surround-mode 1))
 (setq evil-highlight-closing-paren-at-point-states '(not emacs insert replace normal visual))
 
+; encoding
+(prefer-coding-system 'utf-8)
+(set-default-coding-systems 'utf-8)
+(set-terminal-coding-system 'utf-8)
+(set-keyboard-coding-system 'utf-8)
+(setq-default buffer-file-coding-system 'utf-8)
+(setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING))
+(set-language-environment "UTF-8")
+
 ; completion
 (apply-mode-hook 'company-mode 'prog)
 (diminish 'company-mode)
