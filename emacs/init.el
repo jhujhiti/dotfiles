@@ -106,7 +106,11 @@ Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
 (setq-default c-default-style "k&r")
 (smart-tabs-insinuate 'c 'c++ 'python 'cperl 'nxml)
 ;; we want to enable indenting with tabs on the modes above
-(apply-mode-hook (lambda () (setq indent-tabs-mode t)) 'c 'c++ 'python 'cperl 'nxml)
+(apply-mode-hook (lambda ()
+                   (setq indent-tabs-mode t)
+                   (setq tab-width (default-value 'tab-width)))
+                 'c 'c++ 'python 'cperl 'nxml)
+(smart-tabs-advice python-indent-line-1 python-indent)
 
 ; beautification
 ;; basic look-and-feel
