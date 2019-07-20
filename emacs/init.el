@@ -72,10 +72,11 @@ Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
 (add-to-list 'load-path "~/.emacs.d/lisp")
 (require 'junos-mode)
 
-(if (file-directory-p "~/.emacs.d/site-lisp") (progn
-                                                (byte-recompile-directory "~/.emacs.d/site-lisp" 0)
-                                                (add-to-list 'load-path "~/.emacs.d/site-lisp")
-                                                (require 'site-lisp)))
+(if (file-directory-p "~/.emacs.d/site-lisp")
+    (progn
+      (byte-recompile-directory "~/.emacs.d/site-lisp" 0)
+      (add-to-list 'load-path "~/.emacs.d/site-lisp")
+      (require 'site-lisp)))
 
 (evil-mode t)
 (use-package evil-surround :config (global-evil-surround-mode 1))
