@@ -99,6 +99,8 @@ Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
 
 ; syntax/style
 (apply-mode-hook 'flymake-mode 'prog)
+;; show trailing whitespace
+(setq-default show-trailing-whitespace t)
 ;; tabs and indenting
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 4)
