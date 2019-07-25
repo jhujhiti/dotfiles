@@ -155,7 +155,7 @@ Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
 (which-key-mode)
 (diminish 'which-key-mode)
 ;; treat _ as part of a word
-(modify-syntax-entry ?_ "w")
+(add-to-list 'after-change-major-mode-hook (lambda () (modify-syntax-entry ?_ "w")))
 
 ; spelling
 (diminish 'flyspell-mode)
