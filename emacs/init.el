@@ -94,8 +94,6 @@ Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
 ; completion
 (apply-mode-hook 'company-mode 'prog)
 (diminish 'company-mode)
-;; insert pairs (eg., "()") automatically
-(apply-mode-hook 'electric-pair-mode 'prog)
 
 ; syntax/style
 (apply-mode-hook 'flymake-mode 'prog)
