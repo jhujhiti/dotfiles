@@ -16,6 +16,9 @@ Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
           (add-hook it hook))
         (apply 'make-mode-hooks modes)))
 
+(when (string-equal system-type "darwin")
+  (add-to-list 'exec-path "/usr/local/bin"))
+
 ; ----- Package bootstrap -----
 (require 'package)
 (add-to-list 'package-archives
