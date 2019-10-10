@@ -16,6 +16,9 @@ Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
           (add-hook it hook))
         (apply 'make-mode-hooks modes)))
 
+(when (string-equal system-type "darwin")
+  (add-to-list 'exec-path "/usr/local/bin"))
+
 ; ----- Package bootstrap -----
 (require 'package)
 (add-to-list 'package-archives
@@ -68,6 +71,7 @@ Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
 (use-package salt-mode)
 (use-package smart-tabs-mode)
 (use-package swiper :after ivy)
+(use-package terraform-mode)
 (use-package which-key)
 
 (byte-recompile-directory "~/.emacs.d/lisp" 0)
@@ -196,7 +200,7 @@ Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
     ("9be1d34d961a40d94ef94d0d08a364c3d27201f3c98c9d38e36f10588469ea57" default)))
  '(package-selected-packages
    (quote
-    (counsel try swiper rubocop inf-ruby gitignore-mode which-key use-package smart-tabs-mode salt-mode rainbow-delimiters poly-ansible pandoc-mode pandoc ox-hugo jedi go-mode ghc-imported-from ghc forge flyspell-correct-ivy flymake-shell flymake-ruby flymake-python-pyflakes flymake-json flymake-haskell-multi flymake-css evil-surround evil-quickscope evil-numbers evil-magit evil-leader diminish company-shell company-jedi company-go base16-theme))))
+    (terraform-mode counsel swiper rubocop inf-ruby gitignore-mode which-key use-package smart-tabs-mode salt-mode rainbow-delimiters poly-ansible pandoc-mode pandoc ox-hugo jedi go-mode ghc-imported-from ghc forge flyspell-correct-ivy flymake-shell flymake-ruby flymake-python-pyflakes flymake-json flymake-haskell-multi flymake-css evil-surround evil-quickscope evil-numbers evil-magit evil-leader diminish company-shell company-jedi company-go base16-theme))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
