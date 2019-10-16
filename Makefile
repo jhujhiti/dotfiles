@@ -38,7 +38,7 @@ gitignore: ../.gitignore
 ../.gitignore:
 	ln -s $(BASE)/global.gitignore ../.gitignore
 
-xmonad: ../.xmonad ../.xmonad/xmonad.hs ../.config ../.config/xmobar ../.config/xmobar/xmobarrc
+xmonad: ../.xmonad ../.xmonad/xmonad.hs ../.config ../.config/xmobar ../.config/xmobar/xmobarrc ../.xmobar
 
 ../.xmonad:
 	mkdir -p ../.xmonad
@@ -54,6 +54,9 @@ xmonad: ../.xmonad ../.xmonad/xmonad.hs ../.config ../.config/xmobar ../.config/
 
 ../.config/xmobar/xmobarrc:
 	ln -s ../../$(BASE)/xmonad/xmobarrc ../.config/xmobar/xmobarrc
+
+../.xmobar:
+	ln -s .config/xmobar ../.xmobar
 
 authorized_keys: ../.ssh ../.ssh/authorized_keys
 
