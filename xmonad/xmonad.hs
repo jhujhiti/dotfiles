@@ -39,6 +39,7 @@ import qualified Data.Map.Internal
 import XMonad hiding ((|||))
 import XMonad.Actions.CycleWS
 import XMonad.Hooks.DynamicLog
+import XMonad.Hooks.EwmhDesktops
 import XMonad.Hooks.ManageHelpers
 import XMonad.Hooks.UrgencyHook
 import XMonad.Layout.BoringWindows
@@ -205,7 +206,7 @@ myTheme = def {
     decoHeight = 30
     }
 
-xmonadConfig = withUrgencyHook NoUrgencyHook $ def {
+xmonadConfig = withUrgencyHook NoUrgencyHook $ ewmh def {
     modMask = mod4Mask,
     terminal = myTerminal,
     keys = myKeys,
@@ -214,7 +215,8 @@ xmonadConfig = withUrgencyHook NoUrgencyHook $ def {
     workspaces = myWorkspaces,
     normalBorderColor = color!!2,
     focusedBorderColor = color!!7,
-    manageHook = myManageHook <+> manageHook def
+    manageHook = myManageHook <+> manageHook def,
+    handleEventHook = handleEventHook def <+> fullscreenEventHook
     }
 
 myXmobarPP = xmobarPP {
