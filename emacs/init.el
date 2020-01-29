@@ -120,6 +120,23 @@ Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
                    (setq tab-width (default-value 'tab-width)))
                  'c 'c++ 'python 'cperl 'nxml)
 (smart-tabs-advice python-indent-line-1 python-indent)
+;; aligning
+(add-hook 'align-load-hook (lambda ()
+                             (add-to-list 'align-rules-list
+                                          '(hcl-mode-align-equals
+                                            (regexp . "\\( +\\)=")
+                                            (group  . 1)
+                                            (repeat . t)
+                                            (mode   . '(terraform-mode hcl-mode))))))
+(define-minor-mode hcl-auto-align-mode
+  :init-value nil
+  :keymap nil
+  :lighter nil
+  :group 'hcl-mode
+  (if hcl-auto-align-mode
+      (add-hook 'post-command-hook #'align-current nil 'local)
+    (remove-hook 'post-command-hook #'align-current 'local)))
+(add-hook 'hcl-mode-hook #'hcl-auto-align-mode)
 
 ; beautification
 ;; basic look-and-feel
