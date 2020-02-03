@@ -16,6 +16,14 @@ Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
           (add-hook it hook))
         (apply 'make-mode-hooks modes)))
 
+(defun in-comment-p (&optional point)
+  "Returns t if POINT or the cursor is inside a comment. nil otherwise."
+  (not (null (nth 4 (syntax-ppss point)))))
+
+(defun in-string-p (&optional point)
+  "Returns t if POINT or the cursor is inside a string. nil otherwise."
+  (not (null (nth 3 (syntax-ppss point)))))
+
 (when (string-equal system-type "darwin")
   (add-to-list 'exec-path "/usr/local/bin"))
 
@@ -121,13 +129,59 @@ Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
                  'c 'c++ 'python 'cperl 'nxml)
 (smart-tabs-advice python-indent-line-1 python-indent)
 ;; aligning
-(add-hook 'align-load-hook (lambda ()
-                             (add-to-list 'align-rules-list
-                                          '(hcl-mode-align-equals
-                                            (regexp . "\\( +\\)=")
-                                            (group  . 1)
-                                            (repeat . t)
-                                            (mode   . '(terraform-mode hcl-mode))))))
+(defun not-comment-or-string ()
+  "Returns non-nil if the point is not in a comment or a string."
+  (not (or (in-comment-p) (in-string-p))))
+
+(defun search-until (end regex pred)
+  "Search until END or until PRED returns a value (true) for REGEX."
+  (save-excursion
+    (let ((found-at nil)
+          (previous nil)
+          (stop nil))
+      (while (not stop)
+        (set 'previous found-at)
+        (set 'found-at (re-search-forward regex end t))
+        (if (or (not found-at) ; didn't find it
+                (funcall pred)) ; satisfied condition
+            (progn
+              (set 'found-at previous) ; back up to the last match
+              (set 'stop t))))
+      found-at)))
+
+(defun align-hcl-separator (beg end regex sep)
+  (let ((regex-found nil)
+        (sep-found nil))
+    (save-excursion
+      (goto-char beg)
+      (set 'regex-found (re-search-forward regex end t))
+      (goto-char beg)
+      (set 'sep-found (search-until end sep #'not-comment-or-string))
+      (cond
+       ((null regex-found)
+        sep-found)
+       ((null sep-found)
+        regex-found)
+       ((> sep-found regex-found)
+        sep-found)
+       (t
+        regex-found)))))
+
+(defun align-hcl-separate (beg end)
+  (if (or (null beg) (null end)) t
+    (let ((sep-regex "\\(?:^\\s-*[{}]?\\s-*$\\)\\|\\(?:=\\s-*{\\s-*$\\)")
+          (ws-regex "\\( +\\)="))
+      (align-hcl-separator beg end sep-regex ws-regex))))
+
+(add-hook 'align-load-hook
+          (lambda ()
+            (add-to-list 'align-rules-list
+                         '(hcl-mode-align-equals
+                           (regexp   . "\\( +\\)=")
+                           (group    . 1)
+                           (run-if   . not-comment-or-string)
+                           (separate . align-hcl-separate)
+                           (modes    . '(terraform-mode hcl-mode))))))
 (define-minor-mode hcl-auto-align-mode
   :init-value nil
   :keymap nil
@@ -136,7 +190,7 @@ Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
   (if hcl-auto-align-mode
       (add-hook 'post-command-hook #'align-current nil 'local)
     (remove-hook 'post-command-hook #'align-current 'local)))
-(add-hook 'hcl-mode-hook #'hcl-auto-align-mode)
+;; (add-hook 'hcl-mode-hook #'hcl-auto-align-mode)
 
 ; beautification
 ;; basic look-and-feel
