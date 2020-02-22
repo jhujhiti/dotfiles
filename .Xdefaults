@@ -40,3 +40,7 @@ urxvt.perl-ext: selection,mark-yank-urls,font-size
 urxvt.loginShell: true
 urxvt.geometry: 132x44
 urxvt.urgentOnBell: true
+urxvt.scrollTtyOutput: false
+urxvt.scrollWithBuffer: true
+urxvt.scrollTtyKeypress: true
+urxvt.saveLines: 100000
