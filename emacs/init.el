@@ -25,7 +25,8 @@ Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
   (not (null (nth 3 (syntax-ppss point)))))
 
 (when (string-equal system-type "darwin")
-  (add-to-list 'exec-path "/usr/local/bin"))
+  (add-to-list 'exec-path "/usr/local/bin")
+  (setenv "PATH" (concat "/usr/local/bin:" (getenv "PATH"))))
 
 ; ----- Package bootstrap -----
 (require 'package)
@@ -36,13 +37,16 @@ Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
 (setq use-package-always-ensure t)
 
 (use-package base16-theme)
-(use-package company)
+(use-package company
+  :init
+  (setq lsp-completion-provider :capf))
 (use-package company-go)
 (use-package company-jedi)
 (use-package company-shell)
 (use-package counsel :after ivy)
 (use-package diminish)
 (use-package dockerfile-mode)
+(use-package elpy)
 (use-package evil)
 (use-package evil-leader)
 (use-package evil-magit :after (evil magit))
@@ -55,7 +59,7 @@ Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
 ;; (use-package flymake-cursor)
 (use-package flymake-haskell-multi)
 (use-package flymake-json)
-(use-package flymake-python-pyflakes)
+;(use-package flymake-python-pyflakes)
 (use-package flymake-ruby)
 (use-package flymake-shell)
 (use-package flyspell-correct-ivy)
@@ -72,27 +76,33 @@ Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
 (use-package jinja2-mode)
 (use-package kubernetes)
 (use-package kubernetes-evil :after kubernetes)
+(use-package lsp-ivy :after lsp-mode)
+(use-package lsp-mode :config (setq lsp-modeline-diagnostics-enable nil))
 (use-package markdown-mode)
 (use-package magit)
 (use-package ox-hugo :after ox)
 (use-package pandoc)
 (use-package pandoc-mode)
+(use-package pyenv-mode :config
+  (setenv "WORKON_HOME" "~/.virtualenvs")
+  (pyenv-mode t))
 (use-package rainbow-delimiters)
 (use-package rubocop)
 (use-package salt-mode)
-(use-package smart-tabs-mode)
 (use-package swiper :after ivy)
 (use-package terraform-mode)
 (use-package which-key)
 
-(byte-recompile-directory "~/.emacs.d/lisp" 0)
-(add-to-list 'load-path "~/.emacs.d/lisp")
+(setq-local my-lisp-path (concat user-emacs-directory "lisp"))
+(setq-local my-site-lisp-path (concat user-emacs-directory "site-lisp"))
+(byte-recompile-directory my-lisp-path 0)
+(add-to-list 'load-path my-lisp-path)
 (require 'junos-mode)
 
-(if (file-directory-p "~/.emacs.d/site-lisp")
+(if (file-directory-p my-site-lisp-path)
     (progn
-      (byte-recompile-directory "~/.emacs.d/site-lisp" 0)
-      (add-to-list 'load-path "~/.emacs.d/site-lisp")
+      (byte-recompile-directory  my-site-lisp-path 0)
+      (add-to-list 'load-path my-site-lisp-path)
       (require 'site-lisp)))
 
 (evil-mode t)
@@ -121,13 +131,6 @@ Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
 (setq-default tab-width 4)
 (setq-default c-basic-offset 4)
 (setq-default c-default-style "k&r")
-(smart-tabs-insinuate 'c 'c++ 'python 'cperl 'nxml)
-;; we want to enable indenting with tabs on the modes above
-(apply-mode-hook (lambda ()
-                   (setq indent-tabs-mode t)
-                   (setq tab-width (default-value 'tab-width)))
-                 'c 'c++ 'python 'cperl 'nxml)
-(smart-tabs-advice python-indent-line-1 python-indent)
 
 ; beautification
 ;; basic look-and-feel
@@ -151,6 +154,12 @@ Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
 ;; diminish some other modes. i have nowhere else to put these
 (diminish 'auto-revert-mode)
 (diminish 'undo-tree-mode)
+
+; performance
+; big gc threshold recommended by lsp performance guide
+(setq gc-cons-threshold (* 100 1024 1024))
+; increase the amount that emacs reads from processes
+(setq read-process-output-max (* 1024 1024))
 
 ; usability
 ;; stop asking for "yes" and "no"
@@ -194,6 +203,18 @@ Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
 (setq haskell-check-command "ghc -fno-code")
 (setq haskell-process-args-ghci (quote ("-dynamic" "-ferror-spans")))
 
+;; python
+(setq
+ ;; lsp-pyls-server-command (concat user-emacs-directory "lsp-virtualenv/bin/pyls")
+ lsp-pyls-plugins-pydocstyle-enabled t
+ lsp-pyls-plugins-flake8-enabled t
+ lsp-pyls-plugins-pylint-enabled t)
+(add-hook 'python-mode-hook 'lsp)
+;(setq elpy-rpc-python-command "python3")
+;(require 'flymake-python-pyflakes)
+;(add-hook 'python-mode-hook 'flymake-python-pyflakes-load)
+;(setq flymake-python-pyflakes-executable "flake8")
+
 ;(require 'evil-leader)
 ;(global-evil-leader-mode)
 ;(evil-leader/set-leader ",")
@@ -211,7 +232,7 @@ Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
     ("9be1d34d961a40d94ef94d0d08a364c3d27201f3c98c9d38e36f10588469ea57" default)))
  '(package-selected-packages
    (quote
-    (kubernetes-evil kubernetes kubernetes-el dockerfile-mode terraform-mode counsel try swiper rubocop inf-ruby gitignore-mode which-key use-package smart-tabs-mode salt-mode rainbow-delimiters poly-ansible pandoc-mode pandoc ox-hugo jedi go-mode ghc-imported-from ghc forge flyspell-correct-ivy flymake-shell flymake-ruby flymake-python-pyflakes flymake-json flymake-haskell-multi flymake-css evil-surround evil-quickscope evil-numbers evil-magit evil-leader diminish company-shell company-jedi company-go base16-theme))))
+    (elpy pyenv-mode lsp-ivy lsp-mode kubernetes-evil kubernetes kubernetes-el dockerfile-mode terraform-mode counsel try swiper rubocop inf-ruby gitignore-mode which-key use-package smart-tabs-mode salt-mode rainbow-delimiters poly-ansible pandoc-mode pandoc ox-hugo jedi go-mode ghc-imported-from ghc forge flyspell-correct-ivy flymake-shell flymake-ruby flymake-json flymake-haskell-multi flymake-css evil-surround evil-quickscope evil-numbers evil-magit evil-leader diminish company-shell company-jedi company-go base16-theme))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
