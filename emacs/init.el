@@ -47,9 +47,13 @@ Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
 (use-package diminish)
 (use-package dockerfile-mode)
 (use-package elpy)
-(use-package evil)
+(use-package evil
+  :init (setq evil-want-keybinding nil)
+  :config (evil-mode 1))
 (use-package evil-leader)
-(use-package evil-magit :after (evil magit))
+(use-package evil-collection
+  :after (evil magit)
+  :config (evil-collection-init))
 (use-package evil-numbers)
 (use-package evil-quickscope)
 (use-package evil-surround)
@@ -105,7 +109,6 @@ Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
       (add-to-list 'load-path my-site-lisp-path)
       (require 'site-lisp)))
 
-(evil-mode t)
 (use-package evil-surround :config (global-evil-surround-mode 1))
 (setq evil-highlight-closing-paren-at-point-states '(not emacs insert replace normal visual))
 
@@ -226,13 +229,9 @@ Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(custom-enabled-themes (quote (base16-eighties)))
+ '(custom-enabled-themes '(base16-eighties))
  '(custom-safe-themes
-   (quote
-    ("9be1d34d961a40d94ef94d0d08a364c3d27201f3c98c9d38e36f10588469ea57" default)))
- '(package-selected-packages
-   (quote
-    (elpy pyenv-mode lsp-ivy lsp-mode kubernetes-evil kubernetes kubernetes-el dockerfile-mode terraform-mode counsel try swiper rubocop inf-ruby gitignore-mode which-key use-package smart-tabs-mode salt-mode rainbow-delimiters poly-ansible pandoc-mode pandoc ox-hugo jedi go-mode ghc-imported-from ghc forge flyspell-correct-ivy flymake-shell flymake-ruby flymake-json flymake-haskell-multi flymake-css evil-surround evil-quickscope evil-numbers evil-magit evil-leader diminish company-shell company-jedi company-go base16-theme))))
+   '("9be1d34d961a40d94ef94d0d08a364c3d27201f3c98c9d38e36f10588469ea57" default)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
