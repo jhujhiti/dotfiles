@@ -6,3 +6,5 @@
 	default = simple
 [core]
 	excludesfile = /home/jhujhiti/.gitignore
+[pull]
+	rebase = false
