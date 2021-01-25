@@ -196,7 +196,16 @@ if $(quick_which stty); then
 fi
 
 # maybe set up virtualenvwrapper
-if $(quick_which virtualenvwrapper.sh); then
+if darwin && $(quick_which pyenv-virtualenvwrapper); then
+    # setup:
+    # pyenv install <version>
+    # pyenv global <version>
+    eval "$(pyenv init -)"
+    eval "$(pyenv virtualenv-init -)"
+    export VIRTUAL_ENV_DISABLE_PROMPT=1
+    export PYENV_VIRTUALENV_DISABLE_PROMPT=1
+    pyenv virtualenvwrapper
+elif $(quick_which virtualenvwrapper.sh); then
     export VIRTUAL_ENV_DISABLE_PROMPT=1
     . virtualenvwrapper.sh
 fi
