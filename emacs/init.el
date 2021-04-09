@@ -48,7 +48,9 @@ Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
 (use-package dockerfile-mode)
 (use-package elpy)
 (use-package evil
-  :init (setq evil-want-keybinding nil)
+  :init (progn
+          (setq evil-want-keybinding nil)
+          (setq evil-undo-system 'undo-tree))
   :config (evil-mode 1))
 (use-package evil-leader)
 (use-package evil-collection
@@ -96,6 +98,8 @@ Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
 (use-package swiper :after ivy)
 (use-package terraform-mode)
 (use-package which-key)
+(use-package undo-tree
+  :config (global-undo-tree-mode))
 
 (setq-local my-lisp-path (concat user-emacs-directory "lisp"))
 (setq-local my-site-lisp-path (concat user-emacs-directory "site-lisp"))
