@@ -86,6 +86,7 @@ Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
 (use-package lsp-mode :config (setq lsp-modeline-diagnostics-enable nil))
 (use-package markdown-mode)
 (use-package magit)
+(use-package nasm-mode)
 (use-package ox-hugo :after ox)
 (use-package pandoc)
 (use-package pandoc-mode)
