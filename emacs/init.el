@@ -139,6 +139,9 @@ Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
 (setq-default tab-width 4)
 (setq-default c-basic-offset 4)
 (setq-default c-default-style "k&r")
+(apply-mode-hook
+ '(setq indent-line-function 'tab-to-tab-stop)
+ 'fundamental 'conf)
 
 ; beautification
 ;; basic look-and-feel
