@@ -5,6 +5,8 @@
 Host *
         # CVE-2016-0777
         UseRoaming no
+        # disable this extremely bad idea which debian enables
+        HashKnownHosts no
 
 Host *.adjectivism.org
         User jhujhiti
