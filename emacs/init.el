@@ -97,6 +97,7 @@ Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
 (use-package rubocop)
 (use-package salt-mode)
 (use-package swiper :after ivy)
+(use-package systemd)
 (use-package terraform-mode)
 (use-package which-key)
 (use-package undo-tree
