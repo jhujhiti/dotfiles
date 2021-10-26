@@ -143,6 +143,8 @@ Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
 (apply-mode-hook
  '(setq indent-line-function 'tab-to-tab-stop)
  'fundamental 'conf)
+;; always append a newline at the end of files when saving
+(setq require-final-newline t)
 
 ; beautification
 ;; basic look-and-feel
