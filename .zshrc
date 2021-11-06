@@ -347,6 +347,7 @@ fi
 
 PS1="[%D{%b %d %H:%M} %~"'$(venv_prompt)$(scm_prompt)'"]
 %m${ps1_tmpdir}%# "
+RPROMPT=''
 
 # xterm title
 my_precmd_hook() {
