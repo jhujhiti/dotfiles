@@ -102,7 +102,9 @@ Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
 (use-package ox-hugo :after ox)
 (use-package pandoc)
 (use-package pandoc-mode)
-(use-package pyenv-mode :config
+(use-package pyenv-mode
+  :if (executable-find "pyenv")
+  :config
   (setenv "WORKON_HOME" "~/.virtualenvs")
   (pyenv-mode t))
 (use-package rainbow-delimiters)
