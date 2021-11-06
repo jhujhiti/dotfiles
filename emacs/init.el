@@ -157,6 +157,8 @@ Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
 (apply-mode-hook
  '(setq indent-line-function 'tab-to-tab-stop)
  'fundamental 'conf)
+;; always append a newline at the end of files when saving
+(setq require-final-newline t)
 
 ; beautification
 ;; basic look-and-feel
@@ -231,10 +233,10 @@ Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
 
 ;; python
 (setq
- ;; lsp-pyls-server-command (concat user-emacs-directory "lsp-virtualenv/bin/pyls")
- lsp-pyls-plugins-pydocstyle-enabled t
- lsp-pyls-plugins-flake8-enabled t
- lsp-pyls-plugins-pylint-enabled t)
+ ;; lsp-pylsp-server-command (concat user-emacs-directory "lsp-virtualenv/bin/pylsp")
+ lsp-pylsp-plugins-pydocstyle-enabled t
+ lsp-pylsp-plugins-flake8-enabled t
+ lsp-pylsp-plugins-pylint-enabled t)
 (add-hook 'python-mode-hook 'lsp)
 ;(setq elpy-rpc-python-command "python3")
 ;(require 'flymake-python-pyflakes)
