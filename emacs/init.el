@@ -99,6 +99,7 @@ Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
 (use-package markdown-mode)
 (use-package magit)
 (use-package nasm-mode)
+(use-package nix-mode)
 (use-package ox-hugo :after ox)
 (use-package pandoc)
 (use-package pandoc-mode)
