@@ -31,6 +31,8 @@ Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
 ; ----- Package bootstrap -----
 (require 'package)
 (add-to-list 'package-archives
+             '("nongnu" . "https://elpa.nongnu.org/nongnu/") t)
+(add-to-list 'package-archives
              '("melpa" . "https://melpa.org/packages/") t)
 (package-initialize)
 (require 'use-package-ensure)
@@ -70,9 +72,9 @@ Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
 (use-package flymake-shell)
 (use-package flyspell-correct-ivy)
 (use-package forge :after magit)
-(use-package gitignore-mode)
 (use-package ghc)
 (use-package ghc-imported-from)
+(use-package git-modes)
 (use-package go-mode)
 (use-package haskell-mode)
 (use-package inf-ruby)
