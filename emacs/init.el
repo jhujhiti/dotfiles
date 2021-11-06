@@ -24,9 +24,19 @@ Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
   "Returns t if POINT or the cursor is inside a string. nil otherwise."
   (not (null (nth 3 (syntax-ppss point)))))
 
+; these are doing subtly different things (add-to-list appends, setenv
+; appends and prepends depending on how it's used (obviously). this is
+; probably going to bite me some day but for now, i don't care.
 (when (string-equal system-type "darwin")
   (add-to-list 'exec-path "/usr/local/bin")
-  (setenv "PATH" (concat "/usr/local/bin:" (getenv "PATH"))))
+  (setenv "PATH" (concat "/usr/local/bin:" (getenv "PATH")))
+  (when (file-executable-p "/nix/var/nix/profiles/default/bin/nix-shell")
+    (add-to-list 'exec-path "~/.nix-profile/bin")
+    (add-to-list 'exec-path "/nix/var/nix/profiles/default/bin")
+    (add-to-list 'exec-path "/run/current-system/sw/bin")
+    (add-to-list 'exec-path "/nix/var/nix/profiles/default/bin")
+    (setenv "PATH" (concat "~/.nix-profile/bin:/nix/var/nix/profiles/default/bin:" (getenv "PATH") ":/run/current-system/sw/bin:/nix/var/profiles/default/bin"))))
+
 
 ; ----- Package bootstrap -----
 (require 'package)
