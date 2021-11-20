@@ -86,6 +86,7 @@ Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
 ;; (use-package ghc)
 ;; (use-package ghc-imported-from)
 (use-package go-mode)
+(use-package graphviz-dot-mode)
 (use-package haskell-mode)
 (use-package inf-ruby)
 (use-package ivy)
