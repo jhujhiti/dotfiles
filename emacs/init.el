@@ -85,6 +85,7 @@ Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
 (use-package go-mode)
 (use-package graphviz-dot-mode)
 (use-package haskell-mode)
+(use-package highlight-indentation)
 (use-package hl-todo)
 (use-package inf-ruby)
 (use-package ivy)
@@ -272,6 +273,9 @@ Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
 ;(require 'flymake-python-pyflakes)
 ;(add-hook 'python-mode-hook 'flymake-python-pyflakes-load)
 ;(setq flymake-python-pyflakes-executable "flake8")
+
+;; yaml
+(add-hook 'yaml-mode-hook #'highlight-indentation-mode)
 
 ;(require 'evil-leader)
 ;(global-evil-leader-mode)
