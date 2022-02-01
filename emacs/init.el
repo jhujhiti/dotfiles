@@ -94,6 +94,8 @@ Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
 (use-package hl-todo)
 (use-package inf-ruby)
 (use-package ivy)
+(use-package ivy-xref
+  :init (setq xref-show-definitions-function #'ivy-xref-show-defs) (setq xref-show-xrefs-function #'ivy-xref-show-xrefs))
 (use-package jedi)
 (use-package jedi-core)
 (use-package jinja2-mode)
@@ -101,6 +103,10 @@ Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
 (use-package kubernetes-evil :after kubernetes)
 (use-package lsp-ivy :after lsp-mode)
 (use-package lsp-mode :config (setq lsp-modeline-diagnostics-enable nil))
+(use-package lsp-treemacs
+  :after (treemacs lsp-mode)
+  :config (progn
+            (lsp-treemacs-sync-mode)))
 (use-package markdown-mode)
 (use-package magit)
 (use-package nasm-mode)
@@ -120,8 +126,18 @@ Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
 (use-package systemd)
 (use-package terraform-mode)
 (use-package which-key)
+(use-package treemacs
+  :config (progn
+            (setq treemacs-follow-after-init t
+                  treemacs-tag-follow-mode t
+                  treemacs-project-follow-mode t)
+            (global-set-key [f5] 'treemacs)))
+(use-package treemacs-evil
+  :after (evil-mode treemacs))
 (use-package undo-tree
   :config (global-undo-tree-mode))
+(use-package yasnippet
+  :config (yas-global-mode 1))
 
 (setq-local my-lisp-path (concat user-emacs-directory "lisp"))
 (setq-local my-site-lisp-path (concat user-emacs-directory "site-lisp"))
@@ -150,6 +166,7 @@ Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
 ; completion
 (apply-mode-hook 'company-mode 'prog)
 (diminish 'company-mode)
+(diminish 'yas-minor-mode)
 
 ; syntax/style
 (apply-mode-hook 'flymake-mode 'prog)
@@ -188,6 +205,8 @@ Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
 ;; diminish some other modes. i have nowhere else to put these
 (diminish 'auto-revert-mode)
 (diminish 'undo-tree-mode)
+(diminish 'eldoc-mode)
+(diminish 'abbrev-mode)
 ;; highlight TODOs, FIXMEs, and similar in all programming modes
 (add-hook 'prog-mode-hook 'hl-todo-mode)
 
@@ -204,6 +223,11 @@ Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
 (setq vc-follow-symlinks t)
 ;; quit confirmation
 (setq confirm-kill-emacs 'y-or-n-p)
+
+;; only prompt for xref identifier when one isn't under the cursor
+(setq xref-prompt-for-identifier nil)
+(define-key evil-motion-state-map "gr" 'xref-find-references)
+
 ;; ivy
 (ivy-mode 1)
 (diminish 'ivy-mode)
@@ -235,6 +259,10 @@ Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
 (global-set-key (kbd "C-c g") 'magit-status)
 
 ; specific language settings
+;; c/c++
+(add-hook 'c-mode-hook 'lsp)
+(add-hook 'c++-mode-hook 'lsp)
+
 ;; haskell
 (setq haskell-check-command "ghc -fno-code")
 (setq haskell-process-args-ghci (quote ("-dynamic" "-ferror-spans")))
