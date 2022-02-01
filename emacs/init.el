@@ -67,8 +67,10 @@ Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
   :config (evil-mode 1))
 (use-package evil-leader)
 (use-package evil-collection
-  :after (evil magit)
-  :config (evil-collection-init))
+  :after (evil magit diminish)
+  :config (progn
+            (evil-collection-init)
+            (diminish 'evil-collection-unimpaired-mode)))
 (use-package evil-numbers)
 (use-package evil-quickscope)
 (use-package evil-surround)
