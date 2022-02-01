@@ -125,7 +125,6 @@ Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
 (use-package swiper :after ivy)
 (use-package systemd)
 (use-package terraform-mode)
-(use-package which-key)
 (use-package treemacs
   :config (progn
             (setq treemacs-follow-after-init t
@@ -136,6 +135,7 @@ Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
   :after (evil-mode treemacs))
 (use-package undo-tree
   :config (global-undo-tree-mode))
+(use-package which-key)
 (use-package yasnippet
   :config (yas-global-mode 1))
 
