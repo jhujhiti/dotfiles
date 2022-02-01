@@ -58,6 +58,7 @@ Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
 (use-package counsel :after ivy)
 (use-package diminish)
 (use-package dockerfile-mode)
+(use-package dpkg-dev-el)
 (use-package elpy)
 (use-package evil
   :init (progn
