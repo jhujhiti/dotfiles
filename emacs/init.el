@@ -91,6 +91,7 @@ Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
 (use-package go-mode)
 (use-package graphviz-dot-mode)
 (use-package haskell-mode)
+(use-package hl-todo)
 (use-package inf-ruby)
 (use-package ivy)
 (use-package jedi)
@@ -187,6 +188,8 @@ Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
 ;; diminish some other modes. i have nowhere else to put these
 (diminish 'auto-revert-mode)
 (diminish 'undo-tree-mode)
+;; highlight TODOs, FIXMEs, and similar in all programming modes
+(add-hook 'prog-mode-hook 'hl-todo-mode)
 
 ; performance
 ; big gc threshold recommended by lsp performance guide
