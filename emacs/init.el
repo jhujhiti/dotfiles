@@ -194,7 +194,9 @@ Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
 ;; kill the welcome screen
 (setq inhibit-startup-screen t)
 ;; turn off gui elements
-(menu-bar-mode -1)
+(if (string-equal system-type "darwin")
+    (menu-bar-mode 1) ; it doesn't take up any screen real estate...
+  (menu-bar-mode -1))
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
 ;; diminish some other modes. i have nowhere else to put these
