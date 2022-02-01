@@ -74,15 +74,9 @@ Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
 (use-package evil-numbers)
 (use-package evil-quickscope)
 (use-package evil-surround)
-(use-package flymake)
-(use-package flymake-css)
+(use-package flycheck)
 ;; Causes errors, not interested in why right now
 ;; (use-package flymake-cursor)
-(use-package flymake-haskell-multi)
-(use-package flymake-json)
-;(use-package flymake-python-pyflakes)
-(use-package flymake-ruby)
-(use-package flymake-shell)
 (use-package flyspell-correct-ivy)
 (use-package forge :after magit)
 (use-package git-modes)
@@ -169,7 +163,7 @@ Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
 (diminish 'yas-minor-mode)
 
 ; syntax/style
-(apply-mode-hook 'flymake-mode 'prog)
+(add-hook 'after-init-hook #'global-flycheck-mode)
 ;; show trailing whitespace
 (setq-default show-trailing-whitespace t)
 ;; tabs and indenting
