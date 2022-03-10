@@ -48,6 +48,7 @@ Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
 (require 'use-package-ensure)
 (setq use-package-always-ensure t)
 
+(use-package apheleia)
 (use-package base16-theme)
 (use-package company
   :init
@@ -177,6 +178,8 @@ Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
  'fundamental 'conf)
 ;; always append a newline at the end of files when saving
 (setq require-final-newline t)
+;; format with apheleia on every save
+(apheleia-global-mode +1)
 
 ; beautification
 ;; basic look-and-feel
