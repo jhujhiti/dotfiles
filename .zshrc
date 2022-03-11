@@ -200,6 +200,7 @@ if darwin && $(quick_which pyenv-virtualenvwrapper); then
     # setup:
     # pyenv install <version>
     # pyenv global <version>
+    eval "$(pyenv init --path)"
     eval "$(pyenv init -)"
     eval "$(pyenv virtualenv-init -)"
     export VIRTUAL_ENV_DISABLE_PROMPT=1
