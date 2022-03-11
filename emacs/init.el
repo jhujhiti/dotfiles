@@ -57,6 +57,7 @@ Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
 (use-package company-jedi)
 (use-package company-shell)
 (use-package counsel :after ivy)
+(use-package dap-mode :after lsp-mode)
 (use-package diminish)
 (use-package dockerfile-mode)
 (use-package dpkg-dev-el)
@@ -257,6 +258,11 @@ Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
 
 ; magit
 (global-set-key (kbd "C-c g") 'magit-status)
+
+; interactive debugging
+(setq dap-auto-configure-features '(sessions locals controls tooltip))
+(require 'dap-python) ; dap-python requires debugpy
+(setq dap-python-debugger 'debugpy)
 
 ; specific language settings
 ;; c/c++
