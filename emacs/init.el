@@ -57,7 +57,25 @@ Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
 (use-package company-jedi)
 (use-package company-shell)
 (use-package counsel :after ivy)
-(use-package dap-mode :after lsp-mode)
+(use-package dap-mode
+  :after (lsp-mode pyenv-mode)
+  :config (progn
+            (setq dap-auto-configure-features '(sessions locals controls tooltip))
+            (require 'dap-python) ; dap-python requires debugpy
+            (setq dap-python-debugger 'debugpy)
+            (advice-add
+             ; dap prefers to use pyenv to find its python executable,
+             ; which is helpful, but sometimes we want to use one from
+             ; the virtualenv we have selected with pyvenv
+             ; instead. this will override the return value of
+             ; dap-python's internal exec-finding function if we're in
+             ; a virtualenv when it's called
+             'dap-python--pyenv-executable-find
+             :filter-return
+             (lambda (ret)
+               (if pyvenv-virtual-env-name
+                   (executable-find dap-python-executable)
+                 ret)))))
 (use-package diminish)
 (use-package dockerfile-mode)
 (use-package dpkg-dev-el)
@@ -258,11 +276,6 @@ Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
 
 ; magit
 (global-set-key (kbd "C-c g") 'magit-status)
-
-; interactive debugging
-(setq dap-auto-configure-features '(sessions locals controls tooltip))
-(require 'dap-python) ; dap-python requires debugpy
-(setq dap-python-debugger 'debugpy)
 
 ; specific language settings
 ;; c/c++
