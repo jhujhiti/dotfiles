@@ -1,34 +1,34 @@
 [submodule "submodules/vim-ragtag"]
 	path = submodules/vim-ragtag
-	url = git://github.com/tpope/vim-ragtag
+	url = https://github.com/tpope/vim-ragtag
 [submodule "submodules/vim-pathogen"]
 	path = submodules/vim-pathogen
-	url = git://github.com/tpope/vim-pathogen.git
+	url = https://github.com/tpope/vim-pathogen.git
 [submodule "submodules/pathogen-bundles/vim-rails"]
 	path = submodules/pathogen-bundles/vim-rails
-	url = git://github.com/tpope/vim-rails.git
+	url = https://github.com/tpope/vim-rails.git
 [submodule "submodules/zsh-git"]
 	path = submodules/zsh-git
-	url = git://github.com/jhujhiti/zsh-git
+	url = https://github.com/jhujhiti/zsh-git
 	pushurl = git@github.com:jhujhiti/zsh-git
 [submodule "submodules/pathogen-bundles/salt-vim"]
 	path = submodules/pathogen-bundles/salt-vim
-	url = git://github.com/saltstack/salt-vim
+	url = https://github.com/saltstack/salt-vim
 [submodule "vim-puppet"]
 	path = submodules/pathogen-bundles/vim-puppet
-	url = git://github.com/rodjek/vim-puppet
+	url = https://github.com/rodjek/vim-puppet
 [submodule "submodules/pathogen-bundles/vim-bling"]
 	path = submodules/pathogen-bundles/vim-bling
-	url = git://github.com/ivyl/vim-bling
+	url = https://github.com/ivyl/vim-bling
 [submodule "submodules/pathogen-bundles/base16-vim"]
 	path = submodules/pathogen-bundles/base16-vim
-	url = git://github.com/chriskempson/base16-vim
+	url = https://github.com/chriskempson/base16-vim
 [submodule "submodules/pathogen-bundles/vim-jinja"]
 	path = submodules/pathogen-bundles/vim-jinja
-	url = git://github.com/mitsuhiko/vim-jinja.git
+	url = https://github.com/mitsuhiko/vim-jinja.git
 [submodule "submodules/pathogen-bundles/vim-easy-align"]
 	path = submodules/pathogen-bundles/vim-easy-align
-	url = git://github.com/junegunn/vim-easy-align
+	url = https://github.com/junegunn/vim-easy-align
 [submodule "submodules/pathogen-bundles/visual-split"]
 	path = submodules/pathogen-bundles/visual-split
 	url = https://github.com/wellle/visual-split.vim
@@ -43,10 +43,10 @@
 	url = https://github.com/xuhdev/vim-latex-live-preview
 [submodule "submodules/pathogen-bundles/calendar"]
 	path = submodules/pathogen-bundles/calendar
-	url = git://github.com/itchyny/calendar.vim
+	url = https://github.com/itchyny/calendar.vim
 [submodule "submodules/pathogen-bundles/nerdtree"]
 	path = submodules/pathogen-bundles/nerdtree
-	url = git://github.com/scrooloose/nerdtree
+	url = https://github.com/scrooloose/nerdtree
 [submodule "submodules/pathogen-bundles/vim-airline"]
 	path = submodules/pathogen-bundles/vim-airline
 	url = https://github.com/vim-airline/vim-airline
