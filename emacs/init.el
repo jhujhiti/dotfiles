@@ -155,7 +155,9 @@ Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
 (use-package treemacs-evil
   :after (evil-mode treemacs))
 (use-package undo-tree
-  :config (global-undo-tree-mode))
+  :config (progn
+            (global-undo-tree-mode)
+            (setq undo-tree-auto-save-history nil)))
 (use-package which-key)
 (use-package yasnippet
   :config (yas-global-mode 1))
