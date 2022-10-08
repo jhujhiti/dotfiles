@@ -145,7 +145,8 @@ Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
 (use-package salt-mode)
 (use-package swiper :after ivy)
 (use-package systemd)
-(use-package terraform-mode)
+(use-package terraform-mode :after apheleia
+  :hook (terraform-mode . apheleia-mode))
 (use-package treemacs
   :config (progn
             (setq treemacs-follow-after-init t
