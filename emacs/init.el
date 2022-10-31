@@ -214,10 +214,13 @@ Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
 ; default height and width
 (add-to-list 'default-frame-alist '(width . 132))
 (add-to-list 'default-frame-alist '(height . 44))
+(defun font-candidate (&rest fonts)
+  "Find first matching, installed font."
+  (find-if (lambda (f) (find-font (font-spec :name f))) fonts))
 ; Mac OS (ns) DPI scaling is a pain. or at least that's what i think this problem is
-(setq window-system-default-frame-alist '(
-                                          (x (font . "DejaVu Sans Mono-9"))
-                                          (ns (font . "DejaVu Sans Mono-12"))))
+(setq window-system-default-frame-alist `(
+                                          (x (font . ,(font-candidate "Source Code Pro-9" "DejaVu Sans Mono-9")))
+                                          (ns (font . ,(font-candidate "Source Code Pro-12" "DejaVu Sans Mono-12")))))
 ;; use lots of colors for () in elisp
 (apply-mode-hook 'rainbow-delimiters-mode 'emacs-lisp)
 ;; word wrap
