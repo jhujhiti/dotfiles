@@ -145,6 +145,8 @@ Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
 (use-package salt-mode)
 (use-package swiper :after ivy)
 (use-package systemd)
+(use-package tex
+  :ensure auctex)
 (use-package terraform-mode :after apheleia
   :hook (terraform-mode . apheleia-mode))
 (use-package treemacs
@@ -240,6 +242,7 @@ Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
 (diminish 'abbrev-mode)
 ;; highlight TODOs, FIXMEs, and similar in all programming modes
 (add-hook 'prog-mode-hook 'hl-todo-mode)
+(add-hook 'LaTeX-mode-hook 'hl-todo-mode)
 
 ; performance
 ; big gc threshold recommended by lsp performance guide
