@@ -331,7 +331,12 @@ Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
  ;; If there is more than one, they won't work right.
  '(custom-enabled-themes '(base16-eighties))
  '(custom-safe-themes
-   '("9be1d34d961a40d94ef94d0d08a364c3d27201f3c98c9d38e36f10588469ea57" default)))
+   '("9be1d34d961a40d94ef94d0d08a364c3d27201f3c98c9d38e36f10588469ea57" default))
+ '(safe-local-variable-values
+   '((TeX-command-extra-options . "-shell-escape")
+     (TeX-command-extra-options . -shell-escape)
+     (TeX-command-force . "LaTeX")
+     (TeX-command-default . LaTeX))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
