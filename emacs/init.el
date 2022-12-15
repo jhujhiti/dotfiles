@@ -209,7 +209,7 @@ Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
 ;; always append a newline at the end of files when saving
 (setq require-final-newline t)
 ;; format with apheleia on every save
-(apheleia-global-mode +1)
+;; (apheleia-global-mode +1)
 
 ; beautification
 ;; basic look-and-feel
