@@ -140,7 +140,9 @@ Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
 (use-package rainbow-delimiters)
 (use-package rubocop)
 (use-package rust-mode ;; install rust-analyzer with from git with cargo xtask install --server
-  :after (lsp-mode)
+  :after (lsp-mode apheleia)
+  :hook ((rust-mode . apheleia-mode)
+         (rust-mode . lsp-mode))
   :config (setq lsp-rust-server 'rust-analyzer))
 (use-package salt-mode)
 (use-package swiper :after ivy)
