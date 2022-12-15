@@ -331,7 +331,7 @@ Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
  ;; If there is more than one, they won't work right.
  '(custom-enabled-themes '(base16-eighties))
  '(custom-safe-themes
-   '("9be1d34d961a40d94ef94d0d08a364c3d27201f3c98c9d38e36f10588469ea57" default))
+   '("3c3d4da72f9b26f0125280c3f5868776edbe6f53adcdc2f588e403e5a10da423" "9be1d34d961a40d94ef94d0d08a364c3d27201f3c98c9d38e36f10588469ea57" default))
  '(safe-local-variable-values
    '((TeX-command-extra-options . "-shell-escape")
      (TeX-command-extra-options . -shell-escape)
