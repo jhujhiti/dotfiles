@@ -56,6 +56,10 @@ setopt hist_ignore_space
 setopt hist_no_store
 # allow substitution in prompts
 setopt promptsubst
+# print a carriage return before prompt (on by default, necessary for prompt_sp)
+setopt prompt_cr
+# preserve lines before prompts that don't end with newlines (the reverse-video % thing)
+setopt prompt_sp
 # stop beeping at me
 unsetopt beep
 # don't cd to a directory automatically if i forget the cd
