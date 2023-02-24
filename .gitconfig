@@ -1,10 +1,12 @@
 [user]
 	name = Erick Turnquist
 	email = jhujhiti@adjectivism.org
-	signingkey = 8C1BFCC5
+	signingkey = 07EEE1676D88BFEB3DBC24F7172E752D0D9E700C
 [push]
 	default = simple
 [core]
 	excludesfile = ~/.gitignore
 [pull]
 	rebase = false
+[commit]
+	gpgsign = true

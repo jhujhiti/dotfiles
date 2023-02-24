@@ -368,7 +368,7 @@ export EMAIL="jhujhiti@adjectivism.org"
 export DEBEMAIL="$EMAIL"
 export DEBFULLNAME="$NAME"
 # also handy. i can't for the life of me remember this
-export GPGKEYID="8C1BFCC5"
+export GPGKEYID="07EEE1676D88BFEB3DBC24F7172E752D0D9E700C"
 
 quick_which less && export MANPAGER="less"
 
