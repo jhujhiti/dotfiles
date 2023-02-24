@@ -22,7 +22,7 @@ git:
 $(REAL_LINKS):
 	ln -s $(BASE)/$(@F) ../$(@F)
 
-emacs: ../.emacs.d ../.emacs.d/init.el ../.emacs.d/lisp
+emacs: ../.emacs.d ../.emacs.d/init.el ../.emacs.d/lisp $(addprefix ../.emacs.d/transient/,levels.el values.el)
 
 ../.emacs.d:
 	mkdir -p $@
@@ -32,6 +32,12 @@ emacs: ../.emacs.d ../.emacs.d/init.el ../.emacs.d/lisp
 
 ../.emacs.d/lisp:
 	ln -s ../$(BASE)/emacs/lisp $@
+
+../.emacs.d/transient: ../.emacs.d
+	mkdir -p $@
+
+$(addprefix ../.emacs.d/transient/,levels.el values.el):
+	ln -s ../../$(BASE)/emacs/transient/$(@F) $@
 
 gitignore: ../.gitignore
 
