@@ -220,7 +220,7 @@ Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
 (add-to-list 'default-frame-alist '(height . 44))
 (defun font-candidate (&rest fonts)
   "Find first matching, installed font."
-  (find-if (lambda (f) (find-font (font-spec :name f))) fonts))
+  (cl-find-if (lambda (f) (find-font (font-spec :name f))) fonts))
 ; Mac OS (ns) DPI scaling is a pain. or at least that's what i think this problem is
 (setq window-system-default-frame-alist `(
                                           (x (font . ,(font-candidate "Source Code Pro-9" "DejaVu Sans Mono-9")))
