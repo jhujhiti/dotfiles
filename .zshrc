@@ -199,11 +199,14 @@ if $(quick_which stty); then
     stty start '^@' 2>/dev/null
 fi
 
-# maybe set up virtualenvwrapper
-if darwin && $(quick_which pyenv-virtualenvwrapper); then
+# python virtualenvwrapper
+# use pyenv if we have the virtualenv and virtualenvwrapper plugins installed
+if $(quick_which pyenv) && [ $(pyenv commands --no-sh | grep -Ec '^virtualenv(wrapper)?$' 2>/dev/null) = 2 ]; then
     # setup:
     # pyenv install <version>
     # pyenv global <version>
+    # git clone https://github.com/pyenv/pyenv-virtualenv.git $(pyenv root)/plugins/pyenv-virtualenv
+    # git clone https://github.com/pyenv/pyenv-virtualenvwrapper.git $(pyenv root)/plugins/pyenv-virtualenvwrapper
     eval "$(pyenv init --path)"
     eval "$(pyenv init -)"
     eval "$(pyenv virtualenv-init -)"
@@ -211,6 +214,7 @@ if darwin && $(quick_which pyenv-virtualenvwrapper); then
     export PYENV_VIRTUALENV_DISABLE_PROMPT=1
     pyenv virtualenvwrapper
 elif $(quick_which virtualenvwrapper.sh); then
+    # does anything use this anymore?
     export VIRTUAL_ENV_DISABLE_PROMPT=1
     . virtualenvwrapper.sh
 fi
