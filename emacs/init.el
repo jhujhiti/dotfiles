@@ -30,15 +30,16 @@ Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
 (when (string-equal system-type "darwin")
   (add-to-list 'exec-path "/usr/local/bin")
   (setenv "PATH" (concat "/usr/local/bin:" (getenv "PATH")))
-  (when (file-directory-p "~/.cargo/bin")
-    (add-to-list 'exec-path "~/.cargo/bin")
-    (setenv "PATH" (concat "~/.cargo/bin:" (getenv "PATH"))))
   (when (file-executable-p "/nix/var/nix/profiles/default/bin/nix-shell")
     (add-to-list 'exec-path "~/.nix-profile/bin")
     (add-to-list 'exec-path "/nix/var/nix/profiles/default/bin")
     (add-to-list 'exec-path "/run/current-system/sw/bin")
     (add-to-list 'exec-path "/nix/var/nix/profiles/default/bin")
     (setenv "PATH" (concat "~/.nix-profile/bin:/nix/var/nix/profiles/default/bin:" (getenv "PATH") ":/run/current-system/sw/bin:/nix/var/profiles/default/bin"))))
+(dolist (el '("~/.cargo/bin" "~/.pyenv/shims"))
+  (when (file-directory-p el)
+    (add-to-list 'exec-path el)
+    (setenv "PATH" (concat el ":" (getenv "PATH")))))
 
 
 ; ----- Package bootstrap -----
