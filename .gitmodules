@@ -80,3 +80,6 @@
 [submodule "submodules/pathogen-bundles/vim-hcl"]
 	path = submodules/pathogen-bundles/vim-hcl
 	url = https://github.com/b4b4r07/vim-hcl
+[submodule "submodules/zsh-nix-shell"]
+	path = submodules/zsh-nix-shell
+	url = https://github.com/chisui/zsh-nix-shell

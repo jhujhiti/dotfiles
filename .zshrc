@@ -193,6 +193,16 @@ if $(quick_which ssh-add); then
     done
 fi
 
+# nix-specific stuff. the check for NIX_REMOTE will be true on
+# multi-user nix installations and is faster than the which
+if [ -n "$NIX_REMOTE" ] || $(quick_which nix-shell); then
+    # set up nix-shell to use zsh by default (unless --pure is passed)
+    . ${dotfiles}/submodules/zsh-nix-shell/nix-shell.plugin.zsh
+fi
+nix_prompt() {
+    [ -n "$IN_NIX_SHELL" ] && echo " %F{red}nix:${IN_NIX_SHELL}%f"
+}
+
 # disable terminal flow control. good riddance
 if $(quick_which stty); then
     stty stop '^@' 2>/dev/null
@@ -354,7 +364,7 @@ if [[ "$IN_TMPDIR" == "yes" ]]; then
     ps1_tmpdir=' %F{red}(tmp)%f'
 fi
 
-PS1="[%D{%b %d %H:%M} %~"'$(venv_prompt)$(scm_prompt)'"]
+PS1="[%D{%b %d %H:%M} %~"'$(venv_prompt)$(nix_prompt)$(scm_prompt)'"]
 %m${ps1_tmpdir}%# "
 RPROMPT=''
 
