@@ -11,3 +11,24 @@ Host *
 Host *.adjectivism.org
         User jhujhiti
         ForwardAgent yes
+        # this doesn't seem to do anything at all on the client side
+        # despite ssh_config(5) saying it will and several places
+        # online saying it works. the same thing in sshd_config does
+        # work (and setting it to no here does not disable it, as if
+        # it's completely ignored)
+        StreamLocalBindUnlink yes
+
+# hosts to forward the gpg agent to. this is tremendously
+# frustrating. gpgconf does not allow customization of these socket
+# paths, and even if it did, there would still need to be a stable,
+# known path (not a home directory, since not everything is in
+# /home). relative paths here don't work. the local side here (second
+# argument) is stable across machines because of the Makefile target
+# that creates this symlink to the real socket location. the same
+# trick won't work on the remote end, even if we knew where to put it,
+# because ssh is going to unlink the thing we point to here as part of
+# the forwarding setup, rather than unlinking the link target. thus,
+# the only way to do this is to enumerate hosts here with the
+# appropriate path for the host
+Host rhea.adjectivism.org
+        RemoteForward /run/user/1000/gnupg/S.gpg-agent %d/.gnupg/socketdir/S.gpg-agent.extra

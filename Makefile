@@ -77,7 +77,7 @@ ssh_config: ../.ssh ../.ssh/config
 ../.ssh:
 	mkdir -p -m 700 ../.ssh
 
-gpg: ../.gnupg ../.gnupg/gpg.conf ../.gnupg/gpg-agent.conf
+gpg: ../.gnupg $(addprefix ../.gnupg/,gpg.conf gpg-agent.conf)
 
 ../.gnupg/gpg.conf:
 	ln -s ../$(BASE)/gpg.conf ../.gnupg/gpg.conf
@@ -87,6 +87,14 @@ gpg: ../.gnupg ../.gnupg/gpg.conf ../.gnupg/gpg-agent.conf
 
 ../.gnupg:
 	mkdir -p ../.gnupg
+
+# we need the sockets in a known location for forwarding over ssh
+ifneq (,$(shell which gpgconf))
+../.gnupg/socketdir: ../.gnupg
+	ln -s $$(gpgconf -q --list-dir socketdir) $@
+
+gpg: ../.gnupg/socketdir
+endif
 
 bins: ../bin $(REAL_BINS)
 
