@@ -95,6 +95,10 @@ Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
   :config (progn
             (evil-collection-init)
             (diminish 'evil-collection-unimpaired-mode)))
+(use-package evil-nerd-commenter
+  :after (evil)
+  :config (progn
+            (evilnc-default-hotkeys)))
 (use-package evil-numbers)
 (use-package evil-quickscope)
 (use-package evil-surround)
@@ -146,6 +150,8 @@ Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
          (rust-mode . lsp-mode))
   :config (setq lsp-rust-server 'rust-analyzer))
 (use-package salt-mode)
+;; (use-package smart-comment
+;;   :bind ("M-;" . smart-comment))
 (use-package swiper :after ivy)
 (use-package systemd)
 (use-package tex
@@ -333,6 +339,8 @@ Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
  '(custom-enabled-themes '(base16-eighties))
  '(custom-safe-themes
    '("3c3d4da72f9b26f0125280c3f5868776edbe6f53adcdc2f588e403e5a10da423" "9be1d34d961a40d94ef94d0d08a364c3d27201f3c98c9d38e36f10588469ea57" default))
+ '(package-selected-packages
+   '(evil-nerd-commenter smart-comment which-key use-package-ensure-system-package undo-tree treemacs-evil terraform-mode systemd salt-mode rust-mode rubocop rainbow-delimiters pyenv-mode pandoc-mode pandoc ox-hugo nix-mode nasm-mode lsp-ivy kubernetes-evil jinja2-mode jedi ivy-xref inf-ruby hl-todo haskell-mode graphviz-dot-mode git-modes ghc-imported-from forge flyspell-correct-ivy flymake-shell flymake-ruby flymake-json flymake-haskell-multi flymake-css flycheck evil-surround evil-quickscope evil-numbers evil-leader evil-collection elpy dpkg-dev-el dockerfile-mode diminish dap-mode counsel company-shell company-jedi company-go base16-theme auctex apheleia))
  '(safe-local-variable-values
    '((TeX-command-extra-options . "-shell-escape")
      (TeX-command-extra-options . -shell-escape)
