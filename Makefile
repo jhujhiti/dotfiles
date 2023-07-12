@@ -74,9 +74,6 @@ ssh_config: ../.ssh ../.ssh/config
 ../.ssh/config:
 	ln -s ../$(BASE)/ssh_config ../.ssh/config
 
-../.ssh:
-	mkdir -p -m 700 ../.ssh
-
 gpg: ../.gnupg $(addprefix ../.gnupg/,gpg.conf gpg-agent.conf)
 
 ../.gnupg/gpg.conf:
@@ -85,7 +82,7 @@ gpg: ../.gnupg $(addprefix ../.gnupg/,gpg.conf gpg-agent.conf)
 ../.gnupg/gpg-agent.conf:
 	ln -s ../$(BASE)/gpg-agent.conf ../.gnupg/gpg-agent.conf
 
-../.gnupg:
+../.gnupg ../.ssh:
 	install -m 0700 -d $@
 
 # we need the sockets in a known location for forwarding over ssh
