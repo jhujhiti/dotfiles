@@ -86,7 +86,7 @@ gpg: ../.gnupg $(addprefix ../.gnupg/,gpg.conf gpg-agent.conf)
 	ln -s ../$(BASE)/gpg-agent.conf ../.gnupg/gpg-agent.conf
 
 ../.gnupg:
-	mkdir -p ../.gnupg
+	install -m 0700 -d $@
 
 # we need the sockets in a known location for forwarding over ssh
 ifneq (,$(shell which gpgconf))
