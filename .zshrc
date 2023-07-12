@@ -227,6 +227,11 @@ elif $(quick_which virtualenvwrapper.sh); then
     # does anything use this anymore?
     export VIRTUAL_ENV_DISABLE_PROMPT=1
     . virtualenvwrapper.sh
+# debian package
+elif [ -r /usr/share/virtualenvwrapper/virtualenvwrapper.sh ]; then
+    # does anything use this anymore?
+    export VIRTUAL_ENV_DISABLE_PROMPT=1
+    . /usr/share/virtualenvwrapper/virtualenvwrapper.sh
 fi
 venv_prompt() {
     # bail if we're going to manage the prompt with the default virtualenv script instead
