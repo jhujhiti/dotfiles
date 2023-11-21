@@ -131,7 +131,8 @@ Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
   :config (progn
             (lsp-treemacs-sync-mode)))
 (use-package markdown-mode)
-(use-package magit)
+(use-package magit
+  :after (sqlite3))
 (use-package nasm-mode)
 (use-package nix-mode)
 (use-package ox-hugo :after ox)
@@ -150,6 +151,8 @@ Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
          (rust-mode . lsp-mode))
   :config (setq lsp-rust-server 'rust-analyzer))
 (use-package salt-mode)
+(use-package sqlite3
+  :pin melpa)
 ;; (use-package smart-comment
 ;;   :bind ("M-;" . smart-comment))
 (use-package swiper :after ivy)
