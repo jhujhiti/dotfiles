@@ -219,7 +219,12 @@ Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 4)
 (setq-default c-basic-offset 4)
-(setq-default c-default-style "k&r")
+(defconst my-c-style
+  '("k&r"
+    (c-basic-offset . 4)
+    (c-offsets-alist . ((innamespace . [0])))))
+(c-add-style "my-c-style" my-c-style)
+(setq-default c-default-style "my-c-style")
 (apply-mode-hook
  '(setq indent-line-function 'tab-to-tab-stop)
  'fundamental 'conf)
@@ -316,8 +321,13 @@ Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
 
 ; specific language settings
 ;; c/c++
+(defun my-lsp-disable-indentation ()
+  (setq lsp-enable-indentation nil)
+  (setq lsp-enable-on-type-formatting nil))
 (add-hook 'c-mode-hook 'lsp)
+(add-hook 'c-mode-hook 'my-lsp-disable-indentation)
 (add-hook 'c++-mode-hook 'lsp)
+(add-hook 'c++-mode-hook 'my-lsp-disable-indentation)
 
 ;; haskell
 (setq haskell-check-command "ghc -fno-code")
