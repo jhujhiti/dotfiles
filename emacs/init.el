@@ -253,6 +253,10 @@ Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
 (when (display-graphic-p)
   (tool-bar-mode -1)
   (scroll-bar-mode -1))
+;; fix awful modeline colors in the console
+(when (not (display-graphic-p))
+  (add-to-list 'face-remapping-alist '(mode-line . ((:background "brightblack" :foreground "brightwhite") mode-line)))
+  (add-to-list 'face-remapping-alist '(mode-line-inactive . ((:background "black" :foreground "white") mode-line))))
 ;; diminish some other modes. i have nowhere else to put these
 (diminish 'auto-revert-mode)
 (diminish 'undo-tree-mode)
