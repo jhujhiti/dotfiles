@@ -60,7 +60,9 @@ Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
 (use-package company-go)
 (use-package company-jedi)
 (use-package company-shell)
-(use-package counsel :after ivy)
+(use-package counsel
+  :after ivy
+  :config (setq counsel-find-file-ignore-regexp (regexp-opt completion-ignored-extensions)))
 (use-package dap-mode
   :after (lsp-mode pyenv-mode)
   :config (progn
@@ -297,6 +299,7 @@ Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
 (setq ivy-use-virtual-buffers t)
 (setq ivy-count-format "%d/%d ")
 (global-set-key (kbd "C-c C-r") 'ivy-resume)
+(counsel-mode 1)
 ; swiper/searching
 (global-set-key "\C-s" 'swiper)
 ;; enable which-key mode globally
