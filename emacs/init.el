@@ -300,6 +300,7 @@ Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
 (setq ivy-count-format "%d/%d ")
 (global-set-key (kbd "C-c C-r") 'ivy-resume)
 (counsel-mode 1)
+(diminish 'counsel-mode)
 ; swiper/searching
 (global-set-key "\C-s" 'swiper)
 ;; enable which-key mode globally
