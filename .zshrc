@@ -365,11 +365,15 @@ scm_prompt() {
     echo " ${head}${remote}${sym[sep]}${stat}"
 }
 
+if [[ -n "$SCHROOT_CHROOT_NAME" ]]; then
+    ps1_schroot='%F{green}('"$SCHROOT_CHROOT_NAME"')%f:'
+fi
+
 if [[ "$IN_TMPDIR" == "yes" ]]; then
     ps1_tmpdir=' %F{red}(tmp)%f'
 fi
 
-PS1="[%D{%b %d %H:%M} %~"'$(venv_prompt)$(nix_prompt)$(scm_prompt)'"]
+PS1="[%D{%b %d %H:%M} ${ps1_schroot}%~"'$(venv_prompt)$(nix_prompt)$(scm_prompt)'"]
 %m${ps1_tmpdir}%# "
 RPROMPT=''
 
