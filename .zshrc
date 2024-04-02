@@ -162,6 +162,17 @@ fi
 
 quick_which vim && export EDITOR=vim
 
+# find a working sha1 checksum. their output is all similar enough to
+# work below
+for CHECKSUM in sha1sum shasum 'openssl sha1'
+do
+    quick_which ${CHECKSUM%% *} && break
+done
+# this hash of the tty name will be used to differentiate forwarded
+# gpg-agent sessions on the remote host
+TTY_HASH=$({hostname -f ; tty ; } | $=CHECKSUM | cut -c1-12)
+unset CHECKSUM
+
 # we're going to try to replace ssh-agent with gpg-agent.
 # as of gpg 2.2, we have some new tricks.
 if $(quick_which gpg-agent) && $(quick_which gpg-connect-agent) && $(quick_which gpgconf); then
@@ -179,6 +190,39 @@ if $(quick_which gpg-agent) && $(quick_which gpg-connect-agent) && $(quick_which
         fi
     fi
 fi
+
+# wrap interactive ssh sessions so we can forward gpg-agent sockets
+# through. sadly this is necessary because we need to do environment
+# variable expansion in the socket path on the remote side and there
+# are contexts where the variable will not be set (any ssh command run
+# outside the shell). ssh will error if it fails to do a variable
+# substitution even in cases where the substitution happens in a match
+# stanza that is not going to be used.
+function ssh {
+    # first we need to figure out what the hostname and username ssh
+    # wants to use are. this isn't trivial so we'll let ssh process
+    # its config and tell us. TODO: this might need considerations for
+    # SSH's hostname canonicalization
+    local ssh_params_raw
+    ssh_params_raw=$(command ssh -G "$@") || return $?
+    local -A ssh_params
+    ssh_params=(${(@f)$(grep -Ei '^(user|hostname) ' <<< "$ssh_params_raw")}) || return $?
+    local -a ssh_args
+    # now we can match against them
+    if [ "$ssh_params[user]" = 'jhujhiti' -a "${ssh_params[hostname]%%.adjectivism.org}" != "$ssh_params[hostname]" ]
+    then
+        local GPG_SOCKET_PREFIX
+        GPG_SOCKET_PREFIX="${TTY_HASH}-"
+        ssh_args+=(
+            -oStreamLocalBindUnlink=yes
+            # assumption: all machines we ssh *to* have /home/username
+            # homedirs
+            -R"/home/%r/.gnupg/socket/${GPG_SOCKET_PREFIX}S.gpg-agent:%d/.gnupg/socket/S.gpg-agent.extra"
+            -o"SetEnv=GPG_SOCKET_PREFIX=${GPG_SOCKET_PREFIX}"
+        )
+    fi
+    command ssh "$ssh_args[@]" "$@"
+}
 
 if $(quick_which ssh-add); then
     for k in id_rsa id_ed25519
