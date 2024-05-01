@@ -166,7 +166,9 @@ Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
 (use-package tex
   :ensure auctex)
 (use-package terraform-mode :after apheleia
-  :hook (terraform-mode . apheleia-mode))
+  :hook (terraform-mode . apheleia-mode)
+  :config (setf (alist-get 'terraform apheleia-formatters)
+                '("tofu" "fmt" "-")))
 (use-package treemacs
   :config (progn
             (setq treemacs-follow-after-init t
