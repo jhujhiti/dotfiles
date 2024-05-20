@@ -268,8 +268,12 @@ if $(quick_which pyenv) && [ $(pyenv commands --no-sh | grep -Ec '^virtualenv(wr
     export PYENV_VIRTUALENV_DISABLE_PROMPT=1
     pyenv virtualenvwrapper
 elif $(quick_which virtualenvwrapper.sh); then
-    # does anything use this anymore?
     export VIRTUAL_ENV_DISABLE_PROMPT=1
+    # some time between 4.8.4 and 6.1.0, something changed here that
+    # broke nix. setting the python path manually, even though it
+    # doesn't change which python executable gets used, is enough to
+    # trick this script into working
+    export VIRTUALENVWRAPPER_PYTHON=$(whence python3)
     . virtualenvwrapper.sh
 # debian package
 elif [ -r /usr/share/virtualenvwrapper/virtualenvwrapper.sh ]; then
