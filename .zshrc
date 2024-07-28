@@ -120,6 +120,8 @@ else
     alias ll="ls -Fhl"
 fi
 
+alias k=kubectl
+
 # tmux is a huge pain in the ass, so here's a hack to set TERM to a 256color
 # tmux-compatible setting if and only if the parent shell was using a 256color
 # TERM. this is used in conjunction with the update-environment setting in tmux
