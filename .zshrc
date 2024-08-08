@@ -201,6 +201,8 @@ fi
 # substitution even in cases where the substitution happens in a match
 # stanza that is not going to be used.
 function ssh {
+    local force_forward
+    zparseopts -D -E -K -- -gpg=force_forward
     # first we need to figure out what the hostname and username ssh
     # wants to use are. this isn't trivial so we'll let ssh process
     # its config and tell us. TODO: this might need considerations for
@@ -211,7 +213,8 @@ function ssh {
     ssh_params=(${(@f)$(grep -Ei '^(user|hostname) ' <<< "$ssh_params_raw")}) || return $?
     local -a ssh_args
     # now we can match against them
-    if [ "$ssh_params[user]" = 'jhujhiti' -a "${ssh_params[hostname]%%.adjectivism.org}" != "$ssh_params[hostname]" ]
+    if [[ $#force_forward -gt 0  ||
+              ( "$ssh_params[user]" = 'jhujhiti' && "${ssh_params[hostname]%%.adjectivism.org}" != "$ssh_params[hostname]" ) ]]
     then
         local GPG_SOCKET_PREFIX
         GPG_SOCKET_PREFIX="${TTY_HASH}-"
