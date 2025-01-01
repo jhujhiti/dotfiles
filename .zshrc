@@ -200,9 +200,10 @@ fi
 # outside the shell). ssh will error if it fails to do a variable
 # substitution even in cases where the substitution happens in a match
 # stanza that is not going to be used.
+# also, let's implement an --ephemeral flag to not do any host key stuff
 function ssh {
     local force_forward
-    zparseopts -D -E -K -- -gpg=force_forward
+    zparseopts -D -E -K -- -gpg=force_forward -ephemeral=ephemeral
     # first we need to figure out what the hostname and username ssh
     # wants to use are. this isn't trivial so we'll let ssh process
     # its config and tell us. TODO: this might need considerations for
@@ -224,6 +225,13 @@ function ssh {
             # homedirs
             -R"/home/%r/.gnupg/socket/${GPG_SOCKET_PREFIX}S.gpg-agent:%d/.gnupg/socket/S.gpg-agent.extra"
             -o"SetEnv=GPG_SOCKET_PREFIX=${GPG_SOCKET_PREFIX}"
+        )
+    fi
+    if [[ $#ephemeral -gt 0 ]]
+    then
+        ssh_args+=(
+            -oStrictHostKeyChecking=no
+            -oUserKnownHostsFile=/dev/null
         )
     fi
     command ssh "$ssh_args[@]" "$@"
