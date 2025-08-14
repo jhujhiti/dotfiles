@@ -134,6 +134,7 @@ Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
   :after (treemacs lsp-mode)
   :config (progn
             (lsp-treemacs-sync-mode)))
+(use-package lua-mode)
 (use-package markdown-mode)
 (use-package magit
   :after (sqlite3))
