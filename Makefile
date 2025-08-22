@@ -117,7 +117,7 @@ endif
 
 gpg: ../.gnupg/socket
 
-GPG_SOCKET_TYPES:=gpg-agent gpg-agent.ssh gpg-agent.browser gpg-agent.extra dirmngr
+GPG_SOCKET_TYPES:=gpg-agent gpg-agent.ssh gpg-agent.browser gpg-agent.extra dirmngr keyboxd
 GPG_SOCKETS:=$(addprefix ../.gnupg/S.,$(GPG_SOCKET_TYPES))
 gpg: $(GPG_SOCKETS)
 $(GPG_SOCKETS): | ../.gnupg/socket
@@ -140,6 +140,7 @@ SYSTEMD_GPG_SOCKET_OVERRIDES:=$(addprefix ../.config/systemd/user/,$(addsuffix .
 ../.config/systemd/user/gpg-agent-browser.socket.d/socket-path.conf: GPG_SOCKET:=S.gpg-agent.browser
 ../.config/systemd/user/gpg-agent-extra.socket.d/socket-path.conf: GPG_SOCKET:=S.gpg-agent.extra
 ../.config/systemd/user/dirmngr.socket.d/socket-path.conf: GPG_SOCKET:=S.dirmngr
+../.config/systemd/user/keyboxd.socket.d/socket-path.conf: GPG_SOCKET:=S.keyboxd
 # we need an absolute path so these can't be symlinked from files
 # committed to git
 $(SYSTEMD_GPG_SOCKET_OVERRIDES): | $$(@D)/ ../.gnupg/socket
