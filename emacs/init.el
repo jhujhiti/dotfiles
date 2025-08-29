@@ -148,6 +148,7 @@ Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
   :config
   (setenv "WORKON_HOME" "~/.virtualenvs")
   (pyenv-mode t))
+(use-package python-mode)
 (use-package rainbow-delimiters)
 (use-package rubocop)
 (use-package rust-mode ;; install rust-analyzer with from git with cargo xtask install --server
@@ -182,6 +183,8 @@ Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
   :config (progn
             (global-undo-tree-mode)
             (setq undo-tree-auto-save-history nil)))
+(use-package uv-mode
+  :hook (python-mode . uv-mode-auto-activate-hook))
 (use-package web-mode
   :config (progn
             (setq web-mode-markup-indent-offset 2)))
