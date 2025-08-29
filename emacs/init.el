@@ -36,7 +36,7 @@ Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
     (add-to-list 'exec-path "/run/current-system/sw/bin")
     (add-to-list 'exec-path "/nix/var/nix/profiles/default/bin")
     (setenv "PATH" (concat "~/.nix-profile/bin:/nix/var/nix/profiles/default/bin:" (getenv "PATH") ":/run/current-system/sw/bin:/nix/var/profiles/default/bin"))))
-(dolist (el '("~/.cargo/bin" "~/.pyenv/shims"))
+(dolist (el '("~/.cargo/bin" "~/go/bin" "~/.pyenv/shims"))
   (when (file-directory-p el)
     (add-to-list 'exec-path el)
     (setenv "PATH" (concat el ":" (getenv "PATH")))))
