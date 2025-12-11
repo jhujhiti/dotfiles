@@ -235,9 +235,10 @@ Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
     (c-offsets-alist . ((innamespace . [0])))))
 (c-add-style "my-c-style" my-c-style)
 (setq-default c-default-style "my-c-style")
-(apply-mode-hook
- '(setq indent-line-function 'tab-to-tab-stop)
- 'fundamental 'conf)
+(setq indent-line-function 'tab-to-tab-stop)
+(setq tab-always-indent nil)
+;; (evil-define-key 'insert conf-mode-map (kbd "TAB") 'tab-to-tab-stop)
+;; (evil-define-key 'insert fundamental-mode-map (kbd "TAB") 'tab-to-tab-stop)
 ;; always append a newline at the end of files when saving
 (setq require-final-newline t)
 ;; format with apheleia on every save
