@@ -1,3 +1,4 @@
+# -*- mode: makefile-gmake -*-
 .SECONDEXPANSION:
 
 LINKS?=.gitconfig .inputrc .screenrc .vim .vimrc .muttrc .zprofile \
@@ -25,7 +26,18 @@ git:
 $(REAL_LINKS):
 	ln -s $(BASE)/$(@F) ../$(@F)
 
-emacs: ../.emacs.d ../.emacs.d/init.el ../.emacs.d/lisp ../.emacs.d/transient $(addprefix ../.emacs.d/transient/,levels.el values.el)
+emacs: ../.emacs.d ../.emacs.d/init.el ../.emacs.d/early-init.el ../.emacs.d/transient $(addprefix ../.emacs.d/transient/,levels.el values.el)
+emacs: ../.emacs.d/straight/versions/default.el
+
+# emptied the directory at some point so git will stop creating
+# it. not worth deleting since it might get used again
+# eventually. make it optional
+ifneq (,$(wildcard emacs/lisp))
+emacs: ../.emacs.d/lisp
+
+../.emacs.d/lisp:
+	ln -s ../$(BASE)/emacs/lisp $@
+endif
 
 ../.emacs.d:
 	mkdir -p $@
@@ -33,14 +45,18 @@ emacs: ../.emacs.d ../.emacs.d/init.el ../.emacs.d/lisp ../.emacs.d/transient $(
 ../.emacs.d/init.el:
 	ln -s ../$(BASE)/emacs/init.el $@
 
-../.emacs.d/lisp:
-	ln -s ../$(BASE)/emacs/lisp $@
+../.emacs.d/early-init.el:
+	ln -s ../$(BASE)/emacs/early-init.el $@
 
 ../.emacs.d/transient: ../.emacs.d
 	mkdir -p $@
 
 $(addprefix ../.emacs.d/transient/,levels.el values.el):
 	ln -s ../../$(BASE)/emacs/transient/$(@F) $@
+
+../.emacs.d/straight/versions/default.el: | ../.emacs.d
+	mkdir -p $(@D)
+	ln -s ../../../$(BASE)/emacs/straight/versions/default.el $@
 
 gitignore: ../.gitignore
 

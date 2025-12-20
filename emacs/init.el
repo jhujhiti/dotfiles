@@ -1,391 +1,447 @@
-;;; package --- init.el
+;; -*- lexical-binding: t; flycheck-disabled-checkers: (emacs-lisp-checkdoc); -*-
 
-; ----- Helper functions -----
-(defun make-mode-hooks (&rest modes)
-  "Concatenates -mode-hook onto the end of each argument (MODES)
-and returns them as interned symbols."
-  (mapcar (lambda (it)
-            (intern (concat (symbol-name it) "-mode-hook")))
-          modes))
+(defun add-to-path (dir)
+  "Add DIR to the PATH environment variable and exec-path."
+  (add-to-list 'exec-path dir)
+  (let ((pattern (concat "\\(^\\|:\\)" (regexp-quote dir) "\\($\\|:\\)"))
+        (path (getenv "PATH")))
+    (when (not (string-match pattern path))
+      (setenv "PATH" (concat dir ":" path)))))
 
-(defun apply-mode-hook (hook &rest modes)
-  "Apply HOOK to each mode listed in MODES.
-MODES is specified as in make-mode-hooks.
-Example: (apply-mode-hook 'flymake-mode \"emacs-lisp\" \"haskell\")"
-  (mapc (lambda (it)
-          (add-hook it hook))
-        (apply 'make-mode-hooks modes)))
+(dolist (dir '("/usr/local/bin"
+               "~/.nix-profile/bin"
+               "/nix/var/nix/profiles/default/bin"
+               "/run/current-system/sw/bin"
+               "~/.cargo/bin"
+               "~/go/bin"
+               "~/.pyenv/shims"
+               "~/.krew/bin"
+               "~/bin"))
+  (when (file-directory-p dir)
+    (add-to-path dir)))
 
-(defun in-comment-p (&optional point)
-  "Returns t if POINT or the cursor is inside a comment. nil otherwise."
-  (not (null (nth 4 (syntax-ppss point)))))
+(let ((bootstrap-file
+        (expand-file-name
+          "straight/repos/straight.el/bootstrap.el"
+          (or (bound-and-true-p straight-base-dir) user-emacs-directory))))
+  (if (file-exists-p bootstrap-file)
+    (load bootstrap-file nil 'nomessage)
+    (error "straight.el boostrap not found, refusing to download it automatically")))
 
-(defun in-string-p (&optional point)
-  "Returns t if POINT or the cursor is inside a string. nil otherwise."
-  (not (null (nth 3 (syntax-ppss point)))))
+(straight-use-package 'use-package)
+(setopt straight-use-package-by-default t)
 
-; these are doing subtly different things (add-to-list appends, setenv
-; appends and prepends depending on how it's used (obviously). this is
-; probably going to bite me some day but for now, i don't care.
-(when (string-equal system-type "darwin")
-  (add-to-list 'exec-path "/usr/local/bin")
-  (setenv "PATH" (concat "/usr/local/bin:" (getenv "PATH")))
-  (when (file-executable-p "/nix/var/nix/profiles/default/bin/nix-shell")
-    (add-to-list 'exec-path "~/.nix-profile/bin")
-    (add-to-list 'exec-path "/nix/var/nix/profiles/default/bin")
-    (add-to-list 'exec-path "/run/current-system/sw/bin")
-    (add-to-list 'exec-path "/nix/var/nix/profiles/default/bin")
-    (setenv "PATH" (concat "~/.nix-profile/bin:/nix/var/nix/profiles/default/bin:" (getenv "PATH") ":/run/current-system/sw/bin:/nix/var/profiles/default/bin"))))
-(dolist (el '("~/.cargo/bin" "~/go/bin" "~/.pyenv/shims"))
-  (when (file-directory-p el)
-    (add-to-list 'exec-path el)
-    (setenv "PATH" (concat el ":" (getenv "PATH")))))
+;; silly but fixes some "is not known to be defined" warnings
+(use-package straight
+  :functions straight-use-package
+  :defines straight-use-package-by-default)
 
+;;; general emacs setup
+(use-package diminish
+  :functions diminish)
 
-; ----- Package bootstrap -----
-(require 'package)
-(add-to-list 'package-archives
-             '("nongnu" . "https://elpa.nongnu.org/nongnu/") t)
-(add-to-list 'package-archives
-             '("melpa" . "https://melpa.org/packages/") t)
-(package-initialize)
-(require 'use-package-ensure)
-(setq use-package-always-ensure t)
-
-(use-package apheleia)
-(use-package base16-theme)
-(use-package company
+(use-package emacs
+  :straight (:type built-in)
   :init
-  (setq lsp-completion-provider :capf))
-(use-package company-go)
-(use-package company-jedi)
-(use-package company-shell)
-(use-package counsel
-  :after ivy
-  :config (setq counsel-find-file-ignore-regexp (regexp-opt completion-ignored-extensions)))
-(use-package dap-mode
-  :after (lsp-mode pyenv-mode)
-  :config (progn
-            (setq dap-auto-configure-features '(sessions locals controls tooltip))
-            (require 'dap-python) ; dap-python requires debugpy
-            (setq dap-python-debugger 'debugpy)
-            (advice-add
-             ; dap prefers to use pyenv to find its python executable,
-             ; which is helpful, but sometimes we want to use one from
-             ; the virtualenv we have selected with pyvenv
-             ; instead. this will override the return value of
-             ; dap-python's internal exec-finding function if we're in
-             ; a virtualenv when it's called
-             'dap-python--pyenv-executable-find
-             :filter-return
-             (lambda (ret)
-               (if pyvenv-virtual-env-name
-                   (executable-find dap-python-executable)
-                 ret)))))
-(use-package diminish)
-(use-package dockerfile-mode)
-(use-package dpkg-dev-el)
-(use-package elpy)
+  ;; obviously we want utf-8 everywhere
+  (prefer-coding-system 'utf-8)
+  (set-default-coding-systems 'utf-8)
+  (set-terminal-coding-system 'utf-8)
+  (set-keyboard-coding-system 'utf-8)
+  (setq-default buffer-file-coding-system 'utf-8)
+  (setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING))
+  (set-language-environment "UTF-8")
+  ;; don't make me type "yes" or "no"
+  (defalias 'yes-or-no-p 'y-or-n-p)
+  ;; stop asking to follow symlinks, just do it
+  (setq vc-follow-symlinks t)
+  ;; make me confirm quitting
+  (setq confirm-kill-emacs 'y-or-n-p)
+  ;; performance settings recommended somewhere for lsp-mode
+  (setq
+   ;; big garbage collection threshold
+   gc-cons-threshold (* 100 1024 1024)
+   ;; increase how much emacs can read from processes
+   read-process-output-max (* 1024 1024)
+   ;; kill the welcome screen
+   inhibit-startup-screen t)
+  (if (display-graphic-p)
+      ;; settings for the gui
+      (progn
+        ;; it doesn't take up any screen real estate on mac os
+        (when (not (eq window-system 'ns)) (menu-bar-mode -1))
+        (tool-bar-mode -1)
+        (setq default-frame-alist
+              '((width . 132)
+                (height . 44)
+                (vertical-scroll-bars)))
+        (let* (
+               ;; hunt for a working font in this order
+               (families '("Source Code Pro" "DejaVu Sans Mono"))
+               ;; not sure why mac os looks wrong at the same size as linux
+               (size (cond
+                      ((eq window-system 'ns) 12)
+                      (t 9)))
+               (fonts (seq-map (apply-partially 'font-spec :size (float size) :family) families))
+               (found (seq-find 'find-font fonts)))
+          ;; this really should work but font-info ignores the size?
+          ;; (when found (add-to-list 'default-frame-alist `(font . ,(aref (font-info found) 1))))))
+          ;; we'll do this stupid shit instead, just reconstruct the name string
+          (when found (add-to-list
+                       'default-frame-alist
+                       `(font . ,(concat
+                                  (symbol-name (font-get found :family))
+                                  "-"
+                                  (number-to-string size)))))))
+    ;; settings for the console
+    (progn
+      ;; fix awful modeline colors on the console
+      (add-to-list 'face-remapping-alist '(mode-line . ((:background "brightblack" :foreground "brightwhite") mode-line)))
+      (add-to-list 'face-remapping-alist '(mode-line-inactive . ((:background "black" :foreground "white") mode-line)))))
+  (diminish 'eldoc-mode)
+  (diminish 'abbrev-mode)
+  ;; only prompt for xref identifier when one isn't under the cursor
+  (setopt xref-prompt-for-identifier nil)
+  ;; treat _ as part of a word
+  ;; TODO: why do i need to do this in a hook?
+  (add-to-list 'after-change-major-mode-hook
+	       (lambda () (modify-syntax-entry ?_ "w")))
+  (defconst jhujhiti/c-style
+    '("k&r"
+      (c-basic-offset . 4)
+      (c-offsets-alist . ((innamespace . [0])))))
+  (c-add-style "jhujhiti/c-style" jhujhiti/c-style)
+  (setq-default
+   show-trailing-whitespace t
+   indent-tabs-mode nil
+   tab-always-indent nil
+   indent-line-function 'tab-to-tab-stop
+   tab-width 4
+   c-basic-offset 4
+   c-default-style "jhujhiti/c-style"
+   require-final-newline t)
+  :hook (text-mode . (lambda () (setq-local indent-line-function 'indent-relative))))
+(use-package json
+  :straight (:type built-in))
+(use-package autorevert
+  :straight (:type built-in)
+  :diminish auto-revert-mode)
+(use-package flyspell
+  :straight (:type built-in)
+  :diminish
+  :hook (text-mode prog-mode)
+  :config (setq flyspell-prog-text-faces
+                (delq 'font-lock-string-face flyspell-prog-text-faces)))
+
 (use-package evil
-  :init (progn
-          (setq evil-want-keybinding nil)
-          (setq evil-undo-system 'undo-tree))
-  :config (evil-mode 1))
-(use-package evil-leader)
+  :functions evil-mode
+  :init (setq evil-want-keybinding nil
+              evil-undo-system 'undo-tree)
+  :config (evil-mode 1)
+  :bind
+  (:map evil-motion-state-map
+	("gr" . 'xref-find-references)))
 (use-package evil-collection
-  :after (evil magit diminish)
-  :config (progn
-            (evil-collection-init)
-            (diminish 'evil-collection-unimpaired-mode)))
-(use-package evil-nerd-commenter
-  :after (evil)
-  :config (progn
-            (evilnc-default-hotkeys)))
-(use-package evil-numbers)
-(use-package evil-quickscope)
-(use-package evil-surround)
-(use-package flycheck)
-;; Causes errors, not interested in why right now
-;; (use-package flymake-cursor)
-(use-package flyspell-correct-ivy)
-(use-package forge :after magit)
-(use-package git-modes)
-;; (use-package ghc)
-;; (use-package ghc-imported-from)
-(use-package go-mode)
-(use-package graphql-mode
-  :pin melpa)
-(use-package graphviz-dot-mode)
-(use-package haskell-mode)
-(use-package highlight-indentation)
-(use-package hl-todo)
-(use-package inf-ruby)
-(use-package ivy)
+  :functions evil-collection-init
+  :after (magit evil diminish)
+  :config
+  (evil-collection-init)
+  (diminish 'evil-collection-unimpaired-mode))
+(use-package evil-numbers
+  :after evil)
+(use-package evil-quickscope
+  :after evil)
+(use-package evil-surround
+  :functions global-evil-surround-mode
+  :after evil
+  :config (global-evil-surround-mode 1))
+;; leaving out evil-nerd-commenter and evil-leader
+
+(use-package ivy
+  :functions ivy-mode
+  :diminish
+  :config
+  (ivy-mode 1)
+  (setq ivy-re-builders-alist '((t . ivy--regex-ignore-order))
+        ivy-use-virtual-buffers t
+        ivy-count-format "%d/%d ")
+  (global-set-key (kbd "C-c C-r") 'ivy-resume))
 (use-package ivy-xref
-  :init (setq xref-show-definitions-function #'ivy-xref-show-defs) (setq xref-show-xrefs-function #'ivy-xref-show-xrefs))
-(use-package jedi)
-(use-package jedi-core)
-(use-package jinja2-mode)
-(use-package kubernetes)
-(use-package kubernetes-evil :after kubernetes)
-(use-package lsp-ivy :after lsp-mode)
-(use-package lsp-mode :config (setq lsp-modeline-diagnostics-enable nil))
-(use-package lsp-treemacs
-  :after (treemacs lsp-mode)
-  :config (progn
-            (lsp-treemacs-sync-mode)))
-(use-package lua-mode)
-(use-package markdown-mode)
+  :functions ivy-xref-show-defs ivy-xref-show-xrefs
+  :after ivy
+  :custom
+  (xref-show-definitions-function #'ivy-xref-show-defs)
+  (xref-show-xrefs-function #'ivy-xref-show-xrefs))
+(use-package flyspell-correct-ivy
+  :functions flyspell-correct-ivy flyspell-correct-wrapper
+  :demand
+  :custom
+  (flyspell-correct-interface #'flyspell-correct-ivy)
+  :bind (:map flyspell-mode-map ("M-$" . 'flyspell-correct-wrapper)))
+(use-package counsel
+  :functions counsel-mode
+  :diminish
+  :after ivy
+  :config
+  (counsel-mode 1)
+  :custom
+  (counsel-find-file-ignore-regexp (regexp-opt completion-ignored-extensions)))
+(use-package swiper
+  :functions swiper
+  :after ivy
+  :bind ("C-s" . 'swiper))
+(use-package which-key
+  :diminish
+  :config (which-key-mode))
+
+(use-package company
+  :demand
+  :diminish
+  :after lsp-mode)
+
+(use-package undo-tree
+  :functions global-undo-tree-mode
+  :diminish
+  :config
+  (global-undo-tree-mode)
+  :custom
+  (undo-tree-auto-save-history nil))
+
+(use-package yasnippet
+  :functions yas-global-mode
+  :diminish yas-minor-mode
+  :config (yas-global-mode))
+
+(use-package base16-theme
+  :config (load-theme 'base16-eighties t))
+
+;;; general programming
+(defmacro my/ts-grammar (lang &optional branch repo)
+  `(let* ((pkg-name (intern (concat "my-ts-grammar-" (symbol-name ,lang))))
+          (real-repo (cond
+                      ((stringp ,repo) '(:type git :host github :repo ,repo))
+                      ((null ,repo) `(:type git :host github :repo ,(concat "tree-sitter/tree-sitter-" (symbol-name ,lang))))
+                      (t repo))))
+     (straight-use-package (append (list pkg-name)
+                                   real-repo
+                                   (when (stringp ,branch) `(:branch ,branch))
+                                   '(:post-build (my/ts-compile-grammar))))))
+;; cribbed from https://leba.dev/blog/2022/12/12/(ab)using-straightel-for-easy-tree-sitter-grammar-installations/
+(defun my/ts-compile-grammar (&optional path)
+  (let* ((destination (expand-file-name "tree-sitter" user-emacs-directory))
+         (default-directory (expand-file-name "src/" (or path default-directory)))
+         (parse-name
+          (thread-last (expand-file-name "grammar.json" default-directory)
+                       (json-read-file)
+                       (alist-get 'name))))
+    (message "Compiling grammar for %s" parse-name)
+    (make-directory destination 'parents)
+    (with-temp-buffer
+      (unless
+          (zerop
+           (apply #'call-process
+                  (if (file-exists-p "scanner.cc") "c++" "cc") nil t nil
+                  "parser.c" "-I." "--shared" "-O2" "-o"
+                  (expand-file-name
+                   (format "libtree-sitter-%s%s" parse-name module-file-suffix)
+                   destination)
+                  (cond ((file-exists-p "scanner.c") '("scanner.c"))
+                        ((file-exists-p "scanner.cc") '("scanner.cc")))))
+        (user-error "Unable to compile grammar\n%s" (buffer-string))))))
+(use-package treesit
+  :straight (:type built-in)
+  :config
+  ;; TODO: this is global now.
+  ;; https://lists.endsoftwarepatents.org/archive/html/emacs-devel/2024-12/msg00286.html
+  ;; mentions a per-mode alist instead, but i don't have it. maybe in
+  ;; emacs 31?
+  (setq treesit-font-lock-level 4))
+
+(use-package transient)
 (use-package magit
-  :after (sqlite3))
-(use-package nasm-mode)
-(use-package nix-mode)
-(use-package ox-hugo :after ox)
-(use-package pandoc)
-(use-package pandoc-mode)
+  :after transient
+  :bind ("C-c g" . magit-status))
+(use-package forge
+  :after magit
+  :init
+  ;; TODO: figure out why evil-collection is complaining and setting
+  ;; this itself
+  (setq forge-add-default-bindings nil))
+(use-package git-modes)
+
+(use-package flycheck
+  :hook (after-init . global-flycheck-mode)
+  :custom
+  ;; fix up some bogus warnings in use-package init.el stuff
+  (flycheck-emacs-lisp-load-path 'inherit))
+
+(use-package apheleia
+  :diminish)
+
+;; project navigation
+(use-package projectile)
+(use-package treemacs
+  :disabled
+  :custom
+  (treemacs-follow-after-init t)
+  (treemacs-tag-follow-mode t)
+  (treemacs-project-follow-mode t)
+  :bind ([f5] . treemacs))
+(use-package treemacs-evil
+  :disabled
+  :after (treemacs evil))
+
+;; lsp
+(use-package lsp-mode
+  :custom
+  (lsp-modeline-diagnostics-enable nil)
+  (lsp-keep-workspace-alive nil))
+(use-package lsp-ivy
+  :after (lsp-mode ivy))
+(use-package lsp-treemacs
+  :disabled
+  :functions lsp-treemacs-sync-mode
+  :after (treemacs lsp-mode)
+  :config (lsp-treemacs-sync-mode))
+
+;; highlights for TODO/indentation levels/parens
+(use-package highlight-indentation
+  :hook yaml-ts-mode)
+(use-package hl-todo
+  :hook (prog-mode LaTeX-mode))
+(use-package rainbow-delimiters
+  :hook emacs-lisp)
+
+;;; languages
+;; python
+(use-package python
+  :after (lsp-mode treesit)
+  :straight (:type built-in)
+  :init
+  (my/ts-grammar 'python)
+  (add-to-list 'major-mode-remap-alist '(python-mode . python-ts-mode))
+  :config
+  ;; run this early so anything like uv that sets up the virtualenv in
+  ;; the hook runs after it (add-hook prepends)
+  (add-hook 'python-ts-mode-hook #'lsp))
 (use-package pyenv-mode
+  :functions pyenv-mode
   :if (executable-find "pyenv")
   :config
   (setenv "WORKON_HOME" "~/.virtualenvs")
-  (pyenv-mode t))
-(use-package python-mode)
-(use-package rainbow-delimiters)
-(use-package rubocop)
-(use-package rust-mode ;; install rust-analyzer with from git with cargo xtask install --server
-  :after (lsp-mode apheleia)
-  :hook ((rust-mode . apheleia-mode)
-         (rust-mode . lsp-mode)
-         (rust-mode . lsp-inlay-hints-mode))
-  :config (progn (setq lsp-rust-server 'rust-analyzer)
-                 (setq lsp-inlay-hint-enable t)))
-(use-package salt-mode)
-(use-package sqlite3
-  :pin melpa)
-;; (use-package smart-comment
-;;   :bind ("M-;" . smart-comment))
-(use-package swiper :after ivy)
-(use-package systemd)
-(use-package tex
-  :ensure auctex)
-(use-package terraform-mode :after apheleia
-  :hook (terraform-mode . apheleia-mode)
-  :config (setf (alist-get 'terraform apheleia-formatters)
-                '("tofu" "fmt" "-")))
-(use-package treemacs
-  :config (progn
-            (setq treemacs-follow-after-init t
-                  treemacs-tag-follow-mode t
-                  treemacs-project-follow-mode t)
-            (global-set-key [f5] 'treemacs)))
-(use-package treemacs-evil
-  :after (evil-mode treemacs))
-(use-package undo-tree
-  :config (progn
-            (global-undo-tree-mode)
-            (setq undo-tree-auto-save-history nil)))
+  (pyenv-mode 1))
 (use-package uv-mode
-  :hook (python-mode . uv-mode-auto-activate-hook))
-(use-package web-mode
-  :config (progn
-            (setq web-mode-markup-indent-offset 2)))
-(use-package which-key)
-(use-package yasnippet
-  :config (yas-global-mode 1))
+  :if (executable-find "uv")
+  :hook (python-ts-mode . uv-mode-auto-activate-hook))
+(use-package jedi-core)
+(use-package company-jedi
+  :after (jedi-core company)
+  :config (add-to-list 'company-backends 'company-jedi))
 
-(setq-local my-lisp-path (concat user-emacs-directory "lisp"))
-(setq-local my-site-lisp-path (concat user-emacs-directory "site-lisp"))
-(byte-recompile-directory my-lisp-path 0)
-(add-to-list 'load-path my-lisp-path)
-(require 'junos-mode)
+;; rust
+(use-package rust-mode)
+(use-package flycheck-rust
+  :after (rust-ts-mode flycheck)
+  :hook (rust-ts-mode . flycheck-rust-setup))
+(use-package rust-ts-mode
+  :after (lsp-mode treesit apheleia rust-mode)
+  :straight (:type built-in)
+  :hook ((rust-ts-mode . apheleia-mode)
+         (rust-ts-mode . lsp-mode)
+         (rust-ts-mode . lsp-inlay-hints-mode))
+  :init
+  (my/ts-grammar 'rust)
+  (add-to-list 'major-mode-remap-alist '(rust-mode . rust-ts-mode))
+  :config
+  (setq lsp-rust-server 'rust-analyzer
+        lsp-inlay-hint-enable t))
 
-(if (file-directory-p my-site-lisp-path)
-    (progn
-      (byte-recompile-directory  my-site-lisp-path 0)
-      (add-to-list 'load-path my-site-lisp-path)
-      (require 'site-lisp)))
+;; go
+(use-package go-ts-mode
+  :after (lsp-mode treesit)
+  :straight (:type built-in)
+  :init
+  (my/ts-grammar 'go)
+  (add-to-list 'major-mode-remap-alist '(go-mode . go-ts-mode))
+  :hook (go-ts-mode . lsp))
+(use-package company-go
+  :after company)
 
-(use-package evil-surround :config (global-evil-surround-mode 1))
-(setq evil-highlight-closing-paren-at-point-states '(not emacs insert replace normal visual))
-
-; encoding
-(prefer-coding-system 'utf-8)
-(set-default-coding-systems 'utf-8)
-(set-terminal-coding-system 'utf-8)
-(set-keyboard-coding-system 'utf-8)
-(setq-default buffer-file-coding-system 'utf-8)
-(setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING))
-(set-language-environment "UTF-8")
-
-; completion
-(apply-mode-hook 'company-mode 'prog)
-(diminish 'company-mode)
-(diminish 'yas-minor-mode)
-
-; syntax/style
-(add-hook 'after-init-hook #'global-flycheck-mode)
-;; show trailing whitespace
-(setq-default show-trailing-whitespace t)
-;; tabs and indenting
-(setq-default indent-tabs-mode nil)
-(setq-default tab-width 4)
-(setq-default c-basic-offset 4)
-(defconst my-c-style
-  '("k&r"
-    (c-basic-offset . 4)
-    (c-offsets-alist . ((innamespace . [0])))))
-(c-add-style "my-c-style" my-c-style)
-(setq-default c-default-style "my-c-style")
-(setq indent-line-function 'tab-to-tab-stop)
-(setq tab-always-indent nil)
-;; (evil-define-key 'insert conf-mode-map (kbd "TAB") 'tab-to-tab-stop)
-;; (evil-define-key 'insert fundamental-mode-map (kbd "TAB") 'tab-to-tab-stop)
-;; always append a newline at the end of files when saving
-(setq require-final-newline t)
-;; format with apheleia on every save
-;; (apheleia-global-mode +1)
-
-; beautification
-;; basic look-and-feel
-; default height and width
-(add-to-list 'default-frame-alist '(width . 132))
-(add-to-list 'default-frame-alist '(height . 44))
-(defun font-candidate (&rest fonts)
-  "Find first matching, installed font."
-  (cl-find-if (lambda (f) (find-font (font-spec :name f))) fonts))
-; Mac OS (ns) DPI scaling is a pain. or at least that's what i think this problem is
-(setq window-system-default-frame-alist `(
-                                          (x (font . ,(font-candidate "Source Code Pro-9" "DejaVu Sans Mono-9")))
-                                          (ns (font . ,(font-candidate "Source Code Pro-12" "DejaVu Sans Mono-12")))))
-;; use lots of colors for () in elisp
-(apply-mode-hook 'rainbow-delimiters-mode 'emacs-lisp)
-;; word wrap
-(apply-mode-hook 'visual-line-mode 'text)
-;; kill the welcome screen
-(setq inhibit-startup-screen t)
-;; turn off gui elements
-(if (and (string-equal system-type "darwin") (display-graphic-p))
-    (menu-bar-mode 1) ; it doesn't take up any screen real estate...
-  (menu-bar-mode -1))
-(when (display-graphic-p)
-  (tool-bar-mode -1)
-  (scroll-bar-mode -1))
-;; fix awful modeline colors in the console
-(when (not (display-graphic-p))
-  (add-to-list 'face-remapping-alist '(mode-line . ((:background "brightblack" :foreground "brightwhite") mode-line)))
-  (add-to-list 'face-remapping-alist '(mode-line-inactive . ((:background "black" :foreground "white") mode-line))))
-;; diminish some other modes. i have nowhere else to put these
-(diminish 'auto-revert-mode)
-(diminish 'undo-tree-mode)
-(diminish 'eldoc-mode)
-(diminish 'abbrev-mode)
-;; highlight TODOs, FIXMEs, and similar in all programming modes
-(add-hook 'prog-mode-hook 'hl-todo-mode)
-(add-hook 'LaTeX-mode-hook 'hl-todo-mode)
-
-; performance
-; big gc threshold recommended by lsp performance guide
-(setq gc-cons-threshold (* 100 1024 1024))
-; increase the amount that emacs reads from processes
-(setq read-process-output-max (* 1024 1024))
-
-; usability
-;; stop asking for "yes" and "no"
-(defalias 'yes-or-no-p 'y-or-n-p)
-;; don't ask at all about following symlinks to version-controlled files
-(setq vc-follow-symlinks t)
-;; quit confirmation
-(setq confirm-kill-emacs 'y-or-n-p)
-
-;; only prompt for xref identifier when one isn't under the cursor
-(setq xref-prompt-for-identifier nil)
-(define-key evil-motion-state-map "gr" 'xref-find-references)
-
-;; ivy
-(ivy-mode 1)
-(diminish 'ivy-mode)
-(setq ivy-re-builders-alist
-      '((t . ivy--regex-ignore-order)))
-(setq ivy-use-virtual-buffers t)
-(setq ivy-count-format "%d/%d ")
-(global-set-key (kbd "C-c C-r") 'ivy-resume)
-(counsel-mode 1)
-(diminish 'counsel-mode)
-; swiper/searching
-(global-set-key "\C-s" 'swiper)
-;; enable which-key mode globally
-(which-key-mode)
-(diminish 'which-key-mode)
-;; treat _ as part of a word
-(add-to-list 'after-change-major-mode-hook (lambda () (modify-syntax-entry ?_ "w")))
-
-; spelling
-(diminish 'flyspell-mode)
-(apply-mode-hook 'flyspell-mode 'text)
-(apply-mode-hook 'flyspell-prog-mode 'prog)
-; don't spell check inside strings in prog-mode
-(setq flyspell-prog-text-faces
-      (delq 'font-lock-string-face flyspell-prog-text-faces))
-; enable the ivy minibuffer
-(require 'flyspell-correct-ivy)
-(define-key flyspell-mode-map (kbd "M-$") 'flyspell-correct-wrapper)
-
-; magit
-(global-set-key (kbd "C-c g") 'magit-status)
-
-; specific language settings
 ;; c/c++
-(defun my-lsp-disable-indentation ()
-  (setq lsp-enable-indentation nil)
-  (setq lsp-enable-on-type-formatting nil))
-(add-hook 'c-mode-hook 'lsp)
-(add-hook 'c-mode-hook 'my-lsp-disable-indentation)
-(add-hook 'c++-mode-hook 'lsp)
-(add-hook 'c++-mode-hook 'my-lsp-disable-indentation)
-
-;; haskell
-(setq haskell-check-command "ghc -fno-code")
-(setq haskell-process-args-ghci (quote ("-dynamic" "-ferror-spans")))
-
-;; python
-(setq
- ;; lsp-pylsp-server-command (concat user-emacs-directory "lsp-virtualenv/bin/pylsp")
- lsp-pylsp-plugins-pydocstyle-enabled t
- lsp-pylsp-plugins-flake8-enabled t
- lsp-pylsp-plugins-pylint-enabled t)
-(add-hook 'python-mode-hook 'lsp)
-;(setq elpy-rpc-python-command "python3")
-;(require 'flymake-python-pyflakes)
-;(add-hook 'python-mode-hook 'flymake-python-pyflakes-load)
-;(setq flymake-python-pyflakes-executable "flake8")
+(defun my/c-lsp-setup () (setq-local lsp-enable-indentation nil
+                                     lsp-enable-on-type-formatting nil))
+(use-package c-ts-mode
+  :after (lsp-mode treesit)
+  :straight (:type built-in)
+  :init
+  (my/ts-grammar 'c)
+  (my/ts-grammar 'cpp)
+  (add-to-list 'major-mode-remap-alist '(c-mode . c-ts-mode))
+  (add-to-list 'major-mode-remap-alist '(c++-mode . c++-ts-mode))
+  :hook ((c-ts-mode . lsp)
+         (c-ts-mode . my/c-lsp-setup)
+         (c++-ts-mode . lsp)
+         (c++-ts-mode . my/c-lsp-setup)))
 
 ;; yaml
-(add-hook 'yaml-mode-hook #'highlight-indentation-mode)
+(use-package yaml-ts-mode
+  :after (lsp-mode treesit)
+  :straight (:type built-in)
+  :init
+  (my/ts-grammar 'yaml nil "tree-sitter-grammars/tree-sitter-yaml")
+  (add-to-list 'major-mode-remap-alist '(yaml-mode . yaml-ts-mode))
+  :config
+  (add-hook 'yaml-ts-mode-hook #'lsp))
 
-;(require 'evil-leader)
-;(global-evil-leader-mode)
-;(evil-leader/set-leader ",")
-;(evil-leader/set-key
-;  "b" 'switch-to-buffer
-;  "w" 'save-buffer)
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(custom-enabled-themes '(base16-eighties))
- '(custom-safe-themes
-   '("3c3d4da72f9b26f0125280c3f5868776edbe6f53adcdc2f588e403e5a10da423" "9be1d34d961a40d94ef94d0d08a364c3d27201f3c98c9d38e36f10588469ea57" default))
- '(package-selected-packages
-   '(web-mode evil-nerd-commenter smart-comment which-key use-package-ensure-system-package undo-tree treemacs-evil terraform-mode systemd salt-mode rust-mode rubocop rainbow-delimiters pyenv-mode pandoc-mode pandoc ox-hugo nix-mode nasm-mode lsp-ivy kubernetes-evil jinja2-mode jedi ivy-xref inf-ruby hl-todo haskell-mode graphviz-dot-mode git-modes ghc-imported-from forge flyspell-correct-ivy flymake-shell flymake-ruby flymake-json flymake-haskell-multi flymake-css flycheck evil-surround evil-quickscope evil-numbers evil-leader evil-collection elpy dpkg-dev-el dockerfile-mode diminish dap-mode counsel company-shell company-jedi company-go base16-theme auctex apheleia))
- '(safe-local-variable-values
-   '((TeX-command-extra-options . "-shell-escape")
-     (TeX-command-extra-options . -shell-escape)
-     (TeX-command-force . "LaTeX")
-     (TeX-command-default . LaTeX))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
-;;; init.el ends here
+;; terraform
+(use-package terraform-mode
+  :after apheleia
+  :hook (terraform-mode . apheleia-mode)
+  :config (let ((cmd (if (executable-find "tofu") "tofu" "terraform")))
+            (setf (alist-get 'terraform apheleia-formatters)
+                  `(,cmd "fmt" "-"))))
+
+;; html/css
+(use-package web-mode
+  :custom (web-mode-markup-indent-offset 2))
+
+;; nix
+(use-package nix-mode)
+(use-package nix-ts-mode
+  :after (treesit nix-mode)
+  :init
+  (my/ts-grammar 'nix nil "nix-community/tree-sitter-nix")
+  (add-to-list 'major-mode-remap-alist '(nix-mode . nix-ts-mode)))
+
+;; tex
+(use-package auctex
+  :config
+  (add-to-list 'safe-local-variable-values '(TeX-command-extra-options . "-shell-escape"))
+  (add-to-list 'safe-local-variable-values '(TeX-command-force . "LaTeX")))
+
+;; dockerfiles
+(use-package dockerfile-ts-mode
+  :after treesit
+  :straight (:type built-in)
+  :init
+  (my/ts-grammar 'dockerfile nil "camdencheek/tree-sitter-dockerfile")
+  (add-to-list 'major-mode-remap-alist '(dockerfile-mode . dockerfile-ts-mode)))
+
+;; k8s manifests
+(use-package k8s-mode
+  :hook (k8s-mode . yas-minor-mode))
+
+;; jinja
+(use-package jinja2-mode)
+
+;; debian packaging modes
+(use-package dpkg-dev-el)
+
+;; systemd unit modes
+(use-package systemd)
+
+;;; customize junk
+;; custom.el will not be in git
+(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+(when (file-exists-p custom-file)
+      (load custom-file))
