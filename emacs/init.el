@@ -266,6 +266,9 @@
 (use-package magit
   :after transient
   :bind ("C-c g" . magit-status))
+(use-package magit-todos
+  :after magit
+  :config (magit-todos-mode 1))
 (use-package forge
   :after magit
   :init
