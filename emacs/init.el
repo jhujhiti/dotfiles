@@ -20,13 +20,18 @@
   (when (file-directory-p dir)
     (add-to-path dir)))
 
-(let ((bootstrap-file
-        (expand-file-name
-          "straight/repos/straight.el/bootstrap.el"
-          (or (bound-and-true-p straight-base-dir) user-emacs-directory))))
-  (if (file-exists-p bootstrap-file)
-    (load bootstrap-file nil 'nomessage)
-    (error "straight.el boostrap not found, refusing to download it automatically")))
+(defvar bootstrap-version)
+(let ((install-file
+       (expand-file-name "straight-install.el" user-emacs-directory))
+      (bootstrap-file
+       (expand-file-name
+        "straight/repos/straight.el/bootstrap.el"
+        (or (bound-and-true-p straight-base-dir)
+            user-emacs-directory)))
+      (bootstrap-version 7))
+  (unless (file-exists-p bootstrap-file)
+    (load install-file nil 'nomessage))
+  (load bootstrap-file nil 'nomessage))
 
 (straight-use-package 'use-package)
 (setopt straight-use-package-by-default t)

@@ -26,8 +26,8 @@ git:
 $(REAL_LINKS):
 	ln -s $(BASE)/$(@F) ../$(@F)
 
-emacs: ../.emacs.d ../.emacs.d/init.el ../.emacs.d/early-init.el ../.emacs.d/transient $(addprefix ../.emacs.d/transient/,levels.el values.el)
-emacs: ../.emacs.d/straight/versions/default.el ../.emacs.d/straight/repos/straight.el/bootstrap.el
+emacs: ../.emacs.d ../.emacs.d/init.el ../.emacs.d/early-init.el $(addprefix ../.emacs.d/transient/,levels.el values.el)
+emacs: ../.emacs.d/straight/versions/default.el ../.emacs.d/straight-install.el
 
 # emptied the directory at some point so git will stop creating
 # it. not worth deleting since it might get used again
@@ -51,17 +51,16 @@ endif
 ../.emacs.d/transient: ../.emacs.d
 	mkdir -p $@
 
-$(addprefix ../.emacs.d/transient/,levels.el values.el):
+$(addprefix ../.emacs.d/transient/,levels.el values.el): | ../.emacs.d/transient
 	ln -s ../../$(BASE)/emacs/transient/$(@F) $@
 
 ../.emacs.d/straight/versions/default.el: | ../.emacs.d
 	mkdir -p $(@D)
 	ln -s ../../../$(BASE)/emacs/straight/versions/default.el $@
 
-# the link confuses this. it's just for bootstrap anyway, so just copy
-../.emacs.d/straight/repos/straight.el/bootstrap.el: | ../.emacs.d
+../.emacs.d/straight-install.el: | ../.emacs.d
 	mkdir -p $(@D)
-	cp emacs/straight-bootstrap.el $@
+	ln -s ../$(BASE)/emacs/straight-install.el $@
 
 gitignore: ../.gitignore
 
