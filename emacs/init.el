@@ -246,7 +246,7 @@
           (zerop
            (apply #'call-process
                   (if (file-exists-p "scanner.cc") "c++" "cc") nil t nil
-                  "parser.c" "-I." "--shared" "-O2" "-o"
+                  "parser.c" "-I." "--shared" "-O2" "-fPIC" "-march=native" "-o"
                   (expand-file-name
                    (format "libtree-sitter-%s%s" parse-name module-file-suffix)
                    destination)
