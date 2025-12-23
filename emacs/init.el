@@ -221,7 +221,7 @@
   :config (load-theme 'base16-eighties t))
 
 ;;; general programming
-(defmacro my/ts-grammar (lang &optional branch repo)
+(defmacro my/ts-grammar (lang &optional repo subdir)
   `(let* ((pkg-name (intern (concat "my-ts-grammar-" (symbol-name ,lang))))
           (real-repo (cond
                       ((stringp ,repo) '(:type git :host github :repo ,repo))
@@ -229,12 +229,12 @@
                       (t repo))))
      (straight-use-package (append (list pkg-name)
                                    real-repo
-                                   (when (stringp ,branch) `(:branch ,branch))
-                                   '(:post-build (my/ts-compile-grammar))))))
+                                   '(:post-build (my/ts-compile-grammar
+                                                  (if (stringp ,subdir) ,subdir "")))))))
 ;; cribbed from https://leba.dev/blog/2022/12/12/(ab)using-straightel-for-easy-tree-sitter-grammar-installations/
-(defun my/ts-compile-grammar (&optional path)
+(defun my/ts-compile-grammar (&optional subdir path)
   (let* ((destination (expand-file-name "tree-sitter" user-emacs-directory))
-         (default-directory (expand-file-name "src/" (or path default-directory)))
+         (default-directory (expand-file-name (file-name-concat subdir "src/") (or path default-directory)))
          (parse-name
           (thread-last (expand-file-name "grammar.json" default-directory)
                        (json-read-file)
@@ -397,7 +397,7 @@
   :after (lsp-mode treesit)
   :straight (:type built-in)
   :init
-  (my/ts-grammar 'yaml nil "tree-sitter-grammars/tree-sitter-yaml")
+  (my/ts-grammar 'yaml "tree-sitter-grammars/tree-sitter-yaml")
   (add-to-list 'major-mode-remap-alist '(yaml-mode . yaml-ts-mode))
   :config
   (add-hook 'yaml-ts-mode-hook #'lsp))
@@ -419,7 +419,7 @@
 (use-package nix-ts-mode
   :after (treesit nix-mode)
   :init
-  (my/ts-grammar 'nix nil "nix-community/tree-sitter-nix")
+  (my/ts-grammar 'nix "nix-community/tree-sitter-nix")
   (add-to-list 'major-mode-remap-alist '(nix-mode . nix-ts-mode)))
 
 ;; tex
@@ -433,7 +433,7 @@
   :after treesit
   :straight (:type built-in)
   :init
-  (my/ts-grammar 'dockerfile nil "camdencheek/tree-sitter-dockerfile")
+  (my/ts-grammar 'dockerfile "camdencheek/tree-sitter-dockerfile")
   (add-to-list 'major-mode-remap-alist '(dockerfile-mode . dockerfile-ts-mode)))
 
 ;; k8s manifests
