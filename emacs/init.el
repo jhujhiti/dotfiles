@@ -268,6 +268,7 @@
   :bind ("C-c g" . magit-status))
 (use-package magit-todos
   :after magit
+  :functions magit-todos-mode
   :config (magit-todos-mode 1))
 (use-package forge
   :after magit
