@@ -141,7 +141,9 @@
 (use-package evil
   :functions evil-mode
   :init (setq evil-want-keybinding nil
-              evil-undo-system 'undo-tree)
+              evil-undo-system 'undo-tree
+              ;; stop telling me the modal state in the echo area
+              evil-echo-state nil)
   :config (evil-mode 1)
   :bind
   (:map evil-motion-state-map
