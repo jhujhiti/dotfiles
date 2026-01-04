@@ -88,6 +88,7 @@
  ("web-mode" . "1e7694aee87722f9e51b6e39c35d175d83a1fb2c")
  ("with-editor" . "b68e405dd87c12160db20d5fa9527bbdc627a58e")
  ("yaml-mode" . "d91f878729312a6beed77e6637c60497c5786efa")
+ ("yaml-pro" . "9b9509188e5b88bb933e98ab36ab992519b9554b")
  ("yaml.el" . "3fbeaee97dce3c76a18b02a28c58777cbcdadf2f")
  ("yasnippet" . "c1e6ff23e9af16b856c88dfaab9d3ad7b746ad37"))
 :epsilon

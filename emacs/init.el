@@ -394,9 +394,14 @@
 
 ;; yaml
 (use-package yaml-mode
-  :hook (yaml-mode . (lambda () (setq-local
-                                 tab-width 2
-                                 indent-line-function 'yaml-indent-line))))
+  :hook (yaml-mode . (lambda () (setq-local tab-width 2
+                                            indent-line-function 'yaml-indent-line))))
+(use-package yaml-pro
+  :after (yaml-mode treesit)
+  :init (my/ts-grammar 'yaml "tree-sitter-grammars/tree-sitter-yaml")
+  :hook
+  (yaml-mode . yaml-pro-mode)
+  (yaml-mode . yaml-pro-ts-mode))
 
 ;; terraform
 (use-package terraform-mode
