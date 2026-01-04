@@ -315,7 +315,7 @@
 
 ;; highlights for TODO/indentation levels/parens
 (use-package highlight-indentation
-  :hook yaml-ts-mode)
+  :hook yaml-mode)
 (use-package hl-todo
   :hook (prog-mode LaTeX-mode))
 (use-package rainbow-delimiters
@@ -393,14 +393,10 @@
          (c++-ts-mode . my/c-lsp-setup)))
 
 ;; yaml
-(use-package yaml-ts-mode
-  :after (lsp-mode treesit)
-  :straight (:type built-in)
-  :init
-  (my/ts-grammar 'yaml "tree-sitter-grammars/tree-sitter-yaml")
-  (add-to-list 'major-mode-remap-alist '(yaml-mode . yaml-ts-mode))
-  :config
-  (add-hook 'yaml-ts-mode-hook #'lsp))
+(use-package yaml-mode
+  :hook (yaml-mode . (lambda () (setq-local
+                                 tab-width 2
+                                 indent-line-function 'yaml-indent-line))))
 
 ;; terraform
 (use-package terraform-mode
