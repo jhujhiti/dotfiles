@@ -359,7 +359,8 @@
   :straight (:type built-in)
   :hook ((rust-ts-mode . apheleia-mode)
          (rust-ts-mode . lsp-mode)
-         (rust-ts-mode . lsp-inlay-hints-mode))
+         (rust-ts-mode . lsp-inlay-hints-mode)
+         (rust-ts-mode . (lambda () (setq-local fill-column 100))))
   :init
   (my/ts-grammar 'rust)
   (add-to-list 'major-mode-remap-alist '(rust-mode . rust-ts-mode))
