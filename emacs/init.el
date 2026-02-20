@@ -134,7 +134,8 @@
 (use-package flyspell
   :straight (:type built-in)
   :diminish
-  :hook (text-mode prog-mode)
+  :hook ((text-mode . flyspell-mode)
+         (prog-mode . flyspell-prog-mode))
   :config (setq flyspell-prog-text-faces
                 (delq 'font-lock-string-face flyspell-prog-text-faces)))
 
