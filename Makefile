@@ -15,7 +15,7 @@ REAL_BINS=$(addprefix ../bin/,$(BINS))
 
 all: git links dirs bins
 
-links: $(LINKS) authorized_keys ssh_config gpg xmonad gitignore emacs
+links: $(LINKS) authorized_keys ssh_config gpg xmonad gitignore emacs ghostty
 
 git:
 	git submodule init
@@ -61,6 +61,12 @@ $(addprefix ../.emacs.d/transient/,levels.el values.el): | ../.emacs.d/transient
 ../.emacs.d/straight-install.el: | ../.emacs.d
 	mkdir -p $(@D)
 	ln -s ../$(BASE)/emacs/straight-install.el $@
+
+ghostty: ../.config/ghostty
+
+../.config/ghostty:
+	mkdir -p $(@D)
+	ln -s ../$(BASE)/ghostty $@
 
 gitignore: ../.gitignore
 

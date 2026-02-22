@@ -162,6 +162,15 @@ else
     export _PARENT_TERM=$TERM
 fi
 
+# TODO: hopefully temporary until ncurses 6.5-20241228 is installed by
+# default everywhere. (network devices?) xterm-256color is the ghostty
+# fallback when shell integration is enabled, but i don't want ghostty
+# changing TERM itself or trying to run tic on everything i connect to
+if [ "$TERM" = "xterm-ghostty" ];
+then
+    export TERM=xterm-256color
+fi
+
 quick_which vim && export EDITOR=vim
 
 # find a working sha1 checksum. their output is all similar enough to
