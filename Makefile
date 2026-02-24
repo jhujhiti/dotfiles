@@ -62,11 +62,22 @@ $(addprefix ../.emacs.d/transient/,levels.el values.el): | ../.emacs.d/transient
 	mkdir -p $(@D)
 	ln -s ../$(BASE)/emacs/straight-install.el $@
 
-ghostty: ../.config/ghostty
+ghostty: ../.config/ghostty/config ../.config/ghostty/themes
+ifeq ($(shell uname -s),Darwin)
+ghostty: ../.config/ghostty/macos-config
+endif
 
 ../.config/ghostty:
-	mkdir -p $(@D)
-	ln -s ../$(BASE)/ghostty $@
+	mkdir -p $@
+
+../.config/ghostty/config: | ../.config/ghostty
+	ln -s ../../$(BASE)/ghostty/config $@
+
+../.config/ghostty/themes: | ../.config/ghostty
+	ln -s ../../$(BASE)/ghostty/themes $@
+
+../.config/ghostty/macos-config: | ../.config/ghostty
+	ln -s ../../$(BASE)/ghostty/macos-config $@
 
 gitignore: ../.gitignore
 

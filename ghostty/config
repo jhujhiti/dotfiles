@@ -5,7 +5,7 @@ shell-integration = none
 font-family = Source Code Pro
 font-style = medium
 font-size = 10
-alpha-blending = linear
+alpha-blending = native
 minimum-contrast = 1.2
 mouse-hide-while-typing = true
 mouse-shift-capture = never
@@ -20,3 +20,5 @@ macos-option-as-alt = true
 macos-auto-secure-input = true
 macos-secure-input-indication = true
 auto-update = off
+
+config-file = ?macos-config
